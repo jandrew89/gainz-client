@@ -1,0 +1,78 @@
+<div class="card">
+    <div class="card-header">
+        {{sessionTitle}}
+    </div>
+    <div class="card-body">
+            <form novalidate
+                (ngSubmit)="saveSession()"
+                [formGroup]="sessionForm">
+                <div class="form-group row mb-2">
+                        <label class="col-md-2 col-form-label"
+                        for="sessionDateId">
+                           Session Date
+                       </label>
+                       <div class="col-md-8">
+                            <input class="form-control"    
+                                   id="sessionDateId"    
+                                   type="date"    
+                                   placeholder="Session Date"
+                                   formControlName="sessionDate" /> 
+                        </div>    
+                </div>
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label"
+                     for="weightId">
+                        Weight
+                    </label>
+                    <div class="col-md-8">
+                        <input class="form-control"    
+                               id="weightId"    
+                               type="number"    
+                               placeholder="Weight"
+                               formControlName="weight"/>
+                    </div>    
+                </div>
+                <div class="form-group row mb-2">
+                    <label class="col-md-2 col-form-label"
+                        for="SessionTypeId">
+                           Session Type
+                    </label>
+                    <div class="col-md-3">    
+                        <select id="SessionTypeId" formControlName="sessionType" class="form-control">    
+                          <option value="" disabled selected>Select an Option</option>    
+                          <option value="Push">Push</option>    
+                          <option value="Pull">Pull</option>
+                          <option value="Legs">Legs</option>    
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row mb-2">
+                    <div class="offset-sm-2 col-sm-10">
+                        <button class="btn btn-success mr-3"      
+                            type="button"
+                            (click)="addActivity()">    
+                             Add Activity    
+                        </button>
+                        <button class="btn btn-primary mr-3"    
+                            type="submit">    
+                             Save    
+                        </button>
+                        <button class="btn btn-outline-secondary mr-3"    
+                                type="button"    
+                                title="Cancel your edits"    
+                                [routerLink]="['/sessions']">    
+                            Cancel    
+                        </button>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+<div style="margin-top: 15px;" *ngIf="session && session.activities">
+    <app-activity-list [activities]="sort(session.activities)"
+                       [addActivity]="displayAddActivity"
+                       [sessionId]="session.id"
+                       (resetAddActivity)="displayAddActivity=$event"
+                        (newActivites)="onNewActivites($event)">
+    </app-activity-list>
+</div>
