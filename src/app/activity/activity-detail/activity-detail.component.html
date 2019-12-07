@@ -1,0 +1,30 @@
+<div class="card mb-3">
+        <div class="card-header" type="button" (click)="isCollapse">
+            {{activity.equipment.name }}
+        </div> 
+        <div class="card-body" [id]="activity.id">
+            <app-set-list [displayNewSet]="displayNewSet"
+                          [sets]="activity.sets"
+                          (savedRep)="onNewSet(set)"></app-set-list>
+            <div class="form-group row mb-2">
+                <div class="offset-sm-2 col-sm-10">
+                    <button class="btn btn-success mr-3"    
+                            type="button"
+                            (click)="onAddSet(activity)">    
+                             Add Set
+                    </button>
+                    <button class="btn btn-primary mr-3"    
+                            type="button"
+                            (click)="onSaveSets(activity)">    
+                             Save Sets
+                    </button>
+                    <button class="btn btn-danger mr-3"    
+                                type="button"   
+                                (click)="onCancel()" 
+                                title="Cancel your activity">    
+                            Cancel    
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>

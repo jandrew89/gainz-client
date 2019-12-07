@@ -21,7 +21,8 @@ import { SessionAddComponent } from './session/session-add/session-add.component
 import { ActivityListComponent } from './activity/activity-list/activity-list.component';
 import { LiftService } from './data/lift.service';
 import { SessionService } from './data/session.service';
-import { RepListComponent } from './rep/rep-list/rep-list.component';
+import { SetListComponent } from './set/set-list/set-list.component';
+import { ActivityDetailComponent } from './activity/activity-detail/activity-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RepListComponent } from './rep/rep-list/rep-list.component';
     SessionsListComponent,
     SessionAddComponent,
     ActivityListComponent,
-    RepListComponent
+    SetListComponent,
+    ActivityDetailComponent
   ],
   imports: [
     BrowserModule,

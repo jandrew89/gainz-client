@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Set, Activity, ActivityViewModel } from 'src/app/data/activity';
 
 @Component({
-  selector: 'app-rep-list',
-  templateUrl: './rep-list.component.html',
-  styleUrls: ['./rep-list.component.css']
+  selector: 'app-set-list',
+  templateUrl: './set-list.component.html',
+  styleUrls: ['./set-list.component.css']
 })
-export class RepListComponent implements OnInit {
+export class SetListComponent implements OnInit {
 
   @Input() addNewSet: boolean;
   @Input() activity: ActivityViewModel;

@@ -62,6 +62,10 @@ export class ActivityListComponent implements OnInit {
       this.activities.unshift(this.newActivity);
       this.activities.forEach(act => {act.order = act.order + 1});
 
+      //Get previous reps by equipment
+      
+
+      //Saveing activites
       this.newActivites.emit(this.activities);
       this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
     }

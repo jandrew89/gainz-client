@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Session } from './session';
+import { Activity } from './activity';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,10 @@ export class SessionService {
         catchError(this.handleError)  
       );  
   }
+
+  // getPreviousActitiy(equpimentId: string): Observable<Activity> {
+
+  // }
 
   updateSession(session: Session):Observable<Session> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
