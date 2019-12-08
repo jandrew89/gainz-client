@@ -58,18 +58,19 @@ export class SessionAddComponent implements OnInit {
   saveSession(): void {
     //disable save btns
     this.onSaveDisable = true;
+
+    //if no session type selected blow up
     if (this.sessionForm.controls['sessionType'].value == '') {
-      //TODO: validation
       this.onSaveDisable = false;
       this.toastr.error("Must select a session type.", "Validation Error");
       return;
     }
+
+    //Create or update session based on session id
     var session = { ...this.session, ...this.sessionForm.value};
-    console.log('session', session);
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
-            console.log('return session', session);
             this.session.id = session.id;
             this.session.sessionType = session.sessionType;
             this.onSaveDisable = false;
@@ -142,5 +143,5 @@ export class SessionAddComponent implements OnInit {
         day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
 }
