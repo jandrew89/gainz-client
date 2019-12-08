@@ -61,9 +61,17 @@ import { SettingsComponent } from './components/settings/settings/settings.compo
         pathMatch: 'full'  
       },
       {  
-        path: 'session-add/:id/:sessionType/edit',  
+        path: 'sessions/session-add/:id/:sessionType/edit',  
         component: SessionAddComponent  
-      },   
+      },
+      {
+        path: 'lifts',
+        component: LiftsListComponent
+      },
+      {
+        path: 'sessions/types',
+        component: LiftsListComponent
+      },
       {  
         path: '**',  
         redirectTo: 'home',  
