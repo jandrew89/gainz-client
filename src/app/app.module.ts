@@ -19,6 +19,8 @@ import { ActivityDetailComponent } from './components/activity/activity-detail/a
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HeaderComponent } from './components/ui/header/header.component';
 import { SettingsComponent } from './components/settings/settings/settings.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { SettingsComponent } from './components/settings/settings/settings.compo
     ReactiveFormsModule,  
     FormsModule,
     NgbModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([  
       {  
         path: 'home',  

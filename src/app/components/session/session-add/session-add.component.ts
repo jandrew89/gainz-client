@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-session-add',
@@ -18,12 +19,14 @@ export class SessionAddComponent implements OnInit {
   isCollapsed = false
   session: Session;
   displayAddActivity: Boolean = false;
+  onSaveDisable: boolean = false;
   private sub: Subscription;    
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private sessionService: SessionService    
+    private sessionService: SessionService,
+    private toastr: ToastrService    
     ) { }
 
   ngOnInit() {
@@ -53,15 +56,28 @@ export class SessionAddComponent implements OnInit {
   }
 
   saveSession(): void {
+    //disable save btns
+    this.onSaveDisable = true;
+    if (this.sessionForm.controls['sessionType'].value == '') {
+      //TODO: validation
+      this.onSaveDisable = false;
+      this.toastr.error("Must select a session type.", "Validation Error");
+      return;
+    }
     var session = { ...this.session, ...this.sessionForm.value};
+    console.log('session', session);
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
+            console.log('return session', session);
             this.session.id = session.id;
             this.session.sessionType = session.sessionType;
+            this.onSaveDisable = false;
           });
     } else {
-      this.sessionService.updateSession(session).subscribe();
+      this.sessionService.updateSession(session).subscribe(
+        () => this.onSaveDisable = false
+      );
     }
   }
 
@@ -92,6 +108,7 @@ export class SessionAddComponent implements OnInit {
       sessionType: this.session.sessionType
     });
   }
+
   onSaveComplete(): void {    
     this.sessionForm.reset();    
   }
