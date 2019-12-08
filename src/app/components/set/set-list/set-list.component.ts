@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Set } from 'src/app/data/activity';
+import { Set } from 'src/app/data/entities/activity';
 
 @Component({
   selector: 'app-set-list',

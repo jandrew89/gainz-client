@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { SessionService } from 'src/app/data/session.service';
-import { Session } from 'src/app/data/session';
+import { SessionService } from 'src/app/data/services/session.service';
+import { Session } from 'src/app/data/entities/session';
 
 @Component({
   selector: 'app-sessions-list',

@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angular/core';
-import { ActivityViewModel } from 'src/app/data/activity';
-import { LiftService } from 'src/app/data/lift.service';
-import { Equipment } from 'src/app/data/equipment';
+import { ActivityViewModel } from 'src/app/data/entities/activity';
+import { EquipmentService } from 'src/app/data/services/equipment.service';
+import { Equipment } from 'src/app/data/entities/equipment';
 
 @Component({
   selector: 'app-activity-list',
@@ -22,11 +22,11 @@ export class ActivityListComponent implements OnInit {
   equipment: Equipment[];
   selectedValue: string;
 
-  constructor(private liftService: LiftService) { }
+  constructor(private equipmentService: EquipmentService) { }
 
   ngOnInit() {
     this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
-    this.liftService.getEquipment().subscribe(
+    this.equipmentService.getEquipment().subscribe(
       equipment => {
         this.equipment = equipment;
       }

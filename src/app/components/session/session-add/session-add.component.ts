@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Session } from 'src/app/data/session';
+import { Session } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { Activity } from 'src/app/data/activity';
-import { SessionService } from 'src/app/data/session.service';
+import { Activity } from 'src/app/data/entities/activity';
+import { SessionService } from 'src/app/data/services/session.service';
 
 @Component({
   selector: 'app-session-add',

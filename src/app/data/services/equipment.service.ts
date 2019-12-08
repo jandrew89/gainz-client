@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { Equipment } from './equipment';
+import { Equipment } from '../entities/equipment';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LiftService {
+export class EquipmentService {
   private url = environment.liftUrl; 
   constructor(private http: HttpClient) { }
 

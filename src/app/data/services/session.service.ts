@@ -3,8 +3,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-import { Session } from './session';
-import { Activity } from './activity';
+import { Session } from '../entities/session';
+import { Activity } from '../entities/activity';
 
 @Injectable({
   providedIn: 'root'

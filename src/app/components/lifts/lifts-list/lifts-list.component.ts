@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Equipment } from 'src/app/data/equipment';
-import { LiftService } from 'src/app/data/lift.service';
+import { Equipment } from 'src/app/data/entities/equipment';
+import { EquipmentService } from 'src/app/data/services/equipment.service';
 
 @Component({
   selector: 'app-lifts-list',
@@ -23,7 +23,7 @@ export class LiftsListComponent implements OnInit {
     this.filteredListOfEquipment = this.listFilter ? this.performFilter(this.listFilter) : this.equipment;    
   }    
     
-  constructor(private liftService: LiftService) { }
+  constructor(private liftService: EquipmentService) { }
 
 
   performFilter(filterBy: string): Equipment[] {    

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Activity, Set } from 'src/app/data/activity';
-import { SessionService } from 'src/app/data/session.service';
+import { Activity, Set } from 'src/app/data/entities/activity';
+import { SessionService } from 'src/app/data/services/session.service';
 
 @Component({
   selector: 'app-activity-detail',
