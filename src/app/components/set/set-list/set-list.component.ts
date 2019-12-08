@@ -40,6 +40,6 @@ export class SetListComponent implements OnInit {
   }
 
   private emptySet(): Set {
-    return { order: 0, reps: null, weight: null }
+    return { order: 1, reps: null, weight: null }
   }
 }
