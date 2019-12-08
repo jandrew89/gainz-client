@@ -15,6 +15,7 @@ export class SessionAddComponent implements OnInit {
 
   sessionTitle = 'Session';
   sessionForm: FormGroup;
+  isCollapsed = false
   session: Session;
   displayAddActivity: Boolean = false;
   private sub: Subscription;    
