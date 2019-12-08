@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Activity } from 'src/app/data/activity';
+import { Activity, Set } from 'src/app/data/activity';
+import { SessionService } from 'src/app/data/session.service';
 
 @Component({
   selector: 'app-activity-detail',
@@ -9,31 +10,49 @@ import { Activity } from 'src/app/data/activity';
 export class ActivityDetailComponent implements OnInit {
 
   @Input() activity: Activity
+  @Input() sessionId: string
+  @Input() sessionType: string //partition key
 
   displayNewSet = false;
-  constructor() { }
+  
+  constructor(private sessionService: SessionService) { }
 
-  ngOnInit() {
-  }
+  ngOnInit() { }
 
   onAddSet() {
     //Save all reps and activity data add new rep input
     //display a new set
     this.displayNewSet = true;
-
-    //
   }
 
 
   onSaveSets() {
+    //TODO Add check that sets exists
+
     //Save all reps and activity data collapse
+    this.saveSets();
   }
 
   onCancel() {
     //Deletes activity
   }
 
-  onNewSet(set) {
-    console.log('new set', set);
+  onNewSet(sets: Set[]) {
+    //Add sets back into activity
+    this.activity.sets = sets;
+
+    //save activity
+    this.saveSets();
+
+    //Hide new set
+    this.displayNewSet = false;
+  }
+
+  private saveSets() {
+    this.sessionService.updateActivity(this.sessionId, this.sessionType, this.activity).subscribe(
+      results => {
+        console.log(results);
+      }
+    );
   }
 }

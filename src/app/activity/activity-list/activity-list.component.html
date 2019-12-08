@@ -33,34 +33,8 @@
         </div>
 </div>
 <div *ngFor="let activity of activities">
-    <app-activity-detail activity="activity"></app-activity-detail>
-    <div class="card mb-3">
-        <div class="card-header" type="button" (click)="isCollapse">
-            {{activity.equipment.name }}
-        </div> 
-        <div class="card-body" [id]="activity.id">
-            <app-set-list [displayNewSet]="displayNewSet"
-                        [sets]="activity.sets"
-                        (activityOutput)="onNewSaveSet($event)"></app-set-list>
-            <div class="form-group row mb-2">
-                <div class="offset-sm-2 col-sm-10">
-                    <button class="btn btn-success mr-3"    
-                            type="button"
-                            (click)="onAddSet(activity)">    
-                             Add Set
-                    </button>
-                    <button class="btn btn-primary mr-3"    
-                            type="button"
-                            (click)="onSaveSet(activity)">    
-                             Save Sets
-                    </button>
-                    <button class="btn btn-danger mr-3"    
-                                type="button"    
-                                title="Cancel your activity">    
-                            Cancel    
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <app-activity-detail [activity]="activity"
+     [sessionId]="sessionId"
+     [sessionType]="sessionType">
+    </app-activity-detail>
 </div>

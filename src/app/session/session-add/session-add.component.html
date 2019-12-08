@@ -72,7 +72,8 @@
     <app-activity-list [activities]="sort(session.activities)"
                        [addActivity]="displayAddActivity"
                        [sessionId]="session.id"
+                       [sessionType]="session.sessionType"
                        (resetAddActivity)="displayAddActivity=$event"
-                        (newActivites)="onNewActivites($event)">
+                       (newActivites)="onNewActivites($event)">
     </app-activity-list>
 </div>

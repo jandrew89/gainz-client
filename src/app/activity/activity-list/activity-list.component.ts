@@ -16,6 +16,7 @@ export class ActivityListComponent implements OnInit {
   @Output() resetAddActivity = new EventEmitter();
   @Input() addActivity: boolean;
   @Input() sessionId: string;
+  @Input() sessionType: string //partition key
   
   newActivity: ActivityViewModel;
   equipment: Equipment[];

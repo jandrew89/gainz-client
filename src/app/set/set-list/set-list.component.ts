@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Set, Activity, ActivityViewModel } from 'src/app/data/activity';
+import { Set } from 'src/app/data/activity';
 
 @Component({
   selector: 'app-set-list',
@@ -8,32 +8,35 @@ import { Set, Activity, ActivityViewModel } from 'src/app/data/activity';
 })
 export class SetListComponent implements OnInit {
 
-  @Input() addNewSet: boolean;
-  @Input() activity: ActivityViewModel;
-  @Output() activityOutput = new EventEmitter();
-  set: Set
+  @Input() displayNewSet: boolean;
+  @Input() sets: Set[];
+  @Output() onSaveRep = new EventEmitter();
+  newSet: Set
 
   constructor() { }
 
   ngOnInit() {
-    this.set = this.emptySet();
+    this.newSet = this.emptySet();
   }
 
   onSaveSet(): void {
-    if (this.set.reps === null || this.set.weight === null) {
+    if (this.newSet.reps === null || this.newSet.weight === null) {
+      //TODO display error
       return;
     }
 
-    if (this.activity.sets == null) {
-      this.activity.sets = [];
+    if (this.sets == null) {
+      this.sets = [];
     }
-    this.activity.sets.forEach(set => {
+
+    this.sets.forEach(set => {
       set.order = set.order + 1;
     });
-    this.activity.sets.unshift(this.set);
-    this.activity.displayNewSet = false;
-    this.activityOutput.emit(this.activity);
-    this.set = this.emptySet();
+
+    this.sets.unshift(this.newSet);
+
+    this.onSaveRep.emit(this.sets);
+    this.newSet = this.emptySet();
   }
 
   private emptySet(): Set {

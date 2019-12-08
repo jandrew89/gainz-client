@@ -1,4 +1,4 @@
-<div *ngIf="activity.displayNewSet" class="form-group row mb-2">
+<div *ngIf="displayNewSet" class="form-group row mb-2">
     <div class="col-sm-2">
         <label>
             <b>Set </b>
@@ -13,7 +13,7 @@
             id="weightId"    
             type="number"    
             placeholder="Weight" 
-            [(ngModel)]="set.weight" />
+            [(ngModel)]="newSet.weight" />
     </div>
     <div class="col-sm-1">
         <label>
@@ -25,7 +25,7 @@
                 id="repsId"    
                 type="number"    
                 placeholder="Reps" 
-                [(ngModel)]="set.reps" />
+                [(ngModel)]="newSet.reps" />
      </div>
 
     <div class="col-sm-2">
@@ -36,7 +36,7 @@
         </button>
     </div>
 </div>
-<div *ngFor="let set of activity.sets">
+<div *ngFor="let set of sets">
     <div class="form-group row mb-2">
         <div class="col-sm-2">
             <label>

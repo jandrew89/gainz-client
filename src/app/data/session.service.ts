@@ -33,6 +33,11 @@ export class SessionService {
       );  
   }
 
+  updateActivity(sessionId: string, sessionType: string, activity: Activity): Observable<boolean> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
+    return this.http.put<boolean>(this.sessionUrl + `UpsertSession/${sessionId}/${sessionType}`,activity, { headers: headers});
+  }
+
   getSession(id: string, sessionType: string): Observable<Session> {
     if (id === '') { 
        //return empty session
