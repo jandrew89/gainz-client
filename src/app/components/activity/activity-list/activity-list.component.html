@@ -1,0 +1,40 @@
+<div *ngIf="addActivity" class="card mb-3">
+    <div class="card-header">  
+          New Activity  
+    </div>
+    <div class="card-body">
+            <div class="form-group row mb-2">
+                <label class="col-md-2 col-form-label">
+                    Equipment:
+                </label>
+
+                <div class="col-md-3">    
+                    <select [(ngModel)]="selectedValue" id="equipmentTypeId" class="form-control">    
+                          <option disabled selected>Select an Option</option>    
+                          <option *ngFor="let eqp of equipment" [ngValue]="eqp.id">{{eqp.name}}</option>    
+                    </select>
+                 </div>
+            </div>
+            <div class="form-group row mb-2">
+                <div class="offset-sm-2 col-sm-10">
+                    <button class="btn btn-primary mr-3"    
+                            type="button"
+                            (click)="onSaveActivity()">    
+                            Start Adding Sets
+                    </button>
+                    <button class="btn btn-danger mr-3"    
+                                type="button"    
+                                title="Cancel your activity">    
+                            Cancel    
+                    </button>
+                </div>
+            </div>
+        </div>
+</div>
+<div *ngFor="let activity of activities">
+    <app-activity-detail 
+        [activity]="activity"
+        [sessionId]="sessionId"
+        [sessionType]="sessionType">
+    </app-activity-detail>
+</div>

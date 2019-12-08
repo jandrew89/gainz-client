@@ -1,0 +1,71 @@
+<div *ngIf="displayNewSet" class="form-group row mb-2">
+    <div class="col-sm-2">
+        <label>
+            <b>Set </b>
+        </label>
+    </div>
+
+    <div class="col-sm-2"> 
+        Weight:
+    </div>
+    <div class="col-sm-2">
+        <input class="form-control"    
+            id="weightId"    
+            type="number"    
+            placeholder="Weight" 
+            [(ngModel)]="newSet.weight" />
+    </div>
+    <div class="col-sm-1">
+        <label>
+            Reps:
+        </label>
+    </div>
+    <div class="col-sm-2">
+         <input class="form-control"    
+                id="repsId"    
+                type="number"    
+                placeholder="Reps" 
+                [(ngModel)]="newSet.reps" />
+     </div>
+
+    <div class="col-sm-2">
+        <button class="btn btn-success mr-3"    
+                    type="button"
+                    (click)="onSaveSet()">    
+                    Save Set
+        </button>
+    </div>
+</div>
+<div *ngFor="let set of sets">
+    <div class="form-group row mb-2">
+        <div class="col-sm-2">
+            <label>
+                <b>Set: {{set.Order}}</b>
+            </label>
+        </div>
+        <div class="col-sm-2">
+            <label>
+            Weight:
+        </label>
+        </div>
+        <div class="col-sm-2">
+            <input class="form-control"    
+                        id="weightId"    
+                        type="number"    
+                        placeholder="Weight" 
+                        [value]="set.weight" />
+        </div>
+        <div class="col-sm-1">
+            <label>
+                Reps:
+            </label>
+        </div>
+        <div class="col-sm-2">
+        <input class="form-control"    
+                    id="repsId"    
+                    type="number"    
+                    placeholder="Reps"
+                    [value]="set.reps" />
+        </div>
+    </div>
+</div>

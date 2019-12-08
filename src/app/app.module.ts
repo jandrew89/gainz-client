@@ -1,28 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './ui/header/header.component';
-import { FooterComponent } from './ui/footer/footer.component';
-import { LayoutComponent } from './ui/layout/layout.component';
-import { HomeComponent } from './home/home.component';
-import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
-import { EmployeeEditComponent } from './employee/employee-edit/employee-edit.component';
-import { EmployeeDetailComponent } from './employee/employee-detail/employee-detail.component';
+import { FooterComponent } from './components/ui/footer/footer.component';
+import { LayoutComponent } from './components/ui/layout/layout.component';
+import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { EmployeeEditGuard } from './employee/employee-edit/employee-edit-guard';
 import { RouterModule } from '@angular/router';
-import { EmployeeService } from './data/employee.service';
-import { LiftsListComponent } from './lifts/lifts-list/lifts-list.component';
-import { SessionsListComponent } from './session/sessions-list/sessions-list.component';
-import { SessionAddComponent } from './session/session-add/session-add.component';
-import { ActivityListComponent } from './activity/activity-list/activity-list.component';
-import { LiftService } from './data/lift.service';
-import { SessionService } from './data/session.service';
-import { SetListComponent } from './set/set-list/set-list.component';
-import { ActivityDetailComponent } from './activity/activity-detail/activity-detail.component';
+import { LiftsListComponent } from './components/lifts/lifts-list/lifts-list.component';
+import { SessionsListComponent } from './components/session/sessions-list/sessions-list.component';
+import { SessionAddComponent } from './components/session/session-add/session-add.component';
+import { ActivityListComponent } from './components/activity/activity-list/activity-list.component';
+import { EquipmentService } from './data/services/equipment.service';
+import { SessionService } from './data/services/session.service';
+import { SetListComponent } from './components/set/set-list/set-list.component';
+import { ActivityDetailComponent } from './components/activity/activity-detail/activity-detail.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { HeaderComponent } from './components/ui/header/header.component';
+import { SettingsComponent } from './components/settings/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -31,15 +27,13 @@ import { ActivityDetailComponent } from './activity/activity-detail/activity-det
     FooterComponent,
     LayoutComponent,
     HomeComponent,
-    EmployeeListComponent,
-    EmployeeEditComponent,
-    EmployeeDetailComponent,
     LiftsListComponent,
     SessionsListComponent,
     SessionAddComponent,
     ActivityListComponent,
     SetListComponent,
-    ActivityDetailComponent
+    ActivityDetailComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -47,27 +41,15 @@ import { ActivityDetailComponent } from './activity/activity-detail/activity-det
     HttpClientModule,  
     ReactiveFormsModule,  
     FormsModule,
+    NgbModule,
     RouterModule.forRoot([  
       {  
         path: 'home',  
         component: HomeComponent  
-      },  
+      },   
       {  
-        path: 'employees',  
-        component: EmployeeListComponent  
-      },  
-      {  
-        path: 'employees/:id/:cityname',  
-        component: EmployeeDetailComponent  
-      },  
-      {  
-        path: 'employees/:id/:cityname/edit',  
-        canDeactivate: [EmployeeEditGuard],  
-        component: EmployeeEditComponent  
-      },  
-      {  
-        path: 'lifts',  
-        component: LiftsListComponent  
+        path: 'settings',  
+        component: SettingsComponent  
       },
       {
         path: 'sessions',
@@ -79,9 +61,17 @@ import { ActivityDetailComponent } from './activity/activity-detail/activity-det
         pathMatch: 'full'  
       },
       {  
-        path: 'session-add/:id/:sessionType/edit',  
+        path: 'sessions/session-add/:id/:sessionType/edit',  
         component: SessionAddComponent  
-      },   
+      },
+      {
+        path: 'lifts',
+        component: LiftsListComponent
+      },
+      {
+        path: 'sessions/types',
+        component: LiftsListComponent
+      },
       {  
         path: '**',  
         redirectTo: 'home',  
@@ -89,8 +79,8 @@ import { ActivityDetailComponent } from './activity/activity-detail/activity-det
       }
     ])
   ],
-  providers: [EmployeeService,
-    LiftService,
+  providers: [
+    EquipmentService,
     SessionService],
   bootstrap: [AppComponent]
 })
