@@ -55,16 +55,20 @@ export class SessionAddComponent implements OnInit {
     )
   }
 
-  saveSession(): void {
+  saveSession(displayAddActivity: boolean = false): void {
+
     //disable save btns
     this.onSaveDisable = true;
 
-    //if no session type selected blow up
+	//validate form
     if (this.sessionForm.controls['sessionType'].value == '') {
-      this.onSaveDisable = false;
-      this.toastr.error("Must select a session type.", "Validation Error");
-      return;
-    }
+		this.toastr.error("Must select a session type.", "Validation Error");
+		this.onSaveDisable = false;
+		return;
+	  }
+	  
+	//TODO possibly move this inside the sessions based on performance
+	this.displayAddActivity = displayAddActivity;
 
     //Create or update session based on session id
     var session = { ...this.session, ...this.sessionForm.value};
@@ -84,11 +88,6 @@ export class SessionAddComponent implements OnInit {
 
   onNewActivites(activities: Activity[]){
     this.session.activities = activities;
-    this.saveSession();
-  }
-
-  addActivity() {
-    this.displayAddActivity = true;
     this.saveSession();
   }
 
@@ -143,5 +142,10 @@ export class SessionAddComponent implements OnInit {
         day = '0' + day;
 
     return [year, month, day].join('-');
+  }
+
+  private validateSessionType() {
+    //if no session type selected blow up
+
   }
 }
