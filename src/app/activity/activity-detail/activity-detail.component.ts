@@ -13,6 +13,7 @@ export class ActivityDetailComponent implements OnInit {
   @Input() sessionId: string
   @Input() sessionType: string //partition key
 
+  isCollapsed = false
   displayNewSet = false;
   
   constructor(private sessionService: SessionService) { }

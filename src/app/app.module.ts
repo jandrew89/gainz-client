@@ -23,6 +23,7 @@ import { LiftService } from './data/lift.service';
 import { SessionService } from './data/session.service';
 import { SetListComponent } from './set/set-list/set-list.component';
 import { ActivityDetailComponent } from './activity/activity-detail/activity-detail.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { ActivityDetailComponent } from './activity/activity-detail/activity-det
     HttpClientModule,  
     ReactiveFormsModule,  
     FormsModule,
+    NgbModule,
     RouterModule.forRoot([  
       {  
         path: 'home',  

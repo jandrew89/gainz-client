@@ -15,7 +15,6 @@
                     </select>
                  </div>
             </div>
-            <!-- <app-rep-list [activity]="newActivity"></app-rep-list> -->
             <div class="form-group row mb-2">
                 <div class="offset-sm-2 col-sm-10">
                     <button class="btn btn-primary mr-3"    
@@ -33,8 +32,9 @@
         </div>
 </div>
 <div *ngFor="let activity of activities">
-    <app-activity-detail [activity]="activity"
-     [sessionId]="sessionId"
-     [sessionType]="sessionType">
+    <app-activity-detail 
+        [activity]="activity"
+        [sessionId]="sessionId"
+        [sessionType]="sessionType">
     </app-activity-detail>
 </div>

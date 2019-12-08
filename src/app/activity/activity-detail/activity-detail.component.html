@@ -1,8 +1,11 @@
 <div class="card mb-3">
-        <div class="card-header" type="button" (click)="isCollapse">
+        <div class="card-header" type="button" 
+        (click)="isCollapsed=!isCollapsed" 
+        [attr.aria-expanded]="!isCollapsed"
+        aria-controls="activity.id">
             {{activity.equipment.name }}
         </div> 
-        <div class="card-body" [id]="activity.id">
+        <div class="card-body" [id]="activity.id" [ngbCollapse]="isCollapsed">
             <app-set-list [displayNewSet]="displayNewSet"
                           [sets]="activity.sets"
                           (onSaveRep)="onNewSet($event)"></app-set-list>
