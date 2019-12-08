@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
+import { SessionService } from 'src/app/data/services/session.service';
 
 @Component({
   selector: 'app-activity-list',
@@ -22,7 +23,7 @@ export class ActivityListComponent implements OnInit {
   equipment: Equipment[];
   selectedValue: string;
 
-  constructor(private equipmentService: EquipmentService) { }
+  constructor(private equipmentService: EquipmentService, private sessionService: SessionService) { }
 
   ngOnInit() {
     this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
@@ -64,8 +65,11 @@ export class ActivityListComponent implements OnInit {
       this.activities.forEach(act => {act.order = act.order + 1});
 
       //Get previous reps by equipment
-      
-
+      this.sessionService.getPreviousSetsByEquipment(this.selectedValue, this.sessionType).subscribe(
+        sets => {
+          console.log(sets);
+        }
+      )
       //Saveing activites
       this.newActivites.emit(this.activities);
       this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };

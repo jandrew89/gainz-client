@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Session } from '../entities/session';
-import { Activity } from '../entities/activity';
+import { Activity, Set } from '../entities/activity';
 
 @Injectable({
   providedIn: 'root'
@@ -21,9 +21,18 @@ export class SessionService {
       );  
   }
 
-  // getPreviousActitiy(equpimentId: string): Observable<Activity> {
+  getPreviousSetsByEquipment(equpimentId: string, sessionType: string): Observable<Set[]> {
+    if (equpimentId === '' || sessionType === '') { 
+      //TODO: return empty reps
+      
+   }  
 
-  // }
+   const url = `${this.sessionUrl + 'GetPreviousSetByEquipment'}/${equpimentId}/${sessionType}`;  
+   return this.http.get<Set[]>(url)
+     .pipe(  
+       catchError(this.handleError)  
+     );  
+  }
 
   updateSession(session: Session):Observable<Session> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
@@ -58,7 +67,8 @@ export class SessionService {
   }
 
   private handleError(err) {  
-    let errorMessage: string;  
+    let errorMessage: string;
+    debugger;
     if (err.error instanceof ErrorEvent) {  
       errorMessage = `An error occurred: ${err.error.message}`;  
     } else {  
