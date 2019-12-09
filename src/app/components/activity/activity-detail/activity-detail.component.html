@@ -1,24 +1,39 @@
 <div class="card mb-3">
-        <div class="card-header" type="button" 
-        (click)="isCollapsed=!isCollapsed" 
-        [attr.aria-expanded]="!isCollapsed"
-        aria-controls="activity.id">
-            {{activity.equipment.name }}
+        <div class="card-header container-fluid">
+            <div class="row">
+                <div class="col-sm-9" type="button" 
+                    (click)="isCollapsed=!isCollapsed" 
+                    [attr.aria-expanded]="!isCollapsed"
+                    aria-controls="activity.id">
+                        {{activity.equipment.name }}
+                </div>
+                <div *ngIf="displaySaveSet" class="col-sm-3 float-right">
+                    <button class="btn btn-success mr-3"    
+                            type="button"
+                            [disabled]="disableButtons"
+                            (click)="saveSet()">
+                        Save Set
+                    </button>
+                </div>
+            </div>
         </div> 
         <div class="card-body" [id]="activity.id" [ngbCollapse]="isCollapsed">
             <app-set-list [displayNewSet]="displayNewSet"
                           [sets]="activity.sets"
-                          (onSaveRep)="onNewSet($event)"></app-set-list>
+                          (onSaveRep)="onNewSet($event)">
+                        </app-set-list>
             <div class="form-group row mb-2">
                 <div class="offset-sm-2 col-sm-10">
                     <button class="btn btn-success mr-3"    
                             type="button"
-                            (click)="onAddSet(activity)">    
+                            [disabled]="disableButtons"
+                            (click)="onAddSet()">    
                              Add Set
                     </button>
                     <button class="btn btn-primary mr-3"    
                             type="button"
-                            (click)="onSaveSets(activity)">    
+                            [disabled]="disableButtons"
+                            (click)="saveSet()">    
                              Save Sets
                     </button>
                     <button class="btn btn-danger mr-3"    

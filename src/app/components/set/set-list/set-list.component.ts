@@ -11,12 +11,17 @@ export class SetListComponent implements OnInit {
   @Input() displayNewSet: boolean;
   @Input() sets: Set[];
   @Output() onSaveRep = new EventEmitter();
+
   newSet: Set
 
   constructor() { }
 
   ngOnInit() {
     this.newSet = this.emptySet();
+  }
+
+  orderSets(sets: Set[]): Set[] {
+    return sets.sort((a,b) => a.order - b.order);
   }
 
   onSaveSet(): void {
@@ -34,12 +39,14 @@ export class SetListComponent implements OnInit {
     });
 
     this.sets.unshift(this.newSet);
-
-    this.onSaveRep.emit(this.sets);
     this.newSet = this.emptySet();
   }
 
+  onSetChange(isSetUpdated: boolean): void {
+    this.onSaveRep.emit(isSetUpdated);
+  }
+
   private emptySet(): Set {
-    return { order: 1, reps: null, weight: null }
+    return { order: 0, reps: null, weight: null }
   }
 }
