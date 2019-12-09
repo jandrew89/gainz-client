@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-session-add',
@@ -18,12 +19,14 @@ export class SessionAddComponent implements OnInit {
   isCollapsed = false
   session: Session;
   displayAddActivity: Boolean = false;
+  onSaveDisable: boolean = false;
   private sub: Subscription;    
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private sessionService: SessionService    
+    private sessionService: SessionService,
+    private toastr: ToastrService    
     ) { }
 
   ngOnInit() {
@@ -52,25 +55,39 @@ export class SessionAddComponent implements OnInit {
     )
   }
 
-  saveSession(): void {
+  saveSession(displayAddActivity: boolean = false): void {
+
+    //disable save btns
+    this.onSaveDisable = true;
+
+	//validate form
+    if (this.sessionForm.controls['sessionType'].value == '') {
+		this.toastr.error("Must select a session type.", "Validation Error");
+		this.onSaveDisable = false;
+		return;
+	  }
+	  
+	//TODO possibly move this inside the sessions based on performance
+	this.displayAddActivity = displayAddActivity;
+
+    //Create or update session based on session id
     var session = { ...this.session, ...this.sessionForm.value};
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
             this.session.id = session.id;
+            this.session.sessionType = session.sessionType;
+            this.onSaveDisable = false;
           });
     } else {
-      this.sessionService.updateSession(session).subscribe();
+      this.sessionService.updateSession(session).subscribe(
+        () => this.onSaveDisable = false
+      );
     }
   }
 
   onNewActivites(activities: Activity[]){
     this.session.activities = activities;
-    this.saveSession();
-  }
-
-  addActivity() {
-    this.displayAddActivity = true;
     this.saveSession();
   }
 
@@ -91,6 +108,7 @@ export class SessionAddComponent implements OnInit {
       sessionType: this.session.sessionType
     });
   }
+
   onSaveComplete(): void {    
     this.sessionForm.reset();    
   }
@@ -124,5 +142,10 @@ export class SessionAddComponent implements OnInit {
         day = '0' + day;
 
     return [year, month, day].join('-');
-}
+  }
+
+  private validateSessionType() {
+    //if no session type selected blow up
+
+  }
 }
