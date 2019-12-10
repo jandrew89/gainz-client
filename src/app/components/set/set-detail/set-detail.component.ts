@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Set } from 'src/app/data/entities/activity';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-set-detail',
@@ -29,14 +29,13 @@ export class SetDetailComponent implements OnInit {
   }
 
   readForm(value): void {
-    
     //check if values match what is
     var uniqueSet = {
       order: this.set.order,
       reps: value.reps,
       weight: value.weight
     };
-    // if new values are not equal then emit
+    // emit unique set
     this.onSetChange.emit(uniqueSet)
   }
 }

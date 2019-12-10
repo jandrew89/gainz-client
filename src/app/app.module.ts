@@ -22,6 +22,7 @@ import { SettingsComponent } from './components/settings/settings/settings.compo
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SetDetailComponent } from './components/set/set-detail/set-detail.component';
+import { EquipmentDetailComponent } from './components/lifts/equipment-detail/equipment-detail.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { SetDetailComponent } from './components/set/set-detail/set-detail.compo
     SetListComponent,
     ActivityDetailComponent,
     SettingsComponent,
-    SetDetailComponent
+    SetDetailComponent,
+    EquipmentDetailComponent
   ],
   imports: [
     BrowserModule,
