@@ -1,14 +1,17 @@
 <div class="card mb-3">
         <div class="card-header container-fluid">
             <div class="row">
-                <div class="col-sm-9" type="button" 
+                <div class="col-sm"
+                    style="cursor: pointer;"
                     (click)="isCollapsed=!isCollapsed" 
                     [attr.aria-expanded]="!isCollapsed"
                     aria-controls="activity.id">
+                    <label>
                         {{activity.equipment.name }}
+                    </label>
                 </div>
-                <div *ngIf="displaySaveSet" class="col-sm-3 float-right">
-                    <button class="btn btn-success mr-3"    
+                <div *ngIf="displaySaveSet" class="col-sm">
+                    <button class="btn btn-success float-right"    
                             type="button"
                             [disabled]="disableButtons"
                             (click)="saveSet()">
