@@ -86,20 +86,16 @@ export class ActivityDetailComponent implements OnInit {
       set => { 
         if (this.isEquivalent(set, selectedValue)) {
             this.shouldDisplaySetMap.set(selectedValue.order, false);
+            this.setMap.delete(set.order);
         }
 
         if (set.order === selectedValue.order && !this.isEquivalent(set, selectedValue)) {
           this.setMap.set(set.order, selectedValue);
         }
-
-        if (set.order === selectedValue.order && this.isEquivalent(set, selectedValue)) {
-          this.setMap.delete(set.order);
-        }
       }
     )
 
-    var shouldDisplaySave = [...this.shouldDisplaySetMap.values()].reduce((sum, next) => { return sum || next}, false);
-    this.displaySaveSet = shouldDisplaySave;
+    this.displaySaveSet = [...this.shouldDisplaySetMap.values()].reduce((sum, next) =>  sum || next, false);
   }
 
   private async saveSetsAsync(): Promise<boolean> {

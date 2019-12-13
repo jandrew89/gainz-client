@@ -13,6 +13,9 @@ export class LiftsListComponent implements OnInit {
   equipment: Equipment[] = [];
   errorMessage = '';
 
+  displayEditEquipmentModal: boolean = false;
+  equipmentToEdit: Equipment;
+
   _listFilter = '';
 
   get listFilter(): string {    
@@ -31,7 +34,10 @@ export class LiftsListComponent implements OnInit {
     return this.equipment.filter((equipment: Equipment) =>    
     equipment.name.toLocaleLowerCase().indexOf(filterBy) !== -1);    
   }
-  ngOnInit(): void {    
+
+  ngOnInit(): void {
+    this.equipmentToEdit = {id: '', name: '', sessionTypes: []};
+
     this.liftService.getEquipment().subscribe(    
        equipment => {    
         this.equipment = equipment;    
@@ -49,5 +55,19 @@ export class LiftsListComponent implements OnInit {
       },    
       error => this.errorMessage = <any>error    
     );    
-  }   
+  }
+
+  addNewEquipment(): void {
+    this.equipmentToEdit = {
+      id: '0',
+      name: '',
+      sessionTypes: []
+    }
+    this.displayEditEquipmentModal = true;
+  }
+
+  onEquipmentClick(equipment: Equipment) {
+    this.equipmentToEdit = equipment;
+    this.displayEditEquipmentModal = true;
+  }
 }

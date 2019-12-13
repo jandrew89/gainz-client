@@ -24,24 +24,6 @@ export class SetListComponent implements OnInit {
     return sets.sort((a,b) => a.order - b.order);
   }
 
-  onSaveSet(): void {
-    if (this.newSet.reps === null || this.newSet.weight === null) {
-      //TODO display error
-      return;
-    }
-
-    if (this.sets == null) {
-      this.sets = [];
-    }
-
-    this.sets.forEach(set => {
-      set.order = set.order + 1;
-    });
-
-    this.sets.unshift(this.newSet);
-    this.newSet = this.emptySet();
-  }
-
   onSetChange(isSetUpdated: boolean): void {
     this.onSaveRep.emit(isSetUpdated);
   }
