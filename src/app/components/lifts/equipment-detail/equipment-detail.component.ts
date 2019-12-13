@@ -51,7 +51,7 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     var name = this.equipmentForm.controls['name'].value
     var types = this.equipmentForm.controls['sessionTypes'].value as []
 
-    if (name === null || types === null) {
+    if (name === null || name === '' || types === null || types === []) {
       //TODO: Validation error
       this.toastrService.error('Must add name and session type.')
       return
