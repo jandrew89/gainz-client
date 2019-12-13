@@ -60,8 +60,8 @@ export class SessionAddComponent implements OnInit {
     //disable save btns
     this.onSaveDisable = true;
 
-	//validate form
-    if (this.sessionForm.controls['sessionType'].value == '') {
+    //validate form
+    if (this.sessionForm.controls['sessionType'].value.id == '') {
 		this.toastr.error("Must select a session type.", "Validation Error");
 		this.onSaveDisable = false;
 		return;

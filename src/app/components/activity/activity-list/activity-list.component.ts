@@ -9,8 +9,7 @@ import { SessionService } from 'src/app/data/services/session.service';
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent implements OnInit {
-
+export class ActivityListComponent implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
@@ -27,9 +26,12 @@ export class ActivityListComponent implements OnInit {
 
   ngOnInit() {
     this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
+  }
+
+  ngOnChanges(changes: any): void {
     this.equipmentService.getEquipment().subscribe(
       equipment => {
-        this.equipment = equipment;
+        this.equipment = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
       }
     )
   }
