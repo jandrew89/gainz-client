@@ -28,9 +28,17 @@ export class EquipmentService {
       .pipe(catchError(this.handleError));
   }
 
+  createEquipment(equipment: Equipment): Observable<boolean> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
+    return this.http.post<boolean>(this.url + 'CreateOrUpdate', equipment, { headers: headers })  
+      .pipe( 
+        catchError(this.handleError)  
+      );  
+  }
+
   updateEquipment(equipment: Equipment): Observable<boolean> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
-    return this.http.post<boolean>(this.url + 'UpsertEquipment', equipment, { headers: headers })  
+    return this.http.put<boolean>(this.url + 'CreateOrUpdate', equipment, { headers: headers })  
       .pipe( 
         catchError(this.handleError)  
       );  

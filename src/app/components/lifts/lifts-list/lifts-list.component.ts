@@ -57,6 +57,15 @@ export class LiftsListComponent implements OnInit {
     );    
   }
 
+  addNewEquipment(): void {
+    this.equipmentToEdit = {
+      id: '0',
+      name: '',
+      sessionTypes: []
+    }
+    this.displayEditEquipmentModal = true;
+  }
+
   onEquipmentClick(equipment: Equipment) {
     this.equipmentToEdit = equipment;
     this.displayEditEquipmentModal = true;
