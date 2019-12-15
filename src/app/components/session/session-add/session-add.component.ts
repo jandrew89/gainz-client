@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Session } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
-
+declare var M: any;
+declare var $: any;
 @Component({
   selector: 'app-session-add',
   templateUrl: './session-add.component.html',
@@ -30,6 +31,11 @@ export class SessionAddComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    $(document).ready(function(){
+      $('select').formSelect();
+      $('.datepicker').datepicker();
+    });
+    
     this.sessionForm = this.formBuilder.group({    
       weight: '',    
       sessionDate: '',    
@@ -54,6 +60,7 @@ export class SessionAddComponent implements OnInit {
       }
     )
   }
+
 
   saveSession(displayAddActivity: boolean = false): void {
 
@@ -144,6 +151,7 @@ export class SessionAddComponent implements OnInit {
     return [year, month, day].join('-');
   }
 
+  
   private validateSessionType() {
     //if no session type selected blow up
 
