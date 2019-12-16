@@ -4,7 +4,7 @@ export interface Session {
     id: string
     weight?: number;
     sessionDate?: Date;
-    sessionType: SessionType;
+    sessionType: string;
     activities: Activity[];
 }
 

@@ -29,21 +29,17 @@ export class ActivityDetailComponent implements OnInit {
     //Save all reps and activity data add new rep input
     //display a new set
     this.displayNewSet = true;
-  }
 
-
-  onSaveSets() {
-    //TODO Add check that sets exists
-
-    //Save all reps and activity data collapse
-    //this.saveSets();
+    if (this.displaySaveSet) {
+      this.displayNewSet = await this.saveSet();
+    }
   }
 
   onCancel() {
     //Deletes activity
   }
 
-  async saveSet() {
+  async saveSet(): Promise<boolean> {
     this.displayNewSet = false;
 
     var validationFail = [...this.setMap.values()].some(set => set.reps == null || set.weight == null);
@@ -64,15 +60,15 @@ export class ActivityDetailComponent implements OnInit {
         set.order = set.order + 1;
       });
     }
-
-    var isSuccess = await this.saveSetsAsync();
-    if (isSuccess) {
-      this.toastr.success('Set Saved Successfull')
-      this.displaySaveSet = false;
-      this.shouldDisplaySetMap.clear();
-      this.setMap.clear();
-      this.disableButtons = false;
-    }
+      var isSuccess = await this.saveSetsAsync();
+      if (isSuccess) {
+        this.toastr.success('Set Saved Successfull')
+        this.displaySaveSet = false;
+        this.shouldDisplaySetMap.clear();
+        this.setMap.clear();
+        this.disableButtons = false;
+      }
+    return isSuccess;
   }
 
   onNewSet(selectedValue: any) {

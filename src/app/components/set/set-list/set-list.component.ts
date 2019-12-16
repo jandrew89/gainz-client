@@ -7,8 +7,7 @@ import { Set } from 'src/app/data/entities/activity';
   styleUrls: ['./set-list.component.css']
 })
 export class SetListComponent implements OnInit {
-
-  @Input() displayNewSet: boolean;
+  @Input() displayNewSet: boolean
   @Input() sets: Set[];
   @Output() onSaveRep = new EventEmitter();
 

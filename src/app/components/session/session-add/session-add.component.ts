@@ -48,7 +48,7 @@ export class SessionAddComponent implements OnInit {
         const id = params.get('id');
         const sessionType = params.get('sessionType');
         if (id == '0'){
-          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: {id: '', name: ''}, activities: [] }
+          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
           this.displaySession(newSession);
         } else {
           //Get Session from service
@@ -109,8 +109,10 @@ export class SessionAddComponent implements OnInit {
       this.sessionTitle = 'Add Session';
     } else {
       this.sessionTitle = `Edit Session: ${this.formatDate(this.session.sessionDate)}`;
-    } 
+    }
+
     $('.select-dropdown').val(this.session.sessionType);
+    
     this.sessionForm.patchValue({
       weight: this.session.weight,
       sessionDate: this.formatDateToDatePicker(this.session.sessionDate),

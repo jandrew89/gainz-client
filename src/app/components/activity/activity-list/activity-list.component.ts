@@ -3,6 +3,7 @@ import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { SessionService } from 'src/app/data/services/session.service';
+
 declare var $: any;
 
 @Component({
@@ -15,23 +16,15 @@ export class ActivityListComponent implements OnInit, OnChanges {
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
   @Output() resetAddActivity = new EventEmitter();
-  @Input('addActivity') set addActivity(value: boolean) {
-    this._addActivity = value;
-    if (value) {
-      setTimeout(function(){ $(document).ready(function(){
-        $('select').formSelect();
-      }); }, 1000);
-    }
-  }
+  @Input() addActivity: boolean;
   @Input() sessionId: string;
   @Input() sessionType: string //partition key
   
   newActivity: ActivityViewModel;
   equipment: Equipment[];
-  selectedValue: string;
-  _addActivity: boolean;
 
-  constructor(private equipmentService: EquipmentService, private sessionService: SessionService) { }
+  constructor(private equipmentService: EquipmentService, 
+    private sessionService: SessionService) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -61,17 +54,13 @@ export class ActivityListComponent implements OnInit, OnChanges {
     this.newActivites.emit(results);
   }
 
-  onSaveSet(activty: ActivityViewModel): void {
-    
-  }
-
-  onSaveActivity(): void {
-    if (this.selectedValue !== undefined) {
+  onSaveActivity(id : string): void {
+    if (id !== undefined) {
       if (this.activities == null) {
         this.activities = [];
       }
 
-      var equipment = this.equipment.find(f => f.id == this.selectedValue);
+      var equipment = this.equipment.find(f => f.id == id);
 
       this.newActivity.equipment = equipment;
    
@@ -79,11 +68,12 @@ export class ActivityListComponent implements OnInit, OnChanges {
       this.activities.forEach(act => {act.order = act.order + 1});
 
       //Get previous reps by equipment
-      this.sessionService.getPreviousSetsByEquipment(this.selectedValue, this.sessionType).subscribe(
+      this.sessionService.getPreviousSetsByEquipment(id, this.sessionType).subscribe(
         sets => {
           console.log(sets);
         }
       )
+
       //Saveing activites
       this.newActivites.emit(this.activities);
       this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
