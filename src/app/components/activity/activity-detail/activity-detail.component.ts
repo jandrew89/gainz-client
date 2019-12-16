@@ -4,7 +4,7 @@ import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-activity-detail',
+  selector: 'app-activity-detail,[app-activity-detail]',
   templateUrl: './activity-detail.component.html',
   styleUrls: ['./activity-detail.component.css']
 })

@@ -1,4 +1,38 @@
-<div *ngIf="addActivity && equipment && equipment.length > 0" class="card mb-3">
+
+    <ul class="collapsible popout">
+        <li *ngIf="_addActivity && equipment && equipment.length > 0">
+            <div class="collapsible-header">
+                New Activity
+            </div>
+            <div class="collapsible-body">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <select [(ngModel)]="selectedValue" id="equipmentTypeId">    
+                            <option value="" disabled selected>Select an Option</option>    
+                            <option *ngFor="let eqp of equipment" [ngValue]="eqp.id">{{eqp.name}}</option>    
+                        </select>
+                        <label for="equipmentTypeId">Equipment Type</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="button"
+                            (click)="onSaveActivity()">    
+                            Start Adding Sets
+                    </button>
+                    <button type="button"    
+                            title="Cancel your activity">    
+                            Cancel   
+                    </button>
+                </div>
+            </div>
+        </li>
+        <li *ngFor="let activity of activities"
+                app-activity-detail 
+                        [activity]="activity"
+                        [sessionId]="sessionId"
+                        [sessionType]="sessionType"></li>
+    </ul>
+<!-- <div *ngIf="addActivity && equipment && equipment.length > 0" class="card mb-3">
     <div class="card-header">  
           New Activity  
     </div>
@@ -30,11 +64,5 @@
                 </div>
             </div>
         </div>
-</div>
-<div *ngFor="let activity of activities">
-    <app-activity-detail 
-        [activity]="activity"
-        [sessionId]="sessionId"
-        [sessionType]="sessionType">
-    </app-activity-detail>
-</div>
+</div> -->
+

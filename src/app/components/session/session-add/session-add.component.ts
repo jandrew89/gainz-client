@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Session } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
@@ -6,7 +6,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
-declare var M: any;
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -34,6 +33,8 @@ export class SessionAddComponent implements OnInit {
     $(document).ready(function(){
       $('select').formSelect();
       $('.datepicker').datepicker();
+      var themeColor = '#ffd8a6'
+      $(".select-dropdown").css("color", themeColor);
     });
     
     this.sessionForm = this.formBuilder.group({    
@@ -69,9 +70,9 @@ export class SessionAddComponent implements OnInit {
 
     //validate form
     if (this.sessionForm.controls['sessionType'].value.id == '') {
-		this.toastr.error("Must select a session type.", "Validation Error");
-		this.onSaveDisable = false;
-		return;
+      this.toastr.error("Must select a session type.", "Validation Error");
+      this.onSaveDisable = false;
+      return;
 	  }
 	  
 	//TODO possibly move this inside the sessions based on performance
@@ -108,7 +109,8 @@ export class SessionAddComponent implements OnInit {
       this.sessionTitle = 'Add Session';
     } else {
       this.sessionTitle = `Edit Session: ${this.formatDate(this.session.sessionDate)}`;
-    }
+    } 
+    $('.select-dropdown').val(this.session.sessionType);
     this.sessionForm.patchValue({
       weight: this.session.weight,
       sessionDate: this.formatDateToDatePicker(this.session.sessionDate),
@@ -149,11 +151,5 @@ export class SessionAddComponent implements OnInit {
         day = '0' + day;
 
     return [year, month, day].join('-');
-  }
-
-  
-  private validateSessionType() {
-    //if no session type selected blow up
-
   }
 }

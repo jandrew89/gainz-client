@@ -12,6 +12,9 @@ export class SetDetailComponent implements OnInit {
   @Input() set: Set
   @Output() onSetChange = new EventEmitter()
 
+  weightId
+  repId
+
   setForm = new FormGroup({
     weight: new FormControl('', { updateOn: 'change' }),
     reps: new FormControl('', { updateOn: 'change' })
@@ -20,6 +23,9 @@ export class SetDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.weightId = `weight_${this.randonNumber()}`
+    this.repId = `rep_${this.randonNumber()}`
+
     this.setForm.patchValue({
       weight: this.set.weight,
       reps: this.set.reps
@@ -37,5 +43,12 @@ export class SetDetailComponent implements OnInit {
     };
     // emit unique set
     this.onSetChange.emit(uniqueSet)
+  }
+
+  randonNumber(){
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
   }
 }

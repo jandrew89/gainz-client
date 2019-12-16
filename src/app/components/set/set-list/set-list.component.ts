@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Set } from 'src/app/data/entities/activity';
 
 @Component({
-  selector: 'app-set-list',
+  selector: 'app-set-list, [app-set-list]',
   templateUrl: './set-list.component.html',
   styleUrls: ['./set-list.component.css']
 })

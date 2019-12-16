@@ -1,25 +1,10 @@
 <form [formGroup]="setForm">
-    <th>
-        {{set.order}}
-    </th>
-    <td>
-       Weight:
-    </td>
-    <td>
-      <input class="form-control"    
-            id="weightId"    
-            type="number"    
-            placeholder="Weight" 
-            formControlName="weight" />
-    </td>
-    <td>
-        Reps:
-    </td>
-    <td>
-      <input class="form-control"    
-            id="repsId"    
-            type="number"    
-            placeholder="Reps"
-            formControlName="reps"  />
-    </td>
+    <div class="input-field col s6">
+        <input [id]="weightId" type="number" formControlName="weight" class="validate">
+        <label [for]="weightId" class="active">Weight</label>
+    </div>
+    <div class="input-field col s6">
+        <input [id]="repId" type="number" formControlName="reps" class="validate">
+        <label [for]="repId" class="active">Reps</label>
+    </div>
 </form>

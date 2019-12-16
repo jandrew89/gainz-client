@@ -3,6 +3,7 @@ import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { SessionService } from 'src/app/data/services/session.service';
+declare var $: any;
 
 @Component({
   selector: 'app-activity-list',
@@ -14,17 +15,28 @@ export class ActivityListComponent implements OnInit, OnChanges {
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
   @Output() resetAddActivity = new EventEmitter();
-  @Input() addActivity: boolean;
+  @Input('addActivity') set addActivity(value: boolean) {
+    this._addActivity = value;
+    if (value) {
+      setTimeout(function(){ $(document).ready(function(){
+        $('select').formSelect();
+      }); }, 1000);
+    }
+  }
   @Input() sessionId: string;
   @Input() sessionType: string //partition key
   
   newActivity: ActivityViewModel;
   equipment: Equipment[];
   selectedValue: string;
+  _addActivity: boolean;
 
   constructor(private equipmentService: EquipmentService, private sessionService: SessionService) { }
 
   ngOnInit() {
+    $(document).ready(function(){
+      $('.collapsible').collapsible();
+    });
     this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
   }
 

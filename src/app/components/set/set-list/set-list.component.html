@@ -1,12 +1,8 @@
-<table class="table table-borderless">
-    <tbody>
-        <tr *ngIf="displayNewSet">
-            <app-set-detail [set]="newSet"
-                (onSetChange)="onSetChange($event)"></app-set-detail> 
-        </tr>
-        <tr *ngFor="let set of orderSets(sets)">
-            <app-set-detail [set]="set"
-                (onSetChange)="onSetChange($event)"></app-set-detail>           
-        </tr>
-    </tbody>
-</table>
+<div class="row" *ngIf="displayNewSet">
+    <app-set-detail [set]="newSet"
+    (onSetChange)="onSetChange($event)"></app-set-detail> 
+</div>
+<div class="row" *ngFor="let set of orderSets(sets)">
+    <app-set-detail [set]="set"
+    (onSetChange)="onSetChange($event)"></app-set-detail> 
+</div>
