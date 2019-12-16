@@ -23,7 +23,8 @@
                 app-activity-detail 
                         [activity]="activity"
                         [sessionId]="sessionId"
-                        [sessionType]="sessionType">
+                        [sessionType]="sessionType"
+                        (onDeleteActivity)="onDeleteActivity($event)">
         </li>
     </ul>
 

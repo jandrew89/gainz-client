@@ -82,6 +82,10 @@ export class ActivityListComponent implements OnInit, OnChanges {
     this.resetAddActivity.emit(false);
   }
 
+  onDeleteActivity(activityId: string) {
+    this.activities = this.activities.filter(type => type.id !== activityId);
+  }
+
   randonNumber(){
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
       var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);

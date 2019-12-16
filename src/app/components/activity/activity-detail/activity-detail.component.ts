@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Activity, Set } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,6 +13,7 @@ export class ActivityDetailComponent implements OnInit {
   @Input() activity: Activity
   @Input() sessionId: string
   @Input() sessionType: string //partition key
+  @Output() onDeleteActivity = new EventEmitter();
 
   isCollapsed = false
   displayNewSet = false;
@@ -37,6 +38,9 @@ export class ActivityDetailComponent implements OnInit {
 
   onCancel() {
     //Deletes activity
+    this.sessionService.deleteActivity(this.sessionId, this.activity.id, this.sessionType).subscribe(
+      isSuccessful => isSuccessful ? this.onDeleteActivity.emit(this.activity.id) : this.toastr.error('Error when deleteing activity.')
+    );
   }
 
   async saveSet(): Promise<boolean> {
