@@ -64,17 +64,16 @@ export class SessionAddComponent implements OnInit {
 
 
   saveSession(displayAddActivity: boolean = false): void {
-
     //disable save btns
     this.onSaveDisable = true;
 
     //validate form
-    if (this.sessionForm.controls['sessionType'].value.id == '') {
+    if (this.sessionForm.controls['sessionType'].value.id == '' || this.sessionForm.controls['sessionType'].value.id == undefined) {
       this.toastr.error("Must select a session type.", "Validation Error");
       this.onSaveDisable = false;
       return;
 	  }
-	  
+
 	//TODO possibly move this inside the sessions based on performance
 	this.displayAddActivity = displayAddActivity;
 
