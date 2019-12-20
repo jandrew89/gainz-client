@@ -1,6 +1,7 @@
 <nav>  
   <div class="nav-wrapper">
-    <a class="brand-logo left" href="/">Gainz</a>
+    <a class="brand-logo" routerLink="sessions">Gainz</a>
+    <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
     <ul class="right hide-on-small-and-down">
       <li><a routerLink="home" routerLinkActive="active">Home</a></li>
       <li><a routerLink="sessions">Sessions</a></li>
@@ -10,4 +11,10 @@
         </a></li>
      </ul>
     </div>
-  </nav>  
+  </nav> 
+
+  <ul class="sidenav" id="mobile-demo">
+    <li><a routerLink="home" routerLinkActive="active">Home</a></li>
+    <li><a routerLink="sessions">Sessions</a></li>
+    <li><a routerLink="settings">Settings</a></li>
+  </ul>
