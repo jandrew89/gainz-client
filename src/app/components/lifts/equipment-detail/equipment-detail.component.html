@@ -1,4 +1,30 @@
-<div *ngIf="displayEquipmentModal" id="myModal" class="modal d-block modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="eqp-modal" class="modal">
+  <form [formGroup]="equipmentForm"
+    (ngSubmit)="saveEquipmentForm()">
+      <div class="modal-content">
+        <div class="row">
+          <div class="input-field col sm12">
+            <input id="eqp-name" type="text" formControlName="name">
+            <label for="eqp-name" class="active">Equipment Name</label>
+          </div>
+        </div>
+                <div class="row" *ngFor="let sessionType of sessionTypes">
+                  <label>
+                    <input type="checkbox" 
+                      class="filled-in"
+                      (change)="onSessionTypeClick($event, sessionType)"
+                      [checked]="isSessionSelected(sessionType.id)" />
+                    <span>{{sessionType.name}}</span>
+                  </label>
+                </div>
+        </div>
+    </form>
+    <div class="modal-footer">
+      <a class="modal-close waves-effect waves-green btn-flat" (click)="saveEquipmentForm()">Save</a>
+    </div>
+</div>
+
+<!-- <div *ngIf="displayEquipmentModal" id="myModal" class="modal d-block modal-lg" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -35,4 +61,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
