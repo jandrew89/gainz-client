@@ -46,6 +46,11 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
       this.equipmentForm.patchValue({
         name: this.equipment.name
       });
+
+      if (this.equipment && this.equipment.id && this.equipment.id !== '0') 
+        this.equipmentForm.disable()
+      else
+        this.equipmentForm.enable()
   }
 
 
