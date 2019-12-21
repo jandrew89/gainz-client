@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Activity, Set } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
+import { SetDate } from 'src/app/data/entities/Dtos/SetDate';
 
 @Component({
   selector: 'app-activity-detail,[app-activity-detail]',
@@ -15,16 +16,24 @@ export class ActivityDetailComponent implements OnInit {
   @Input() sessionType: string //partition key
   @Output() onDeleteActivity = new EventEmitter();
 
-  isCollapsed = false
+  isCollapsed = false;
   displayNewSet = false;
   displaySaveSet = false;
+  displayPreviousSets = false;
+  disableButtons = false;
+  disablePreviousSetBtn = false;
+
   shouldDisplaySetMap = new Map<number, boolean>();
   setMap = new Map<number, Set>();
-  disableButtons: boolean = false;
 
-  constructor(private sessionService: SessionService, private toastr: ToastrService) { }
+  previousSets: SetDate[];
+  
+  constructor(private sessionService: SessionService, 
+        private toastr: ToastrService) { }
 
-  ngOnInit() { }
+  ngOnInit() { 
+    this.previousSets = [];
+  }
 
   async onAddSet() {
     //Save all reps and activity data add new rep input
@@ -75,6 +84,32 @@ export class ActivityDetailComponent implements OnInit {
     return isSuccess;
   }
 
+  onDisplayPreviousSets() {
+    this.disablePreviousSetBtn = true;
+    this.displayPreviousSets = !this.displayPreviousSets;
+    
+
+    //Get previous reps for equipment
+    if (this.previousSets.length <= 0) {
+      this.sessionService.getPreviousSetsByEquipment(this.activity.equipment.id, this.sessionType)
+          .subscribe(sets => {
+            console.log('ran', sets);
+            this.previousSets = sets;
+
+            //No previous sets came back
+            //Keep the button locked to avoid sequiential db calls
+            //alert user
+            if (sets.length <= 0) {
+              this.toastr.info('No Previous sets found for this exercise.');
+              return;
+            }
+            this.disablePreviousSetBtn = false;
+          })
+      } else {
+        this.disablePreviousSetBtn = false;
+      }
+  }
+
   onNewSet(selectedValue: any) {
     this.shouldDisplaySetMap.set(selectedValue.order, true);
     
@@ -102,7 +137,7 @@ export class ActivityDetailComponent implements OnInit {
     return await this.sessionService.updateActivity(this.sessionId, this.sessionType, this.activity).toPromise();
   }
 
-  isEquivalent(a, b) {
+  private isEquivalent(a, b) {
     // Create arrays of property names
     var aProps = Object.getOwnPropertyNames(a);
     var bProps = Object.getOwnPropertyNames(b);

@@ -68,7 +68,7 @@ export class SessionAddComponent implements OnInit {
     this.onSaveDisable = true;
 
     //validate form
-    if (this.sessionForm.controls['sessionType'].value.id == '' || this.sessionForm.controls['sessionType'].value.id == undefined) {
+    if (this.sessionForm.controls['sessionType'].value == '' || this.sessionForm.controls['sessionType'].value == undefined) {
       this.toastr.error("Must select a session type.", "Validation Error");
       this.onSaveDisable = false;
       return;

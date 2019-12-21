@@ -9,13 +9,34 @@
     </app-set-list>
    </div>
    <div class="row">
-        <button style="margin-right: 10px;" class="btn waves-effect waves-light btn-small"
+        <button style="margin-right: 10px;" class="btn waves-effect waves-teal btn-small"
                             [disabled]="disableButtons"
                             (click)="onAddSet()">Add Set</button>
-        <button style="margin-right: 10px;" class="btn waves-effect waves-light btn-small"
+        <button style="margin-right: 10px;" class="btn waves-effect waves-teal btn-small"
                             [disabled]="disableButtons"
                             (click)="saveSet()">Completed</button>
-        <button class="btn waves-effect waves-light btn-small"
+        <button class="btn waves-effect waves-teal btn-small"
                             (click)="onCancel()">Delete</button>
+    </div>
+    <div class="row">
+        <button class="btn waves-effect waves-teal btn-small"
+                [disabled]="disablePreviousSetBtn" (click)="onDisplayPreviousSets()">Previous Sets</button>
+    </div>
+    <div *ngIf="displayPreviousSets" class="row">
+        <div class="col s12">
+            <div class="card horizontal" *ngFor="let setGroup of previousSets">
+                <div class="card-stacked">
+                    <div class="card-content">
+                        <label>{{setGroup.sessionDate}}</label>
+                        <ul>
+                            <li *ngFor="let set of setGroup.sets">
+                                <label>Weights: {{set.weight}}</label>
+                                <label>Sets: {{set.reps}}</label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

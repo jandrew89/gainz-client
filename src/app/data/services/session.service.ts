@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Session } from '../entities/session';
-import { Activity, Set } from '../entities/activity';
+import { Activity } from '../entities/activity';
+import { SetDate } from '../entities/Dtos/SetDate';
 
 @Injectable({
   providedIn: 'root'
@@ -21,14 +22,14 @@ export class SessionService {
       );  
   }
 
-  getPreviousSetsByEquipment(equpimentId: string, sessionType: string): Observable<Set[]> {
+  getPreviousSetsByEquipment(equpimentId: string, sessionType: string): Observable<SetDate[]> {
     if (equpimentId === '' || sessionType === '') { 
       //TODO: return empty reps
       
    }  
 
    const url = `${this.sessionUrl + 'GetPreviousSetByEquipment'}/${equpimentId}/${sessionType}`;  
-   return this.http.get<Set[]>(url)
+   return this.http.get<SetDate[]>(url)
      .pipe(  
        catchError(this.handleError)  
      );  
