@@ -3,8 +3,7 @@
 </div>
  <div class="collapsible-body">
    <div class="row">
-    <app-set-list [displayNewSet]="displayNewSet"
-                        [sets]="activity.sets"
+    <app-set-list [sets]="activity.sets"
                         (onSaveRep)="onNewSet($event)">
     </app-set-list>
    </div>

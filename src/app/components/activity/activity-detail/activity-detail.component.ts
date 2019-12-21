@@ -16,33 +16,36 @@ export class ActivityDetailComponent implements OnInit {
   @Input() sessionType: string //partition key
   @Output() onDeleteActivity = new EventEmitter();
 
-  isCollapsed = false;
-  displayNewSet = false;
-  displaySaveSet = false;
   displayPreviousSets = false;
   disableButtons = false;
   disablePreviousSetBtn = false;
 
-  shouldDisplaySetMap = new Map<number, boolean>();
-  setMap = new Map<number, Set>();
-
+  activeSets: Set[];
   previousSets: SetDate[];
   
   constructor(private sessionService: SessionService, 
         private toastr: ToastrService) { }
 
   ngOnInit() { 
+    //initialization of variables
     this.previousSets = [];
+    this.activeSets = this.activity.sets;
   }
 
   async onAddSet() {
-    //Save all reps and activity data add new rep input
-    //display a new set
-    this.displayNewSet = true;
+    //adds new set
+    //resets the order so they dont get out of sync
+    //saves the set
+    this.activeSets = this.rebaseSetsToZero(this.activeSets)
+    
+    this.activeSets.push({
+        order: 0,
+        reps: null,
+        weight: null
+    });
 
-    if (this.displaySaveSet) {
-      this.displayNewSet = await this.saveSet();
-    }
+    //let isValid = await this.saveSetsAsync()
+
   }
 
   onCancel() {
@@ -53,35 +56,30 @@ export class ActivityDetailComponent implements OnInit {
   }
 
   async saveSet(): Promise<boolean> {
-    this.displayNewSet = false;
 
-    var validationFail = [...this.setMap.values()].some(set => set.reps == null || set.weight == null);
-    if (validationFail) {
-      this.toastr.error('Must Enter a valid input.');
-      return;
-    }
+    //disable buttons while saving
     this.disableButtons = true;
 
-    var idsToRemove = Array.from(this.setMap.values()).map(m => m.order);
+    //determines whether a the sets values are valid  
+    const formValid = !this.activeSets.some(s => s.reps == null || s.weight == null);
 
-    var sets = this.activity.sets.filter(f => !idsToRemove.includes(f.order));
-
-    this.activity.sets = [...this.setMap.values(), ...sets];
-
-    if (this.setMap.has(0)) {
-      this.activity.sets.forEach(set => {
-        set.order = set.order + 1;
-      });
+    //alert if invalod
+    if (!formValid) {
+      this.toastr.info('Form is not valid')
+      this.disableButtons = false;
+      return false;
     }
-      var isSuccess = await this.saveSetsAsync();
+
+    //form is valid reassign active sets to activity sets
+    this.activity.sets = this.activeSets;
+
+    var isSuccess = await this.saveSetsAsync();
       if (isSuccess) {
         this.toastr.success('Set Saved Successfull')
-        this.displaySaveSet = false;
-        this.shouldDisplaySetMap.clear();
-        this.setMap.clear();
         this.disableButtons = false;
       }
-    return isSuccess;
+
+      return isSuccess;
   }
 
   onDisplayPreviousSets() {
@@ -110,56 +108,31 @@ export class ActivityDetailComponent implements OnInit {
       }
   }
 
-  onNewSet(selectedValue: any) {
-    this.shouldDisplaySetMap.set(selectedValue.order, true);
+  onNewSet(activeSet: Set) {
+    //First we filter out sets not being updated
+    let activeSets = this.activeSets.filter(f => f.order !== activeSet.order);
     
-    if (selectedValue.order == 0) {
-      this.setMap.set(selectedValue.order, selectedValue);
-    }
+    //Then add in new active set
+    activeSets.push(activeSet);
 
-    this.activity.sets.forEach(
-      set => { 
-        if (this.isEquivalent(set, selectedValue)) {
-            this.shouldDisplaySetMap.set(selectedValue.order, false);
-            this.setMap.delete(set.order);
-        }
-
-        if (set.order === selectedValue.order && !this.isEquivalent(set, selectedValue)) {
-          this.setMap.set(set.order, selectedValue);
-        }
-      }
-    )
-
-    this.displaySaveSet = [...this.shouldDisplaySetMap.values()].reduce((sum, next) =>  sum || next, false);
+    //Then rebase active sets back to the activity
+    this.activeSets = activeSets.sort((a,b) => a.order - b.order);
   }
 
   private async saveSetsAsync(): Promise<boolean> {
     return await this.sessionService.updateActivity(this.sessionId, this.sessionType, this.activity).toPromise();
   }
 
-  private isEquivalent(a, b) {
-    // Create arrays of property names
-    var aProps = Object.getOwnPropertyNames(a);
-    var bProps = Object.getOwnPropertyNames(b);
+  private rebaseSetsToZero(sets: Set[]): Set[] {
+    //determines if any in order are equal to zero
+    let needToRebase = sets.some(s => s.order == 0);
 
-    // If number of properties is different,
-    // objects are not equivalent
-    if (aProps.length != bProps.length) {
-        return false;
+    if (needToRebase) {
+      sets.forEach(set => {
+        set.order = set.order + 1;
+      });
     }
 
-    for (var i = 0; i < aProps.length; i++) {
-        var propName = aProps[i];
-
-        // If values of same property are not equal,
-        // objects are not equivalent
-        if (a[propName] !== b[propName]) {
-            return false;
-        }
-    }
-
-    // If we made it this far, objects
-    // are considered equivalent
-    return true;
+    return sets.sort((a,b) => a.order - b.order);
   }
 }
