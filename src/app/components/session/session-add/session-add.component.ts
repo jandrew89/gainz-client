@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
+import { formatDate, formatDateToDatePicker } from 'src/app/shared/helper';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -107,14 +108,14 @@ export class SessionAddComponent implements OnInit {
     if (this.session.id == '0'){
       this.sessionTitle = 'Add Session';
     } else {
-      this.sessionTitle = `Edit Session: ${this.formatDate(this.session.sessionDate)}`;
+      this.sessionTitle = `Edit Session: ${formatDate(this.session.sessionDate)}`;
     }
 
     $('.select-dropdown').val(this.session.sessionType);
     
     this.sessionForm.patchValue({
       weight: this.session.weight,
-      sessionDate: this.formatDateToDatePicker(this.session.sessionDate),
+      sessionDate: formatDateToDatePicker(this.session.sessionDate),
       sessionType: this.session.sessionType
     });
   }
@@ -125,32 +126,5 @@ export class SessionAddComponent implements OnInit {
 
   sort(activities: Activity[]): Activity[] {
     return activities.sort((a,b) => a.order - b.order);
-  }
-
-  formatDate(date: string | Date): string {
-    var dateToFormat = new Date(date);
-    var year = dateToFormat.getFullYear();
-
-    var month = (1 + dateToFormat.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-  
-    var day = dateToFormat.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    
-    return month + '/' + day + '/' + year;
-  }
-  
-  formatDateToDatePicker(date) {
-    var d = new Date(date),
-        month = '' + (d.getMonth() + 1),
-        day = '' + d.getDate(),
-        year = d.getFullYear();
-
-    if (month.length < 2) 
-        month = '0' + month;
-    if (day.length < 2) 
-        day = '0' + day;
-
-    return [year, month, day].join('-');
   }
 }
