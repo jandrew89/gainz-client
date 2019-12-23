@@ -1,35 +1,16 @@
-<div class="card">    
-    <div class="card-header">    
-      <div>Past Sessions</div>
-      <button class="btn btn-primary mr-3" [routerLink]="['/sessions/session-add/0/0/edit']">  
-        <i class="fa fa-plus"></i> New Session  
-      </button>
-    </div> 
-    <div class="card-body" *ngIf="sessions && sessions.length">
-      <div class="table-responsive">
-          <table class="table mb-0">
-            <thead>
-              <tr>
-                <th>Weight:</th>
-                <th>Session Date:</th>
-                <th>Session Type:</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let session of sessions">
-                <td>{{session.weight}}</td>
-                <td>{{formatDate(session.sessionDate)}}</td>
-                <td>{{session.sessionType}}</td>
-                <th> 
-                  <button class="btn btn-outline-primary btn-sm"  
-                    [routerLink]="['/sessions/session-add/', session.id, session.sessionType, 'edit']">  
-                    <i class="fa fa-edit"></i> Edit  
-                  </button>  
-                </th>
-              </tr>
-            </tbody>
-          </table>
-      </div>
-    </div>
-</div>
+<ul class="collection with-header">
+  <li class="collection-header">
+    <h4>Sessions</h4>
+    <a class="btn-floating btn-large waves-light red" [routerLink]="['/sessions/session-add/0/0/edit']"><i class="material-icons">add</i></a>
+  </li>
+  <li *ngFor="let session of sessions" class="collection-item avatar">
+        <i class="material-icons circle green"  [routerLink]="['/sessions/session-add/', session.id, session.sessionType, 'edit']" style="cursor: pointer;">description</i>
+        <span class="title">{{session.sessionType}}</span>
+        <p>{{session.weight}} <br/>
+          {{formatDate(session.sessionDate)}}
+        </p>
+        <a class="secondary-content">
+          <i class="material-icons">description</i>
+        </a>
+  </li>
+</ul>

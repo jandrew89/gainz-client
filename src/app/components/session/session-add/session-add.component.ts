@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
-
+declare var $: any;
 @Component({
   selector: 'app-session-add',
   templateUrl: './session-add.component.html',
@@ -30,6 +30,13 @@ export class SessionAddComponent implements OnInit {
     ) { }
 
   ngOnInit() {
+    $(document).ready(function(){
+      $('select').formSelect();
+      $('.datepicker').datepicker();
+      var themeColor = '#ffd8a6'
+      $(".select-dropdown").css("color", themeColor);
+    });
+    
     this.sessionForm = this.formBuilder.group({    
       weight: '',    
       sessionDate: '',    
@@ -41,7 +48,7 @@ export class SessionAddComponent implements OnInit {
         const id = params.get('id');
         const sessionType = params.get('sessionType');
         if (id == '0'){
-          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: {id: '', name: ''}, activities: [] }
+          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
           this.displaySession(newSession);
         } else {
           //Get Session from service
@@ -55,18 +62,18 @@ export class SessionAddComponent implements OnInit {
     )
   }
 
-  saveSession(displayAddActivity: boolean = false): void {
 
+  saveSession(displayAddActivity: boolean = false): void {
     //disable save btns
     this.onSaveDisable = true;
 
     //validate form
-    if (this.sessionForm.controls['sessionType'].value.id == '') {
-		this.toastr.error("Must select a session type.", "Validation Error");
-		this.onSaveDisable = false;
-		return;
+    if (this.sessionForm.controls['sessionType'].value.id == '' || this.sessionForm.controls['sessionType'].value.id == undefined) {
+      this.toastr.error("Must select a session type.", "Validation Error");
+      this.onSaveDisable = false;
+      return;
 	  }
-	  
+
 	//TODO possibly move this inside the sessions based on performance
 	this.displayAddActivity = displayAddActivity;
 
@@ -102,6 +109,9 @@ export class SessionAddComponent implements OnInit {
     } else {
       this.sessionTitle = `Edit Session: ${this.formatDate(this.session.sessionDate)}`;
     }
+
+    $('.select-dropdown').val(this.session.sessionType);
+    
     this.sessionForm.patchValue({
       weight: this.session.weight,
       sessionDate: this.formatDateToDatePicker(this.session.sessionDate),
@@ -142,10 +152,5 @@ export class SessionAddComponent implements OnInit {
         day = '0' + day;
 
     return [year, month, day].join('-');
-  }
-
-  private validateSessionType() {
-    //if no session type selected blow up
-
   }
 }

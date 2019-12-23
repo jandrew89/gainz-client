@@ -1,59 +1,29 @@
-<div class="card">  
-    <div class="card-header">  
-      {{pageTitle}}  
-    </div>  
-    <div class="card-body">  
-      <div class="row" style="margin-bottom:15px;">  
-        <div class="col-md-3">Filter by name:</div>  
-        <div class="col-md-4">  
-          <input type="text" [(ngModel)]="listFilter" />  
-        </div>  
-        <div class="col-md-1"></div>  
-        <div class="col-md-3">  
-          <button class="btn btn-primary mr-3" (click)="addNewEquipment()">  
-            <i class="fa fa-plus"></i> New Lift 
-          </button>  
-        </div>  
-      </div>  
-      <div class="row" *ngIf="listFilter">  
-        <div class="col-md-6">  
-          <h4>Filtered by: {{listFilter}}</h4>  
-        </div>  
-      </div>  
-      <div class="table-responsive">  
-        <table class="table mb-0" *ngIf="equipment && equipment.length">  
-          <thead>  
-            <tr>  
-              <th>Name</th>  
-              <th></th>  
-              <th></th>  
-            </tr>  
-          </thead>  
-          <tbody>  
-            <tr *ngFor="let equipment of filteredListOfEquipment">
-              <td>  
-                <a (click)="onEquipmentClick(equipment)">  
-                  {{ equipment.name }}
-                  
-                </a>  
-              </td>  
-              <td>  
-                <button class="btn btn-outline-primary btn-sm"  
-                  (click)="onEquipmentClick(equipment)">  
-                  <i class="fa fa-edit"></i> Edit  
-                </button>  
-              </td>  
-              <td>  
-                <button class="btn btn-outline-warning btn-sm">  
-                  <i class="fa fa-trash"></i> Delete  
-                </button>  
-              </td>
-            </tr>  
-          </tbody>  
-        </table>  
-      </div>  
-    </div>  
+<div class="col s12 m8">
+  <h4>{{pageTitle}}</h4>
+  <div class="card-horizontal">
+    <div class="card-stacked">
+      <div class="card-content">
+        <div class="row">
+          <div class="input-field col s12">
+            <input id="eqip-list-filter" [(ngModel)]="listFilter" type="text">
+            <label for="eqip-list-filter">Filter By</label>
+          </div>
+        </div>
+        <div class="row">
+          <h6>Filtered by: {{listFilter}}</h6> 
+        </div>
+      </div>
+    </div>
+    <div class="card-action">
+      <button class="waves-effect waves-light btn-small modal-trigger" href="#eqp-modal" (click)="addNewEquipment()">Add New</button>
+    </div>
   </div>
+</div>
+<ul class="collection" *ngIf="equipment && equipment.length">
+  <li class="collection-item modal-trigger" href="#eqp-modal" style="cursor: pointer;" (click)="onEquipmentClick(equipment)" *ngFor="let equipment of filteredListOfEquipment">
+    {{ equipment.name }}
+  </li>
+</ul>
   <app-equipment-detail [displayEquipmentModal]="displayEditEquipmentModal" 
                               [equipment]="equipmentToEdit"
                               (closeEquipmentEdit)="displayEditEquipmentModal=false"></app-equipment-detail>

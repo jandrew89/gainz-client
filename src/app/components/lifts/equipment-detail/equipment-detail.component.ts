@@ -5,6 +5,8 @@ import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
+declare var $: any;
+
 @Component({
   selector: 'app-equipment-detail',
   templateUrl: './equipment-detail.component.html',
@@ -17,16 +19,22 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
   @Output() closeEquipmentEdit = new EventEmitter();
 
   equipmentForm = new FormGroup({
-    name: new FormControl(''),
-    sessionTypes: new FormControl('')
+    name: new FormControl('')
   });
+
   lockForm: boolean = false;
   sessionTypes: SessionType[];
+  activeSessionTypes: SessionType[];
 
   constructor(private equipmentService: EquipmentService, private toastrService: ToastrService) { }
 
 
   ngOnInit() {
+    $(document).ready(function(){
+      $('.modal').modal();
+    });
+
+    this.activeSessionTypes = [];
     this.equipmentService.getSessionTypes().subscribe(
       sessionTypes =>  { 
         this.sessionTypes = sessionTypes;
@@ -36,9 +44,13 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: any): void {
       this.equipmentForm.patchValue({
-        name: this.equipment.name,
-        sessionTypes: this.equipment.sessionTypes == null ? [] : this.equipment.sessionTypes.map(s => s.id)
+        name: this.equipment.name
       });
+
+      if (this.equipment && this.equipment.id && this.equipment.id !== '0') 
+        this.equipmentForm.disable()
+      else
+        this.equipmentForm.enable()
   }
 
 
@@ -46,30 +58,40 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     this.closeEquipmentEdit.emit(false);
   }
 
+  onSessionTypeClick(e, sessionType: SessionType) {
+    const addToType: boolean = e.target.checked;
+
+    //If checked, add to active sessions
+    if (addToType) 
+      this.activeSessionTypes.push(sessionType);
+
+    //else remove from active sesssions
+    if (!addToType)
+      this.activeSessionTypes = this.activeSessionTypes.filter(f => f.id !== sessionType.id);
+  }
+
   saveEquipmentForm(): void {
 
     var name = this.equipmentForm.controls['name'].value
-    var types = this.equipmentForm.controls['sessionTypes'].value as []
-
-    if (name === null || name === '' || types === null || types === []) {
+    
+    if (name === null || name === '') {
       //TODO: Validation error
-      this.toastrService.error('Must add name and session type.')
+      this.toastrService.error('Must have name.')
       return
     }
 
     this.lockForm = true;
-    var sessionTypesToUpdate = this.sessionTypes.filter(type => types.some(s => s == type.id));
   
     if (this.equipment.id == '0') {
       this.equipmentService.createEquipment({
         id: this.equipment.id,
         name: name,
-        sessionTypes: sessionTypesToUpdate
+        sessionTypes: this.activeSessionTypes
       }).subscribe(
         isSuccesful => {
           if (isSuccesful){
             //Toastr success message
-            this.toastrService.success('Successfully updated the equipment!')
+            this.toastrService.success('Successfully added the equipment!');
             this.lockForm = false;
           }
         }
@@ -78,7 +100,7 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
       this.equipmentService.updateEquipment({
         id: this.equipment.id,
         name: name,
-        sessionTypes: sessionTypesToUpdate
+        sessionTypes: this.activeSessionTypes
       }).subscribe(
         isSuccesful => {
           if (isSuccesful){
@@ -93,10 +115,19 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     this.closeEquipmentEdit.emit(false);
   }
 
-  isTypeSelected(id: string) {
+  isSessionSelected(id: string) {
     if (!this.equipment.sessionTypes) {
       return false;
     }
-    return this.equipment.sessionTypes.some(st => st.id === id);
+
+    // add previous loaded session types to active session types
+    var activeSession = this.equipment.sessionTypes.find(f => f.id === id);
+    if (activeSession) {
+      if (!this.activeSessionTypes.includes(activeSession))
+        this.activeSessionTypes.push(activeSession)
+      return true;
+    }
+
+    return false;
   }
 }

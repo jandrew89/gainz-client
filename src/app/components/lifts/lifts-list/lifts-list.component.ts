@@ -63,11 +63,9 @@ export class LiftsListComponent implements OnInit {
       name: '',
       sessionTypes: []
     }
-    this.displayEditEquipmentModal = true;
   }
 
   onEquipmentClick(equipment: Equipment) {
     this.equipmentToEdit = equipment;
-    this.displayEditEquipmentModal = true;
   }
 }

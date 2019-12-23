@@ -1,10 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Activity, Set } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 
 @Component({
-  selector: 'app-activity-detail',
+  selector: 'app-activity-detail,[app-activity-detail]',
   templateUrl: './activity-detail.component.html',
   styleUrls: ['./activity-detail.component.css']
 })
@@ -13,6 +13,7 @@ export class ActivityDetailComponent implements OnInit {
   @Input() activity: Activity
   @Input() sessionId: string
   @Input() sessionType: string //partition key
+  @Output() onDeleteActivity = new EventEmitter();
 
   isCollapsed = false
   displayNewSet = false;
@@ -29,21 +30,20 @@ export class ActivityDetailComponent implements OnInit {
     //Save all reps and activity data add new rep input
     //display a new set
     this.displayNewSet = true;
-  }
 
-
-  onSaveSets() {
-    //TODO Add check that sets exists
-
-    //Save all reps and activity data collapse
-    //this.saveSets();
+    if (this.displaySaveSet) {
+      this.displayNewSet = await this.saveSet();
+    }
   }
 
   onCancel() {
     //Deletes activity
+    this.sessionService.deleteActivity(this.sessionId, this.activity.id, this.sessionType).subscribe(
+      isSuccessful => isSuccessful ? this.onDeleteActivity.emit(this.activity.id) : this.toastr.error('Error when deleteing activity.')
+    );
   }
 
-  async saveSet() {
+  async saveSet(): Promise<boolean> {
     this.displayNewSet = false;
 
     var validationFail = [...this.setMap.values()].some(set => set.reps == null || set.weight == null);
@@ -64,15 +64,15 @@ export class ActivityDetailComponent implements OnInit {
         set.order = set.order + 1;
       });
     }
-
-    var isSuccess = await this.saveSetsAsync();
-    if (isSuccess) {
-      this.toastr.success('Set Saved Successfull')
-      this.displaySaveSet = false;
-      this.shouldDisplaySetMap.clear();
-      this.setMap.clear();
-      this.disableButtons = false;
-    }
+      var isSuccess = await this.saveSetsAsync();
+      if (isSuccess) {
+        this.toastr.success('Set Saved Successfull')
+        this.displaySaveSet = false;
+        this.shouldDisplaySetMap.clear();
+        this.setMap.clear();
+        this.disableButtons = false;
+      }
+    return isSuccess;
   }
 
   onNewSet(selectedValue: any) {

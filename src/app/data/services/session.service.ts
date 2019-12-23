@@ -66,6 +66,15 @@ export class SessionService {
       ); 
   }
 
+  deleteActivity(sessionId: string, activityId: string, sessionType: string): Observable<boolean> {
+    const url = `${this.sessionUrl + 'DeleteActivity'}/${sessionId}/${activityId}/${sessionType}`;  
+
+    return this.http.delete<boolean>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(err) {  
     let errorMessage: string;
     debugger;
