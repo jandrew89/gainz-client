@@ -46,8 +46,7 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
         weight: null
     });
 
-    //let isValid = await this.saveSetsAsync()
-
+    this.activity.sets = this.activeSets;
   }
 
   formatDate(dateToFormat: Date): string  {
@@ -104,7 +103,6 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     if (this.previousSets.length <= 0) {
       this.sessionService.getPreviousSetsByEquipment(this.activity.equipment.id, this.sessionType)
           .subscribe(sets => {
-            console.log('ran', sets);
             this.previousSets = sets;
 
             //No previous sets came back
