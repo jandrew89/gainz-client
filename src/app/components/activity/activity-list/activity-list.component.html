@@ -22,6 +22,7 @@
         <li *ngFor="let activity of activities"
                 app-activity-detail 
                         [activity]="activity"
+                        [sessionDate]="sessionDate"
                         [sessionId]="sessionId"
                         [sessionType]="sessionType"
                         (onDeleteActivity)="onDeleteActivity($event)">

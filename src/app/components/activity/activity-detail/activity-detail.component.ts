@@ -14,6 +14,7 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
 
   @Input() activity: Activity
   @Input() sessionId: string
+  @Input() sessionDate: Date;
   @Input() sessionType: string //partition key
   @Output() onDeleteActivity = new EventEmitter();
 
@@ -53,6 +54,12 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     return moment(dateToFormat).format('dddd, MMMM Do YYYY');
   }
 
+  formatDateDifference(dateToDiff: Date): number {
+    let date1 = moment(dateToDiff);
+    let date2 = moment(this.sessionDate);
+
+    return date2.diff(date1, 'days');
+  }
 
   onCancel() {
     //Deletes activity

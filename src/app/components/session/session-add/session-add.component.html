@@ -3,6 +3,7 @@
             <app-activity-list [activities]="sort(session.activities)"
                 [addActivity]="displayAddActivity"
                 [sessionId]="session.id"
+                [sessionDate]="session.sessionDate"
                 [sessionType]="session.sessionType"
                 (resetAddActivity)="displayAddActivity=$event"
                 (newActivites)="onNewActivites($event)">

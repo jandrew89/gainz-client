@@ -18,6 +18,7 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
   @Output() newActivites = new EventEmitter();
   @Output() resetAddActivity = new EventEmitter();
   @Input() addActivity: boolean;
+  @Input() sessionDate: Date;
   @Input() sessionId: string;
   @Input() sessionType: string; //partition key
 
