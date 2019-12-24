@@ -18,8 +18,8 @@ export class ActivityListComponent implements OnInit, OnChanges {
   @Output() resetAddActivity = new EventEmitter();
   @Input() addActivity: boolean;
   @Input() sessionId: string;
-  @Input() sessionType: string //partition key
-  
+  @Input() sessionType: string; //partition key
+
   newActivity: ActivityViewModel;
   equipment: Equipment[];
 
@@ -66,13 +66,6 @@ export class ActivityListComponent implements OnInit, OnChanges {
    
       this.activities.unshift(this.newActivity);
       this.activities.forEach(act => {act.order = act.order + 1});
-
-      //Get previous reps by equipment
-      this.sessionService.getPreviousSetsByEquipment(id, this.sessionType).subscribe(
-        sets => {
-          console.log(sets);
-        }
-      )
 
       //Saveing activites
       this.newActivites.emit(this.activities);
