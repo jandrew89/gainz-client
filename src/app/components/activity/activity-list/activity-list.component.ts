@@ -2,7 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
-import { SessionService } from 'src/app/data/services/session.service';
+import { randonGuidGenerator } from 'src/app/shared/helper';
+import { ListBase } from 'src/app/shared/list-base';
 
 declare var $: any;
 
@@ -11,26 +12,26 @@ declare var $: any;
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent implements OnInit, OnChanges {
+export class ActivityListComponent extends ListBase implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
   @Output() resetAddActivity = new EventEmitter();
   @Input() addActivity: boolean;
+  @Input() sessionDate: Date;
   @Input() sessionId: string;
   @Input() sessionType: string; //partition key
 
   newActivity: ActivityViewModel;
   equipment: Equipment[];
 
-  constructor(private equipmentService: EquipmentService, 
-    private sessionService: SessionService) { }
+  constructor(private equipmentService: EquipmentService) { super() }
 
   ngOnInit() {
     $(document).ready(function(){
       $('.collapsible').collapsible();
     });
-    this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
+    this.newActivity = { equipment: null, id: randonGuidGenerator(), sets: [], displayNewSet: true, order: 0 };
   }
 
   ngOnChanges(changes: any): void {
@@ -65,11 +66,11 @@ export class ActivityListComponent implements OnInit, OnChanges {
       this.newActivity.equipment = equipment;
    
       this.activities.unshift(this.newActivity);
-      this.activities.forEach(act => {act.order = act.order + 1});
+      this.activities = this.rebaseToZero(this.activities);
 
       //Saveing activites
       this.newActivites.emit(this.activities);
-      this.newActivity = { equipment: null, id: this.randonNumber(), sets: [], displayNewSet: true, order: 0 };
+      this.newActivity = { equipment: null, id: randonGuidGenerator(), sets: [], displayNewSet: true, order: 0 };
     }
 
     this.resetAddActivity.emit(false);
@@ -77,12 +78,5 @@ export class ActivityListComponent implements OnInit, OnChanges {
 
   onDeleteActivity(activityId: string) {
     this.activities = this.activities.filter(type => type.id !== activityId);
-  }
-
-  randonNumber(){
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
   }
 }

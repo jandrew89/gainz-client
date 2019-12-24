@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Set } from 'src/app/data/entities/activity';
 import { FormGroup, FormControl } from '@angular/forms';
-
+import { randonGuidGenerator } from 'src/app/shared/helper';
 @Component({
   selector: 'app-set-detail',
   templateUrl: './set-detail.component.html',
@@ -23,8 +23,8 @@ export class SetDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.weightId = `weight_${this.randonNumber()}`
-    this.repId = `rep_${this.randonNumber()}`
+    this.weightId = `weight_${randonGuidGenerator()}`
+    this.repId = `rep_${randonGuidGenerator()}`
 
     this.setForm.patchValue({
       weight: this.set.weight,
@@ -43,12 +43,5 @@ export class SetDetailComponent implements OnInit {
     };
     // emit unique set
     this.onSetChange.emit(uniqueSet)
-  }
-
-  randonNumber(){
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, c => {
-      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-      return v.toString(16);
-    });
   }
 }

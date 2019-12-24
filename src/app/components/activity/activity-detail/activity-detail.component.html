@@ -4,7 +4,7 @@
  <div class="collapsible-body">
    <div class="row">
     <app-set-list [sets]="activity.sets"
-                        (onSaveRep)="onNewSet($event)">
+                (onSaveRep)="onNewSet($event)">
     </app-set-list>
    </div>
    <div class="row">
@@ -26,11 +26,24 @@
             <div class="card horizontal" *ngFor="let setGroup of previousSets">
                 <div class="card-stacked">
                     <div class="card-content">
-                        <label>{{setGroup.sessionDate}}</label>
+                        <div class="row">
+                            <div class="col s6">
+                                <label>{{formatDate(setGroup.sessionDate)}}</label>
+                            </div>
+                            <div class="col s6">
+                                <label>{{formatDateDifference(setGroup.sessionDate)}} days ago</label>
+                            </div>
+                        </div>
                         <ul>
                             <li *ngFor="let set of setGroup.sets">
-                                <label>Weights: {{set.weight}}</label>
-                                <label>Sets: {{set.reps}}</label>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Weight: <b>{{set.weight}}</b></label>
+                                    </div>
+                                    <div class="col s6">
+                                        <label>Reps: <b>{{set.reps}}</b></label>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
