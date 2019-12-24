@@ -4,7 +4,7 @@ import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { SetDate } from 'src/app/data/entities/Dtos/SetDate';
 import { ListBase } from 'src/app/shared/list-base';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-activity-detail,[app-activity-detail]',
   templateUrl: './activity-detail.component.html',
@@ -48,6 +48,11 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     //let isValid = await this.saveSetsAsync()
 
   }
+
+  formatDate(dateToFormat: Date): string  {
+    return moment(dateToFormat).format('dddd, MMMM Do YYYY');
+  }
+
 
   onCancel() {
     //Deletes activity

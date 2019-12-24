@@ -9,23 +9,6 @@ export function randonGuidGenerator(){
 }
 
 /**
-* Formats date to MM/DD/YYYY
-* @param date The date to be formatted
-*/
- export function formatDate(date: string | Date): string {
-    var dateToFormat = new Date(date);
-    var year = dateToFormat.getFullYear();
-
-    var month = (1 + dateToFormat.getMonth()).toString();
-    month = month.length > 1 ? month : '0' + month;
-  
-    var day = dateToFormat.getDate().toString();
-    day = day.length > 1 ? day : '0' + day;
-    
-    return month + '/' + day + '/' + year;
-  }
-
-/**
 * Formats date to MM-DD-YYYY
 * @param date The date to be formatted
 */

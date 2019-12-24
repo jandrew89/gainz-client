@@ -6,7 +6,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
-import { formatDate, formatDateToDatePicker } from 'src/app/shared/helper';
+import * as moment from 'moment';
+import { formatDateToDatePicker } from 'src/app/shared/helper';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -108,7 +109,7 @@ export class SessionAddComponent implements OnInit {
     if (this.session.id == '0'){
       this.sessionTitle = 'Add Session';
     } else {
-      this.sessionTitle = `Edit Session: ${formatDate(this.session.sessionDate)}`;
+      this.sessionTitle = `Edit Session: ${moment(this.session.sessionDate).format('dddd, MMMM Do YYYY')}`;
     }
 
     $('.select-dropdown').val(this.session.sessionType);

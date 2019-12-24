@@ -26,7 +26,7 @@
             <div class="card horizontal" *ngFor="let setGroup of previousSets">
                 <div class="card-stacked">
                     <div class="card-content">
-                        <label>{{setGroup.sessionDate}}</label>
+                        <label>{{formatDate(setGroup.sessionDate)}}</label>
                         <ul>
                             <li *ngFor="let set of setGroup.sets">
                                 <div class="row">
