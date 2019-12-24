@@ -29,8 +29,14 @@
                         <label>{{setGroup.sessionDate}}</label>
                         <ul>
                             <li *ngFor="let set of setGroup.sets">
-                                <label>Weights: {{set.weight}}</label>
-                                <label>Sets: {{set.reps}}</label>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <label>Weight: <b>{{set.weight}}</b></label>
+                                    </div>
+                                    <div class="col s6">
+                                        <label>Reps: <b>{{set.reps}}</b></label>
+                                    </div>
+                                </div>
                             </li>
                         </ul>
                     </div>
