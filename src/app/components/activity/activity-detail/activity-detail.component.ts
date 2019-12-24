@@ -3,13 +3,14 @@ import { Activity, Set } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { SetDate } from 'src/app/data/entities/Dtos/SetDate';
+import { ListBase } from 'src/app/shared/list-base';
 
 @Component({
   selector: 'app-activity-detail,[app-activity-detail]',
   templateUrl: './activity-detail.component.html',
   styleUrls: ['./activity-detail.component.css']
 })
-export class ActivityDetailComponent implements OnInit {
+export class ActivityDetailComponent extends ListBase implements OnInit {
 
   @Input() activity: Activity
   @Input() sessionId: string
@@ -24,7 +25,7 @@ export class ActivityDetailComponent implements OnInit {
   previousSets: SetDate[];
   
   constructor(private sessionService: SessionService, 
-        private toastr: ToastrService) { }
+        private toastr: ToastrService) { super() }
 
   ngOnInit() { 
     //initialization of variables
@@ -36,7 +37,7 @@ export class ActivityDetailComponent implements OnInit {
     //adds new set
     //resets the order so they dont get out of sync
     //saves the set
-    this.activeSets = this.rebaseSetsToZero(this.activeSets)
+    this.activeSets = this.rebaseToZero(this.activeSets);
     
     this.activeSets.push({
         order: 0,
@@ -121,18 +122,5 @@ export class ActivityDetailComponent implements OnInit {
 
   private async saveSetsAsync(): Promise<boolean> {
     return await this.sessionService.updateActivity(this.sessionId, this.sessionType, this.activity).toPromise();
-  }
-
-  private rebaseSetsToZero(sets: Set[]): Set[] {
-    //determines if any in order are equal to zero
-    let needToRebase = sets.some(s => s.order == 0);
-
-    if (needToRebase) {
-      sets.forEach(set => {
-        set.order = set.order + 1;
-      });
-    }
-
-    return sets.sort((a,b) => a.order - b.order);
   }
 }
