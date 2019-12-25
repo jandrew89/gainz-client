@@ -87,7 +87,6 @@ export class SessionService {
 
   private handleError(err) {  
     let errorMessage: string;
-    debugger;
     if (err.error instanceof ErrorEvent) {  
       errorMessage = `An error occurred: ${err.error.message}`;  
     } else {  
