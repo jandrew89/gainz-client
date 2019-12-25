@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SetDetailComponent } from './components/set/set-detail/set-detail.component';
 import { EquipmentDetailComponent } from './components/lifts/equipment-detail/equipment-detail.component';
+import { SessionPlanListComponent } from './components/plan/session-plan-list/session-plan-list.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EquipmentDetailComponent } from './components/lifts/equipment-detail/eq
     ActivityDetailComponent,
     SettingsComponent,
     SetDetailComponent,
-    EquipmentDetailComponent
+    EquipmentDetailComponent,
+    SessionPlanListComponent
   ],
   imports: [
     BrowserModule,
@@ -79,6 +81,10 @@ import { EquipmentDetailComponent } from './components/lifts/equipment-detail/eq
       {
         path: 'sessions/types',
         component: LiftsListComponent
+      },
+      {
+        path: 'sessions/plans',
+        component: SessionPlanListComponent
       },
       {  
         path: '**',  

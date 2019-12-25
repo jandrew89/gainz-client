@@ -12,7 +12,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit() {
     $(document).ready(function(){
-      $('.sidenav').sidenav();
+      $('.sidenav').sidenav({
+        closeOnClick: true 
+      });
     });
   }
 }
