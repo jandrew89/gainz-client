@@ -61,7 +61,7 @@ export class SessionService {
   }
 
   getAllSessions(): Observable<Session[]> {
-    return this.http.get<Session[]>(this.sessionUrl + 'Get')  
+    return this.http.get<Session[]>(this.sessionUrl + 'GetAllSessions')  
       .pipe(  
         catchError(this.handleError)  
       ); 
