@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Session } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
@@ -27,6 +27,7 @@ export class SessionAddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private sessionService: SessionService,
     private toastr: ToastrService    
     ) { }
@@ -119,6 +120,22 @@ export class SessionAddComponent implements OnInit {
       sessionDate: formatDateToDatePicker(this.session.sessionDate),
       sessionType: this.session.sessionType
     });
+  }
+
+  removeSession() {
+    if (this.session.id == '0') {
+      this.router.navigate(['/sessions']);
+    } else {
+      this.sessionService.deleteSession(this.session.id, this.session.sessionType)
+          .subscribe(
+            isSuccesful => {
+              if (isSuccesful) {
+                this.toastr.success('Session successfully deleted.');
+                this.router.navigate(['/sessions']);
+              }
+          }
+      );
+    }
   }
 
   onSaveComplete(): void {    
