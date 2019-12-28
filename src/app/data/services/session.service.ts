@@ -61,7 +61,7 @@ export class SessionService {
   }
 
   getAllSessions(): Observable<Session[]> {
-    return this.http.get<Session[]>(this.sessionUrl + 'Get')  
+    return this.http.get<Session[]>(this.sessionUrl + 'GetAllSessions')  
       .pipe(  
         catchError(this.handleError)  
       ); 
@@ -76,9 +76,17 @@ export class SessionService {
       );
   }
 
+  deleteSession(sessionId: string, sessionType: string): Observable<boolean> {
+    const url = `${this.sessionUrl + 'DeleteSession'}/${sessionId}/${sessionType}`;  
+
+    return this.http.delete<boolean>(url)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   private handleError(err) {  
     let errorMessage: string;
-    debugger;
     if (err.error instanceof ErrorEvent) {  
       errorMessage = `An error occurred: ${err.error.message}`;  
     } else {  
