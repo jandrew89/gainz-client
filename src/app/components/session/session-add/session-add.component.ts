@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import { formatDateToDatePicker, randonGuidGenerator } from 'src/app/shared/helper';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
+import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -32,6 +33,7 @@ export class SessionAddComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
+    private sessionPlanService: SessionPlanService,
     private toastr: ToastrService    
     ) { }
 
@@ -130,7 +132,13 @@ export class SessionAddComponent implements OnInit {
     //TODO: Handle exsiting session plans
     this.sessionPlan = this.convertSessionToSessionPlan(this.session);
 
-    console.log('post', this.sessionPlan);
+    //save/update session plan
+    this.sessionPlanService.createSessionPlan(this.sessionPlan).subscribe(
+      sessionPlan => {
+        this.toastr.success('New session plan created!')
+        this.sessionPlan = sessionPlan;
+      }
+    )
   }
 
   removeSession() {
@@ -168,8 +176,9 @@ export class SessionAddComponent implements OnInit {
     });
 
     return {
+      id: '0',
       equipment: equpiment,
-      id: randonGuidGenerator(),
+      sessionType: session.sessionType,
       sessionPlanName: `${moment(session.sessionDate).format('MMMM-DD-YYYY')}-${session.sessionType}`
     }
   }

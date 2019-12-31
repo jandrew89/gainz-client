@@ -23,7 +23,7 @@ export class SessionPlanService {
   }
 
   getSessionPlans(): Observable<SessionPlan[]> {
-    return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetAllSessionPlans')
+    return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlans')
     .pipe(
       catchError(this.handleError)
     );
