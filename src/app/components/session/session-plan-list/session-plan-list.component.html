@@ -1,15 +1,32 @@
 <div id="session-plan-select" class="modal">
     <div class="modal-content">
       <h4>Session Plans</h4>
-      <div class="input-field col s6">
-        <label for="sessiontype" class="active">Session Type</label>
-        <select id="sessiontype" class="session-type-dropdown">    
-            <option value="" disabled selected>Select an Option</option>    
-            <option value="Push">Push</option>    
-            <option value="Pull">Pull</option>
-            <option value="Legs">Legs</option>    
-        </select>
-    </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="sessiontype" class="active">Session Type</label>
+            <select id="sessiontype" [ngModel]="initialValue"
+                (ngModelChange)="onSessionTypeChange($event)" 
+                class="session-type-dropdown">    
+                <option value="" disabled selected>Select an Option</option>    
+                <option value="Push">Push</option>    
+                <option value="Pull">Pull</option>
+                <option value="Legs">Legs</option>    
+            </select>
+        </div>
+        <div class="row">
+          <div class="input-field col s12">
+            <label for="sessiontype" class="active">Session Plans</label>
+            <select id="sessiontype" [ngModel]="initialValue"
+                (ngModelChange)="onSessionPlanChange($event)" 
+                class="session-type-dropdown"
+                [materializeSelectOptions]="sessionPlans"
+                materialize="material_select">    
+                <option value="" disabled selected>Select an Option</option>    
+                <option *ngFor="let sessionPlan of sessionPlans" [value]='sessionPlan.id'>{{sessionPlan.sessionPlanName}}</option>
+            </select>
+        </div>  
+    <div class="row">
+
     </div>
     <div class="modal-footer">
       <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>

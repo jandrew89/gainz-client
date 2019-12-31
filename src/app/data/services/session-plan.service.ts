@@ -28,6 +28,13 @@ export class SessionPlanService {
       catchError(this.handleError)
     );
   }
+
+  GetSessionPlansBySessionType(sessionType: string): Observable<SessionPlan[]> {
+    return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlansBySessionType/' + sessionType)
+    .pipe(
+      catchError(this.handleError)
+    );
+  }
   
   private handleError(err) {  
     let errorMessage: string;
