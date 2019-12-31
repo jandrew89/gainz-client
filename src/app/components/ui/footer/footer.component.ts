@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-footer',
@@ -10,9 +9,5 @@ export class FooterComponent implements OnInit {
 
   constructor() { }
 
-  apiUrl = '';
-  ngOnInit() {
-    this.apiUrl = environment.apiUrl;
-  }
-
+  ngOnInit() { }
 }

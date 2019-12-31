@@ -7,7 +7,9 @@ import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { formatDateToDatePicker } from 'src/app/shared/helper';
+import { formatDateToDatePicker, randonGuidGenerator } from 'src/app/shared/helper';
+import { SessionPlan } from 'src/app/data/entities/session-plan';
+import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -20,6 +22,7 @@ export class SessionAddComponent implements OnInit {
   sessionForm: FormGroup;
   isCollapsed = false
   session: Session;
+  sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
   private sub: Subscription;    
@@ -122,6 +125,14 @@ export class SessionAddComponent implements OnInit {
     });
   }
 
+  saveSessionPlan() {
+    //convert to session to session plan
+    //TODO: Handle exsiting session plans
+    this.sessionPlan = this.convertSessionToSessionPlan(this.session);
+
+    console.log('post', this.sessionPlan);
+  }
+
   removeSession() {
     if (this.session.id == '0') {
       this.router.navigate(['/sessions']);
@@ -144,5 +155,22 @@ export class SessionAddComponent implements OnInit {
 
   sort(activities: Activity[]): Activity[] {
     return activities.sort((a,b) => a.order - b.order);
+  }
+
+  private convertSessionToSessionPlan(session: Session): SessionPlan {
+    let equpiment: EquipmentViewModel[] = [];
+
+    session.activities.forEach(act => {
+      equpiment.push({
+        id: act.equipment.id,
+        name: act.equipment.name
+      });     
+    });
+
+    return {
+      equipment: equpiment,
+      id: randonGuidGenerator(),
+      sessionPlanName: `${moment(session.sessionDate).format('MMMM-DD-YYYY')}-${session.sessionType}`
+    }
   }
 }
