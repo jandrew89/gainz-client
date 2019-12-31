@@ -23,7 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { SetDetailComponent } from './components/set/set-detail/set-detail.component';
 import { EquipmentDetailComponent } from './components/lifts/equipment-detail/equipment-detail.component';
-import { SessionPlanListComponent } from './components/plan/session-plan-list/session-plan-list.component';
+import { SessionPlanListComponent } from './components/session/session-plan-list/session-plan-list.component';
 
 @NgModule({
   declarations: [

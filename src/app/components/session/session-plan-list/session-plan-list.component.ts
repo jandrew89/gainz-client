@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+declare var $: any;
 
 @Component({
   selector: 'app-session-plan-list',
@@ -10,6 +11,10 @@ export class SessionPlanListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    $(document).ready(function(){
+      $('.modal').modal();
+      $('select').formSelect();
+    });
   }
 
 }
