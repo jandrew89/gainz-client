@@ -18,6 +18,7 @@ export class SessionsListComponent implements OnInit {
   ngOnInit() {
     $(document).ready(function(){
       $('.fixed-action-btn').floatingActionButton();
+      $('.modal').modal();
     });
 
     this.sessionService.getAllSessions().subscribe(

@@ -71,6 +71,10 @@ import { SessionPlanListComponent } from './components/plan/session-plan-list/se
         pathMatch: 'full'  
       },
       {  
+        path: 'sessions/session-add/:id/:sessionType/:planId/edit',  
+        component: SessionAddComponent  
+      },
+      {  
         path: 'sessions/session-add/:id/:sessionType/edit',  
         component: SessionAddComponent  
       },
