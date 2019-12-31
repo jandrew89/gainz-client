@@ -3,6 +3,7 @@ import {MaterializeDirective} from "angular2-materialize";
 import * as Materialize from "angular2-materialize";
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
+import { ToastrService } from 'ngx-toastr';
 declare var $: any;
 
 @Component({
@@ -16,7 +17,8 @@ export class SessionPlanListComponent implements OnInit {
   
   sessionPlans: SessionPlan[];
 
-  constructor(private sessionPlanService: SessionPlanService) { }
+  constructor(private sessionPlanService: SessionPlanService,
+    private toast: ToastrService) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -29,11 +31,14 @@ export class SessionPlanListComponent implements OnInit {
 
 
   onSessionTypeChange(sessionType): void {
-    console.log(sessionType);
+    this.sessionPlans = [];
     //Get session plans filtered by type
     this.sessionPlanService.GetSessionPlansBySessionType(sessionType)
       .subscribe(sessionPlans => {
-        console.log('sessionplans', sessionPlans);
+        if (sessionPlans.length == 0) {
+          this.toast.info(`No session plans found for ${sessionType}`)
+        }
+        
         this.sessionPlans = sessionPlans;
     });
   }
