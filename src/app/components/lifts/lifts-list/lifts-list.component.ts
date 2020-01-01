@@ -27,15 +27,6 @@ export class LiftsListComponent extends ListEquipmentFilterBaseClase<Equipment> 
       },    
       error => this.errorMessage = <any>error    
     );    
-  }    
-
-  onSaveComplete(): void {    
-    this.equipmentService.getEquipment().subscribe(    
-      equipment => {
-        this.filteredListOfItems = this.unfilteredList = equipment;    
-      },    
-      error => this.errorMessage = <any>error    
-    );    
   }
 
   addNewEquipment(): void {
