@@ -13,7 +13,7 @@ declare var $: any;
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent extends ListEquipmentFilterBaseClase implements OnInit, OnChanges {
+export class ActivityListComponent extends ListEquipmentFilterBaseClase<Equipment> implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
@@ -37,10 +37,10 @@ export class ActivityListComponent extends ListEquipmentFilterBaseClase implemen
   ngOnChanges(changes: any): void {
     this.equipmentService.getEquipment().subscribe(
       equipment => {
-        this.equipment = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
+        this.unfilteredList = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
         
         //filtered list is need in baseclass
-        this.filteredListOfEquipment = this.equipment;
+        this.filteredListOfItems = this.unfilteredList;
       }
     )
   }
@@ -64,7 +64,7 @@ export class ActivityListComponent extends ListEquipmentFilterBaseClase implemen
         this.activities = [];
       }
 
-      var equipment = this.equipment.find(f => f.id == id);
+      var equipment = this.unfilteredList.find(f => f.id == id);
 
       this.newActivity.equipment = equipment;
    

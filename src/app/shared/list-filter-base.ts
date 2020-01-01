@@ -1,12 +1,12 @@
 import { ListBase } from './list-base';
-import { Equipment } from '../data/entities/equipment';
 
-export class ListEquipmentFilterBaseClase extends ListBase {
+export class ListEquipmentFilterBaseClase<T> extends ListBase {
 
     _listFilter = '';
-    equipment: Equipment[] = [];
-    filteredListOfEquipment: Equipment[] = [];
-    
+    _propToFilter: string = 'name'; //default to name
+    unfilteredList: T[] = [];
+    filteredListOfItems: T[] = [];
+
     constructor() { super() }
 
     get listFilter(): string {
@@ -14,13 +14,13 @@ export class ListEquipmentFilterBaseClase extends ListBase {
     }
 
     set listFilter(value: string) {    
-        this._listFilter = value;    
-        this.filteredListOfEquipment = this.listFilter ? this.performFilter(this.listFilter) : this.equipment;    
+        this._listFilter = value;
+        this.filteredListOfItems = this.listFilter ? this.performFilter(this.listFilter, this._propToFilter) : this.unfilteredList;    
     }
 
-    private performFilter(filterBy: string): Equipment[] {    
+    private performFilter(filterBy: string, filterProp: string): T[] {    
         filterBy = filterBy.toLocaleLowerCase();    
-        return this.equipment.filter((equipment: Equipment) =>    
-        equipment.name.toLocaleLowerCase().indexOf(filterBy) !== -1);    
+        return this.unfilteredList.filter((item: T) =>    
+            item[filterProp].toLocaleLowerCase().indexOf(filterBy) !== -1);    
     }
 }

@@ -8,7 +8,7 @@ import { ListEquipmentFilterBaseClase } from 'src/app/shared/list-filter-base';
   templateUrl: './lifts-list.component.html',
   styleUrls: ['./lifts-list.component.css']
 })
-export class LiftsListComponent extends ListEquipmentFilterBaseClase implements OnInit {
+export class LiftsListComponent extends ListEquipmentFilterBaseClase<Equipment> implements OnInit {
   pageTitle = 'Equipment List';    
   errorMessage = '';
 
@@ -21,9 +21,9 @@ export class LiftsListComponent extends ListEquipmentFilterBaseClase implements 
     this.equipmentToEdit = {id: '', name: '', sessionTypes: []};
 
     this.equipmentService.getEquipment().subscribe(    
-       equipment => {    
-        this.equipment = equipment;    
-        this.filteredListOfEquipment = this.equipment;    
+       equipment => {
+        this.unfilteredList = equipment;
+        this.filteredListOfItems = this.unfilteredList;
       },    
       error => this.errorMessage = <any>error    
     );    
@@ -31,9 +31,8 @@ export class LiftsListComponent extends ListEquipmentFilterBaseClase implements 
 
   onSaveComplete(): void {    
     this.equipmentService.getEquipment().subscribe(    
-      equipment => {    
-        this.equipment = equipment;    
-        this.filteredListOfEquipment = this.equipment;    
+      equipment => {
+        this.filteredListOfItems = this.unfilteredList = equipment;    
       },    
       error => this.errorMessage = <any>error    
     );    
