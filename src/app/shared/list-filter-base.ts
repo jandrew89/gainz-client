@@ -13,7 +13,7 @@ export class ListFilterBaseClase<T> extends ListBase {
         return this._listFilter;
     }
 
-    set listFilter(value: string) {    
+    set listFilter(value: string) {
         this._listFilter = value;
         this.filteredListOfItems = this.listFilter ? this.performFilter(this.listFilter, this._propToFilter) : this.unfilteredList;    
     }
