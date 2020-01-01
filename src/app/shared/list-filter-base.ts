@@ -1,6 +1,6 @@
 import { ListBase } from './list-base';
 
-export class ListEquipmentFilterBaseClase<T> extends ListBase {
+export class ListFilterBaseClase<T> extends ListBase {
 
     _listFilter = '';
     _propToFilter: string = 'name'; //default to name
