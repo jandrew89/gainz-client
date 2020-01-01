@@ -3,7 +3,7 @@ import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { randonGuidGenerator } from 'src/app/shared/helper';
-import { ListFilterBaseClase } from 'src/app/shared/list-filter-base';
+import { ListFilterBaseClass } from 'src/app/shared/list-filter-base';
 
 declare var $: any;
 
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent extends ListFilterBaseClase<Equipment> implements OnInit, OnChanges {
+export class ActivityListComponent extends ListFilterBaseClass<Equipment> implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();

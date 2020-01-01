@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
-import { ListFilterBaseClase } from 'src/app/shared/list-filter-base';
+import { ListFilterBaseClass } from 'src/app/shared/list-filter-base';
 
 @Component({
   selector: 'app-lifts-list',
   templateUrl: './lifts-list.component.html',
   styleUrls: ['./lifts-list.component.css']
 })
-export class LiftsListComponent extends ListFilterBaseClase<Equipment> implements OnInit {
+export class LiftsListComponent extends ListFilterBaseClass<Equipment> implements OnInit {
   pageTitle = 'Equipment List';    
   errorMessage = '';
 
