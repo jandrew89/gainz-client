@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Activity, Set } from 'src/app/data/entities/activity';
+import { Activity, Set, ActivityViewModel } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { SetDate } from 'src/app/data/entities/Dtos/SetDate';
@@ -12,7 +12,7 @@ import * as moment from 'moment';
 })
 export class ActivityDetailComponent extends ListBase implements OnInit {
 
-  @Input() activity: Activity
+  @Input() activity: ActivityViewModel
   @Input() sessionId: string
   @Input() sessionDate: Date;
   @Input() sessionType: string //partition key
@@ -21,6 +21,8 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
   displayPreviousSets = false;
   disableButtons = false;
   disablePreviousSetBtn = false;
+
+  activityCompleted = false;
 
   activeSets: Set[];
   previousSets: SetDate[];
@@ -32,6 +34,7 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     //initialization of variables
     this.previousSets = [];
     this.activeSets = this.activity.sets;
+    this.activityCompleted = this.activity.activityComplete;
   }
 
   async onAddSet() {
@@ -67,10 +70,13 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     );
   }
 
-  async saveSet(): Promise<boolean> {
+  async saveSet(activityComplete: boolean = false): Promise<boolean> {
 
     //disable buttons while saving
     this.disableButtons = true;
+
+    //if activity complete 
+    this.activityCompleted = this.activity.activityComplete = activityComplete;
 
     //determines whether a the sets values are valid  
     const formValid = !this.activeSets.some(s => s.reps == null || s.weight == null);

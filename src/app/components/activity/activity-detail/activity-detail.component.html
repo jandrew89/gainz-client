@@ -1,4 +1,4 @@
-<div class="collapsible-header">
+<div [className]="activityCompleted ? 'collapsible-header green white-text' : 'collapsible-header'">
     {{activity.equipment.name }}
 </div>
  <div class="collapsible-body">
@@ -13,13 +13,17 @@
                             (click)="onAddSet()">Add Set</button>
         <button style="margin-right: 10px;" class="btn waves-effect waves-teal btn-small"
                             [disabled]="disableButtons"
-                            (click)="saveSet()">Completed</button>
+                            (click)="saveSet()">Save</button>
         <button class="btn waves-effect waves-teal btn-small"
                             (click)="onCancel()">Delete</button>
     </div>
     <div class="row">
-        <button class="btn waves-effect waves-teal btn-small"
+        <button style="margin-right: 10px;"
+                class="btn waves-effect waves-teal btn-small"
                 [disabled]="disablePreviousSetBtn" (click)="onDisplayPreviousSets()">Previous Sets</button>
+        <button class="btn waves-effect waves-teal btn-small"
+                [disabled]="disableButtons"
+                (click)="saveSet(true)">Completed</button>
     </div>
     <div *ngIf="displayPreviousSets" class="row">
         <div class="col s12">
