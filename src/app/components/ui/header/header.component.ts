@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit {
     $(document).ready(function(){
       $('.sidenav').sidenav({
         closeOnClick: true 
+      }).on('click tap', 'li a', () => {
+        $('.sidenav').sidenav('close');
       });
     });
   }
