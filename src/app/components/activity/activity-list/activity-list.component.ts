@@ -75,7 +75,11 @@ export class ActivityListComponent extends ListFilterBaseClase<Equipment> implem
       this.newActivity = { equipment: null, id: randonGuidGenerator(), sets: [], displayNewSet: true, order: 0 };
     }
 
-    this.resetAddActivity.emit(false);
+    this.onResetAddActivity(false);
+  }
+
+  onResetAddActivity(reset: boolean): void {
+    this.resetAddActivity.emit(reset);
   }
 
   onDeleteActivity(activityId: string) {
