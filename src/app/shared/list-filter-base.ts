@@ -1,7 +1,5 @@
-import { EquipmentService } from '../data/services/equipment.service';
 import { ListBase } from './list-base';
 import { Equipment } from '../data/entities/equipment';
-import { OnInit } from '@angular/core';
 
 export class ListEquipmentFilterBaseClase extends ListBase {
 
@@ -20,7 +18,7 @@ export class ListEquipmentFilterBaseClase extends ListBase {
         this.filteredListOfEquipment = this.listFilter ? this.performFilter(this.listFilter) : this.equipment;    
     }
 
-    performFilter(filterBy: string): Equipment[] {    
+    private performFilter(filterBy: string): Equipment[] {    
         filterBy = filterBy.toLocaleLowerCase();    
         return this.equipment.filter((equipment: Equipment) =>    
         equipment.name.toLocaleLowerCase().indexOf(filterBy) !== -1);    

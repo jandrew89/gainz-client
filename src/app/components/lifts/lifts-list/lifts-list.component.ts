@@ -1,44 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
+import { ListEquipmentFilterBaseClase } from 'src/app/shared/list-filter-base';
 
 @Component({
   selector: 'app-lifts-list',
   templateUrl: './lifts-list.component.html',
   styleUrls: ['./lifts-list.component.css']
 })
-export class LiftsListComponent implements OnInit {
+export class LiftsListComponent extends ListEquipmentFilterBaseClase implements OnInit {
   pageTitle = 'Equipment List';    
-  filteredListOfEquipment: Equipment[] = [];
-  equipment: Equipment[] = [];
   errorMessage = '';
 
   displayEditEquipmentModal: boolean = false;
   equipmentToEdit: Equipment;
-
-  _listFilter = '';
-
-  get listFilter(): string {    
-    return this._listFilter;    
-  }    
-  set listFilter(value: string) {    
-    this._listFilter = value;    
-    this.filteredListOfEquipment = this.listFilter ? this.performFilter(this.listFilter) : this.equipment;    
-  }    
     
-  constructor(private liftService: EquipmentService) { }
-
-
-  performFilter(filterBy: string): Equipment[] {    
-    filterBy = filterBy.toLocaleLowerCase();    
-    return this.equipment.filter((equipment: Equipment) =>    
-    equipment.name.toLocaleLowerCase().indexOf(filterBy) !== -1);    
-  }
+  constructor(private equipmentService: EquipmentService) { super() }
 
   ngOnInit(): void {
     this.equipmentToEdit = {id: '', name: '', sessionTypes: []};
 
-    this.liftService.getEquipment().subscribe(    
+    this.equipmentService.getEquipment().subscribe(    
        equipment => {    
         this.equipment = equipment;    
         this.filteredListOfEquipment = this.equipment;    
@@ -48,7 +30,7 @@ export class LiftsListComponent implements OnInit {
   }    
 
   onSaveComplete(): void {    
-    this.liftService.getEquipment().subscribe(    
+    this.equipmentService.getEquipment().subscribe(    
       equipment => {    
         this.equipment = equipment;    
         this.filteredListOfEquipment = this.equipment;    
