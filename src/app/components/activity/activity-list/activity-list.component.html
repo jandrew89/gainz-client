@@ -7,11 +7,18 @@
             <div class="collapsible-body">
                 <div class="row">
                     <div class="input-field col s12">
+                        <input id="eqip-list-filter" [(ngModel)]="listFilter" type="text">
+                        <label for="eqip-list-filter">Filter By</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
                         <div class="collection collection-border">
-                            <a class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of equipment">{{eqp.name}}</a>
+                            <a class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of filteredListOfEquipment">{{eqp.name}}</a>
                         </div>
                     </div>
                 </div>
+                <!-- add btn for cancel and add new which routes -->
             </div>
         </li>
         <li *ngFor="let activity of activities"

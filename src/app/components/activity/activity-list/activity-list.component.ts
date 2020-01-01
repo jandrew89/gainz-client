@@ -4,6 +4,7 @@ import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { randonGuidGenerator } from 'src/app/shared/helper';
 import { ListBase } from 'src/app/shared/list-base';
+import { ListEquipmentFilterBaseClase } from 'src/app/shared/list-filter-base';
 
 declare var $: any;
 
@@ -12,7 +13,7 @@ declare var $: any;
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent extends ListBase implements OnInit, OnChanges {
+export class ActivityListComponent extends ListEquipmentFilterBaseClase implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
@@ -23,7 +24,6 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
   @Input() sessionType: string; //partition key
 
   newActivity: ActivityViewModel;
-  equipment: Equipment[];
 
   constructor(private equipmentService: EquipmentService) { super() }
 
@@ -38,6 +38,9 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
     this.equipmentService.getEquipment().subscribe(
       equipment => {
         this.equipment = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
+        
+        //filtered list is need in baseclass
+        this.filteredListOfEquipment = this.equipment;
       }
     )
   }
