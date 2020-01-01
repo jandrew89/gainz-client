@@ -213,11 +213,11 @@ export class SessionAddComponent implements OnInit {
   }
 
   private async buildNewSessionAsync(sessionPlanId?: string, sessionType?: string): Promise<Session> {
-    // blank session returns empty session
+    // null plan id and type returns empty session
     if (sessionPlanId == null || sessionType == null) 
       return { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
     
-    //planId and type passed in
+    // planId and type passed in
     // get session plan
     var sessionPlan = await this.sessionPlanService.GetSessionPlanBySessionPlanId(sessionPlanId, sessionType).toPromise();
 
@@ -226,8 +226,7 @@ export class SessionAddComponent implements OnInit {
 
     //save session to db
     //assign return id
-    this.sessionService.createSession(sessionToReturn).subscribe(
-      session => sessionToReturn.id = session.id);
+    this.sessionService.createSession(sessionToReturn).subscribe(session => sessionToReturn.id = session.id);
 
     //return updated session
     return sessionToReturn;
