@@ -16,6 +16,7 @@ export class SessionPlanListComponent implements OnInit {
   @Input() initialValue: string;
   
   sessionPlans: SessionPlan[];
+  disableSessionType: boolean = false;
 
   constructor(private sessionPlanService: SessionPlanService,
     private toast: ToastrService) { }
@@ -32,18 +33,23 @@ export class SessionPlanListComponent implements OnInit {
 
   onSessionTypeChange(sessionType): void {
     this.sessionPlans = [];
+    this.disableSessionType = true;
+
     //Get session plans filtered by type
     this.sessionPlanService.GetSessionPlansBySessionType(sessionType)
       .subscribe(sessionPlans => {
         if (sessionPlans.length == 0) {
-          this.toast.info(`No session plans found for ${sessionType}`)
+          this.toast.info(`No session plans found for ${sessionType} session type.`)
         }
-        
+
+        this.disableSessionType = false;
         this.sessionPlans = sessionPlans;
     });
   }
 
   onSessionPlanChange(sessionPlan): void {
+    //Route to session with selected plan
     console.log(sessionPlan);
+    
   }
 }

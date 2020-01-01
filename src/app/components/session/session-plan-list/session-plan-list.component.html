@@ -5,6 +5,7 @@
             <div class="input-field col s12">
               <label for="sessiontype" class="active">Session Type</label>
               <select id="sessiontype" [ngModel]="initialValue"
+                  [disabled]="disableSessionType"
                   (ngModelChange)="onSessionTypeChange($event)" 
                   class="session-type-dropdown">    
                   <option value="" disabled selected>Select an Option</option>    
@@ -24,6 +25,6 @@
         </div>
       </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
     </div>
   </div>
