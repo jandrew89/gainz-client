@@ -4,6 +4,7 @@ import * as Materialize from "angular2-materialize";
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { ToastrService } from 'ngx-toastr';
+import { Router } from '@angular/router';
 declare var $: any;
 
 @Component({
@@ -19,7 +20,8 @@ export class SessionPlanListComponent implements OnInit {
   disableSessionType: boolean = false;
 
   constructor(private sessionPlanService: SessionPlanService,
-    private toast: ToastrService) { }
+    private toast: ToastrService,
+    private router: Router,) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -47,9 +49,8 @@ export class SessionPlanListComponent implements OnInit {
     });
   }
 
-  onSessionPlanChange(sessionPlan): void {
-    //Route to session with selected plan
-    console.log(sessionPlan);
-    
+  onSessionPlanChange(sessionPlan: SessionPlan): void {
+    //Route to session with selected plan id
+    this.router.navigate([`/sessions/session-add/0/0/${sessionPlan.id}/edit`])
   }
 }
