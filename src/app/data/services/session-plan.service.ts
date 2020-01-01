@@ -24,16 +24,23 @@ export class SessionPlanService {
 
   getSessionPlans(): Observable<SessionPlan[]> {
     return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlans')
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  GetSessionPlanBySessionPlanId(sessionPlanId: string, sessionType: string): Observable<SessionPlan> {
+    return this.http.get<SessionPlan>(this.sessionPlanUrl + `GetSessionPlanBySessionPlanId/${sessionPlanId}/${sessionType}`)
+      .pipe(
+        catchError(this.handleError)
+      );
   }
 
   GetSessionPlansBySessionType(sessionType: string): Observable<SessionPlan[]> {
     return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlansBySessionType/' + sessionType)
-    .pipe(
-      catchError(this.handleError)
-    );
+      .pipe(
+        catchError(this.handleError)
+      );
   }
   
   private handleError(err) {  

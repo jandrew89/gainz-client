@@ -51,6 +51,6 @@ export class SessionPlanListComponent implements OnInit {
 
   onSessionPlanChange(sessionPlan: SessionPlan): void {
     //Route to session with selected plan id
-    this.router.navigate([`/sessions/session-add/0/0/${sessionPlan.id}/edit`])
+    this.router.navigate([`/sessions/session-add/0/${sessionPlan.sessionType}/${sessionPlan.id}/edit`])
   }
 }

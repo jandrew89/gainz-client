@@ -55,9 +55,11 @@ export class SessionAddComponent implements OnInit {
       params => {
         const id = params.get('id');
         const sessionType = params.get('sessionType');
+        const sessionPlanId = params.get('planId');
+
         if (id == '0'){
-          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
-          this.displaySession(newSession);
+          this.buildNewSessionAsync(sessionPlanId, sessionType)
+                .then(newSession => this.displaySession(newSession));         
         } else {
           //Get Session from service
           this.sessionService.getSession(id, sessionType).subscribe(
@@ -69,7 +71,6 @@ export class SessionAddComponent implements OnInit {
       }
     )
   }
-
 
   saveSession(displayAddActivity: boolean = false): void {
     //disable save btns
@@ -181,5 +182,43 @@ export class SessionAddComponent implements OnInit {
       sessionType: session.sessionType,
       sessionPlanName: `${moment(session.sessionDate).format('MMMM-DD-YYYY')}-${session.sessionType}`
     }
+  }
+
+  private convertSessionPlanToSession(sessionPlan: SessionPlan): Session {
+    let activities: Activity[] = [];
+    let order = 0;
+
+    sessionPlan.equipment.forEach(act => {
+      activities.push({
+        equipment: {
+          id: act.id,
+          name: act.name,
+          sessionTypes: null
+        },
+        id: randonGuidGenerator(),
+        order: order,
+        sets: []
+      });
+      order = order++
+    });
+
+    return {
+      id: '0',
+      activities: activities,
+      sessionType: sessionPlan.sessionType,
+      sessionPlan: { id: sessionPlan.id, sessionPlanName: sessionPlan.sessionPlanName },
+      sessionDate: new Date(),
+      weight: 0
+    }
+  }
+
+  private async buildNewSessionAsync(sessionPlanId?: string, sessionType?: string): Promise<Session> {
+    // blank session returns empty session
+    if (sessionPlanId == null || sessionType == null) 
+      return { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
+    
+    var sessionPlan = await this.sessionPlanService.GetSessionPlanBySessionPlanId(sessionPlanId, sessionType).toPromise();
+
+    return this.convertSessionPlanToSession(sessionPlan);
   }
 }
