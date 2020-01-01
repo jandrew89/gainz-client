@@ -6,16 +6,11 @@
             </div>
             <div class="collapsible-body">
                 <div class="row">
-
-                    <ul class="collection">
-                        <li class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of equipment">{{eqp.name}}</li>
-                    </ul>
-                </div>
-                <div class="row">
-                    <!-- <button type="button"    
-                            title="Cancel your activity">    
-                            Cancel   
-                    </button> -->
+                    <div class="input-field col s12">
+                        <div class="collection collection-border">
+                            <a class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of equipment">{{eqp.name}}</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </li>
