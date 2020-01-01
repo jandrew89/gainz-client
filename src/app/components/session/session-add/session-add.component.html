@@ -13,7 +13,7 @@
         <div class="card blue-grey darken-1">
             <div class="card-content white-text">
                 <form (ngSubmit)="saveSession()"
-                [formGroup]="sessionForm">
+                    [formGroup]="sessionForm">
                     <span class="card-title">{{sessionTitle}}</span>
                     <div class="row">
                         <div class="input-field col s6">
@@ -39,7 +39,7 @@
                     </div>
                 </form>
             </div>
-            <div class="card-action">
+            <div class="card-action" *ngIf="session">
                 <a style="cursor: pointer;" (click)="saveSession(true)">Add</a>
                 <a style="cursor: pointer;" (click)="removeSession()">Delete</a>
                 <a style="cursor: pointer;" (click)="saveSessionPlan()">Save As Session Plan</a>
