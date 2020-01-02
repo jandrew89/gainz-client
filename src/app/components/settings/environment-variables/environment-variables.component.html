@@ -1,22 +1,22 @@
-<div class="col s12 m6">
+<div class="col s12 m6" *ngIf="user">
     <h4>Environment Settings</h4>
     <div class="row">
         <form class="col s12">
             <div class="row">
                 <div class="input-field col s12 m6">
-                    <input id="session_amount" type="number" class="validate">
+                    <input id="session_amount" name="sessionsListLoadAmount" type="number" [(ngModel)]="user.settings.sessionsListLoadAmount" class="validate">
                     <label for="session_amount" class="active">Sessions Amount On Load</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m6">
-                    <input id="previous_sessions_amt" type="number" class="validate">
+                    <input id="previous_sessions_amt" name="previousSetLoadAmount" type="number" [(ngModel)]="user.settings.previousSetLoadAmount" class="validate">
                     <label for="previous_sessions_amt" class="active">Previous Sets On Load</label>
                 </div>
             </div>
         </form>
     </div>
-    <button class="waves-effect waves-light btn-small" (click)="onSettingsSave()">
+    <button [disabled]="disableSaveBtn" class="waves-effect waves-light btn-small" (click)="onSettingsSave()">
         Save
     </button>
 </div>
