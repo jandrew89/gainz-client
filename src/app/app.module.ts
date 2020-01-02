@@ -92,6 +92,10 @@ import { EnvironmentVariablesComponent } from './components/settings/environment
         path: 'sessions/plans',
         component: SessionPlanListComponent
       },
+      {
+        path: 'settings/env',
+        component: EnvironmentVariablesComponent
+      },
       {  
         path: '**',  
         redirectTo: 'home',  

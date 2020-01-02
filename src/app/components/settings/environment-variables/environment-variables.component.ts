@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EnvironmentVariablesComponent implements OnInit {
 
+
   constructor() { }
 
   ngOnInit() {
   }
 
+  onSettingsSave() {
+    
+  }
 }
