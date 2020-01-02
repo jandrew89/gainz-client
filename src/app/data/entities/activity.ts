@@ -15,5 +15,6 @@ export interface Set {
 }
 
 export interface ActivityViewModel extends Activity {
-    displayNewSet: boolean
+    displayNewSet?: boolean;
+    activityComplete?: boolean;
 }

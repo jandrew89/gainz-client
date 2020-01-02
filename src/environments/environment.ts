@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:7071/api/',
+  sessionPlanUrl: 'http://localhost:7071/api/',
   liftUrl: 'http://localhost:7080/api/',
   sessionUrl: 'http://localhost:7090/api/'
 };

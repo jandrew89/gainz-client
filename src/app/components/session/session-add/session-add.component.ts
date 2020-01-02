@@ -7,7 +7,10 @@ import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { formatDateToDatePicker } from 'src/app/shared/helper';
+import { formatDateToDatePicker, randonGuidGenerator } from 'src/app/shared/helper';
+import { SessionPlan } from 'src/app/data/entities/session-plan';
+import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
+import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -20,6 +23,7 @@ export class SessionAddComponent implements OnInit {
   sessionForm: FormGroup;
   isCollapsed = false
   session: Session;
+  sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
   private sub: Subscription;    
@@ -29,6 +33,7 @@ export class SessionAddComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
+    private sessionPlanService: SessionPlanService,
     private toastr: ToastrService    
     ) { }
 
@@ -50,9 +55,11 @@ export class SessionAddComponent implements OnInit {
       params => {
         const id = params.get('id');
         const sessionType = params.get('sessionType');
+        const sessionPlanId = params.get('planId');
+
         if (id == '0'){
-          const newSession: Session = { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
-          this.displaySession(newSession);
+          this.buildNewSessionAsync(sessionPlanId, sessionType)
+                .then(newSession => this.displaySession(newSession));         
         } else {
           //Get Session from service
           this.sessionService.getSession(id, sessionType).subscribe(
@@ -64,7 +71,6 @@ export class SessionAddComponent implements OnInit {
       }
     )
   }
-
 
   saveSession(displayAddActivity: boolean = false): void {
     //disable save btns
@@ -122,6 +128,20 @@ export class SessionAddComponent implements OnInit {
     });
   }
 
+  saveSessionPlan() {
+    //convert to session to session plan
+    //TODO: Handle exsiting session plans
+    this.sessionPlan = this.convertSessionToSessionPlan(this.session);
+
+    //save/update session plan
+    this.sessionPlanService.createSessionPlan(this.sessionPlan).subscribe(
+      sessionPlan => {
+        this.toastr.success('New session plan created!')
+        this.sessionPlan = sessionPlan;
+      }
+    )
+  }
+
   removeSession() {
     if (this.session.id == '0') {
       this.router.navigate(['/sessions']);
@@ -144,5 +164,72 @@ export class SessionAddComponent implements OnInit {
 
   sort(activities: Activity[]): Activity[] {
     return activities.sort((a,b) => a.order - b.order);
+  }
+
+  private convertSessionToSessionPlan(session: Session): SessionPlan {
+    let equpiment: EquipmentViewModel[] = [];
+
+    session.activities.forEach(act => {
+      equpiment.push({
+        id: act.equipment.id,
+        name: act.equipment.name
+      });     
+    });
+
+    return {
+      id: '0',
+      equipment: equpiment,
+      sessionType: session.sessionType,
+      sessionPlanName: `${moment(session.sessionDate).format('MMMM-DD-YYYY')}-${session.sessionType}`
+    }
+  }
+
+  private convertSessionPlanToSession(sessionPlan: SessionPlan): Session {
+    let activities: Activity[] = [];
+    let order = 0;
+
+    sessionPlan.equipment.forEach(act => {
+      activities.push({
+        equipment: {
+          id: act.id,
+          name: act.name,
+          sessionTypes: null
+        },
+        id: randonGuidGenerator(),
+        order: order,
+        sets: []
+      });
+      order = order++
+    });
+
+    return {
+      id: '0',
+      activities: activities,
+      sessionType: sessionPlan.sessionType,
+      sessionPlan: { id: sessionPlan.id, sessionPlanName: sessionPlan.sessionPlanName },
+      sessionDate: new Date(),
+      weight: 0
+    }
+  }
+
+  private async buildNewSessionAsync(sessionPlanId?: string, sessionType?: string): Promise<Session> {
+    // blank session returns empty session
+    if (sessionPlanId == null || sessionType == null) 
+      return { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
+    
+    //planId and type passed in
+    // get session plan
+    var sessionPlan = await this.sessionPlanService.GetSessionPlanBySessionPlanId(sessionPlanId, sessionType).toPromise();
+
+    //convert to session
+    var sessionToReturn = this.convertSessionPlanToSession(sessionPlan);
+
+    //save session to db
+    //assign return id
+    this.sessionService.createSession(sessionToReturn).subscribe(
+      session => sessionToReturn.id = session.id);
+
+    //return updated session
+    return sessionToReturn;
   }
 }
