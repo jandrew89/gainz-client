@@ -1,22 +1,26 @@
 
     <ul class="collapsible popout">
-        <li *ngIf="addActivity && equipment && equipment.length > 0">
+        <li *ngIf="addActivity && unfilteredList && unfilteredList.length > 0">
             <div class="collapsible-header">
                 New Activity
             </div>
             <div class="collapsible-body">
                 <div class="row">
-
-                    <ul class="collection">
-                        <li class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of equipment">{{eqp.name}}</li>
-                    </ul>
+                    <div class="input-field col s12">
+                        <input id="eqip-list-filter" [(ngModel)]="listFilter" type="text">
+                        <label for="eqip-list-filter">Filter By</label>
+                    </div>
                 </div>
                 <div class="row">
-                    <!-- <button type="button"    
-                            title="Cancel your activity">    
-                            Cancel   
-                    </button> -->
+                    <div class="input-field col s12">
+                        <div class="collection collection-border">
+                            <a class="collection-item" style="cursor: pointer;" (click)="onSaveActivity(eqp.id)" *ngFor="let eqp of filteredListOfItems">{{eqp.name}}</a>
+                        </div>
+                    </div>
                 </div>
+                <!-- add btn for cancel and add new which routes -->
+                <a style="margin-right: 10px;" class="waves-effect waves-light btn" [routerLink]="['/sessions/types']">New Equipment</a>
+                <a class="waves-effect waves-light btn" (click)="onResetAddActivity(false)">Cancel</a>
             </div>
         </li>
         <li *ngFor="let activity of activities"

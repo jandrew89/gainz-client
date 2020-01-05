@@ -5,7 +5,7 @@
       <div class="card-content">
         <div class="row">
           <div class="input-field col s12">
-            <input id="eqip-list-filter" [(ngModel)]="listFilter" type="text">
+            <input id="eqip-list-filter" [(ngModel)]="listFilter" type="search">
             <label for="eqip-list-filter">Filter By</label>
           </div>
         </div>
@@ -19,8 +19,8 @@
     </div>
   </div>
 </div>
-<ul class="collection" *ngIf="equipment && equipment.length">
-  <li class="collection-item modal-trigger" href="#eqp-modal" style="cursor: pointer;" (click)="onEquipmentClick(equipment)" *ngFor="let equipment of filteredListOfEquipment">
+<ul class="collection" *ngIf="unfilteredList && unfilteredList.length">
+  <li class="collection-item modal-trigger" href="#eqp-modal" style="cursor: pointer;" (click)="onEquipmentClick(equipment)" *ngFor="let equipment of filteredListOfItems">
     {{ equipment.name }}
   </li>
 </ul>

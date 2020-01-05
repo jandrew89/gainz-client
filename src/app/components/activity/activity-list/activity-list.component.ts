@@ -3,7 +3,7 @@ import { ActivityViewModel } from 'src/app/data/entities/activity';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 import { randonGuidGenerator } from 'src/app/shared/helper';
-import { ListBase } from 'src/app/shared/list-base';
+import { ListFilterBaseClass } from 'src/app/shared/list-filter-base';
 
 declare var $: any;
 
@@ -12,7 +12,7 @@ declare var $: any;
   templateUrl: './activity-list.component.html',
   styleUrls: ['./activity-list.component.css']
 })
-export class ActivityListComponent extends ListBase implements OnInit, OnChanges {
+export class ActivityListComponent extends ListFilterBaseClass<Equipment> implements OnInit, OnChanges {
 
   @Input() activities: ActivityViewModel[];
   @Output() newActivites = new EventEmitter();
@@ -23,7 +23,6 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
   @Input() sessionType: string; //partition key
 
   newActivity: ActivityViewModel;
-  equipment: Equipment[];
 
   constructor(private equipmentService: EquipmentService) { super() }
 
@@ -37,7 +36,10 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
   ngOnChanges(changes: any): void {
     this.equipmentService.getEquipment().subscribe(
       equipment => {
-        this.equipment = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
+        this.unfilteredList = equipment.filter(f => f.sessionTypes == null ? false : f.sessionTypes.some(s => s.name == this.sessionType));
+        
+        //filtered list is need in baseclass
+        this.filteredListOfItems = this.unfilteredList;
       }
     )
   }
@@ -61,7 +63,7 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
         this.activities = [];
       }
 
-      var equipment = this.equipment.find(f => f.id == id);
+      var equipment = this.unfilteredList.find(f => f.id == id);
 
       this.newActivity.equipment = equipment;
    
@@ -73,7 +75,11 @@ export class ActivityListComponent extends ListBase implements OnInit, OnChanges
       this.newActivity = { equipment: null, id: randonGuidGenerator(), sets: [], displayNewSet: true, order: 0 };
     }
 
-    this.resetAddActivity.emit(false);
+    this.onResetAddActivity(false);
+  }
+
+  onResetAddActivity(reset: boolean): void {
+    this.resetAddActivity.emit(reset);
   }
 
   onDeleteActivity(activityId: string) {
