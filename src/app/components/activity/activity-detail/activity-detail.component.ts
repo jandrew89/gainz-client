@@ -45,8 +45,8 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     
     this.activeSets.push({
         order: 0,
-        reps: null,
-        weight: null
+        reps: 0,
+        weight: 0
     });
 
     this.activity.sets = this.activeSets;
