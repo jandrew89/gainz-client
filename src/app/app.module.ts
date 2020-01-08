@@ -24,6 +24,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { SetDetailComponent } from './components/set/set-detail/set-detail.component';
 import { EquipmentDetailComponent } from './components/lifts/equipment-detail/equipment-detail.component';
 import { SessionPlanListComponent } from './components/session/session-plan-list/session-plan-list.component';
+import { EnvironmentVariablesComponent } from './components/settings/environment-variables/environment-variables.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { SessionPlanListComponent } from './components/session/session-plan-list
     SettingsComponent,
     SetDetailComponent,
     EquipmentDetailComponent,
-    SessionPlanListComponent
+    SessionPlanListComponent,
+    EnvironmentVariablesComponent
   ],
   imports: [
     BrowserModule,
@@ -89,6 +91,10 @@ import { SessionPlanListComponent } from './components/session/session-plan-list
       {
         path: 'sessions/plans',
         component: SessionPlanListComponent
+      },
+      {
+        path: 'settings/env',
+        component: EnvironmentVariablesComponent
       },
       {  
         path: '**',  

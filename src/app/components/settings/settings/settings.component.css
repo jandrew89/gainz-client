@@ -1,0 +1,38 @@
+.tile-container {
+    text-align: center;
+    display: inline;
+}
+.settings-main-tile {
+    width: 155px;
+    height: 150px;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid #EBEBEB;
+    border-radius: 5px;
+    box-shadow: 1px 1px #999;
+    display: inline-block;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-bottom: 40px;
+    position: relative;
+    transition: width 0.6s, height 0.6s;
+    -webkit-transition: width 0.6s, height 0.6s;
+    text-decoration: none;
+}
+
+.settings-main-tile-color {
+    background: #2bbbad;
+    color: #fff;
+}
+
+.settings-main-tiletitle {
+    padding-top: 15px;
+    font-size: 17px;
+    font-weight: bold;
+    display: block;
+}
+
+.settings-main-tileicon {
+    display: block;
+    padding-top: 10px;
+}

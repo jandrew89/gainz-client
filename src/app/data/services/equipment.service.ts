@@ -5,13 +5,14 @@ import { Observable, throwError } from 'rxjs';
 import { Equipment } from '../entities/equipment';
 import { catchError } from 'rxjs/operators';
 import { SessionType } from '../entities/session';
+import { ApiBase } from 'src/app/shared/api-base';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EquipmentService {
+export class EquipmentService extends ApiBase {
   private url = environment.liftUrl; 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { super() }
 
   getEquipment(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(this.url + 'Get')
@@ -43,15 +44,4 @@ export class EquipmentService {
         catchError(this.handleError)  
       );  
   }
-
-  private handleError(err) {  
-    let errorMessage: string;  
-    if (err.error instanceof ErrorEvent) {  
-      errorMessage = `An error occurred: ${err.error.message}`;  
-    } else {  
-      errorMessage = `Backend returned code ${err.status}: ${err.body.error}`;  
-    }  
-    console.error(err);  
-    return throwError(errorMessage);  
-  }  
 }
