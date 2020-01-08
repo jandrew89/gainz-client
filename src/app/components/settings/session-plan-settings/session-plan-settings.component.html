@@ -1,1 +1,29 @@
-<p>session-plan-settings works!</p>
+<div class="col s12 m8">
+    <h4>{{pageTitle}}</h4>
+    <div class="card-horizontal">
+      <div class="card-stacked">
+        <div class="card-content">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="eqip-list-filter" [(ngModel)]="listFilter" type="search">
+              <label for="eqip-list-filter">Filter By</label>
+            </div>
+          </div>
+          <div class="row">
+            <h6>Filtered by: {{listFilter}}</h6> 
+          </div>
+        </div>
+      </div>
+      <div class="card-action">
+        <button class="waves-effect waves-light btn-small modal-trigger" href="#eqp-modal" (click)="addNewPlan()">Add New</button>
+      </div>
+    </div>
+  </div>
+  <ul class="collection" *ngIf="unfilteredList && unfilteredList.length">
+    <li class="collection-item modal-trigger" href="#eqp-modal" style="cursor: pointer;" (click)="onPlanClick(plan)" *ngFor="let plan of filteredListOfItems">
+      {{ plan.sessionPlanName }}
+    </li>
+  </ul>
+    <!-- <app-equipment-detail [displayEquipmentModal]="displayEditEquipmentModal" 
+                                [equipment]="equipmentToEdit"
+                                (closeEquipmentEdit)="displayEditEquipmentModal=false"></app-equipment-detail> -->

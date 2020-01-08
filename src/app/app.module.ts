@@ -91,12 +91,12 @@ import { SessionPlanSettingsComponent } from './components/settings/session-plan
         component: LiftsListComponent
       },
       {
-        path: 'sessions/plans',
-        component: SessionPlanListComponent
-      },
-      {
         path: 'settings/env',
         component: EnvironmentVariablesComponent
+      },
+      {
+        path: 'settings/plans',
+        component: SessionPlanSettingsComponent
       },
       {  
         path: '**',  
