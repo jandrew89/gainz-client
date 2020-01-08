@@ -1,1 +1,12 @@
-<p>session-plan-edit-settings works!</p>
+<div id="plan-modal" class="modal">
+    <form [formGroup]="sessionPlanForm">
+        <div class="modal-content">
+            <div class="row">
+                <div class="input-field col sm12">
+                    <input id="plan-name" type="text" formControlName="sessionPlanName">
+                    <label for="plan-name" class="active">Session Plan Name</label>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
