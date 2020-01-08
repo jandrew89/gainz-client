@@ -27,4 +27,7 @@ export class SessionPlanSettingsComponent extends ListFilterBaseClass<SessionPla
     )
   }
 
+  onPlanClick(sessionPlan: SessionPlan) {
+    this.planToEdit = sessionPlan;
+  }
 }
