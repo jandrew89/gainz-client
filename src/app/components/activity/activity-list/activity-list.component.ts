@@ -63,6 +63,8 @@ export class ActivityListComponent extends ListFilterBaseClass<Equipment> implem
         this.activities = [];
       }
 
+      this.listFilter = '';
+
       var equipment = this.unfilteredList.find(f => f.id == id);
 
       this.newActivity.equipment = equipment;
