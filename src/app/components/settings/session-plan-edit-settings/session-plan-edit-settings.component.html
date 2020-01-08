@@ -2,13 +2,29 @@
     <form #planForm="ngForm" (ngSubmit)="saveSessionForm()">
         <div class="modal-content">
             <div class="row">
-                <div class="input-field col sm12">
+                <div class="input-field col sm6">
                     <input id="plan-name" 
                         type="text"
                         name="sessionPlanName"
                         [(ngModel)]="sessionPlan.sessionPlanName"
                         required>
                     <label for="plan-name" class="active">Session Plan Name</label>
+                </div>
+                <div class="input-field col sm6">
+                    <input id="plan-type" 
+                        type="text"
+                        name="sessionType"
+                        [disabled]="'true'"
+                        [ngModel]="sessionPlan.sessionType"
+                        required>
+                    <label for="plan-type" class="active">Session Type</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <div class="collection collection-border">
+                        <a class="collection-item" style="cursor: pointer;" *ngFor="let activity of sessionPlan.equipment">{{activity.name}}</a>
+                    </div>
                 </div>
             </div>
         </div>

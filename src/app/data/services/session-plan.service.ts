@@ -50,6 +50,13 @@ export class SessionPlanService {
         catchError(this.handleError)
       );
   }
+
+  deleteSessionPlan(planId: string, sessionType: string): Observable<boolean> {
+    return this.http.delete<boolean>(this.sessionPlanUrl + `DeleteSessionPlan/${planId}/${sessionType}`)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
   
   private handleError(err) {  
     let errorMessage: string;

@@ -23,9 +23,7 @@ export class SessionPlanEditSettingsComponent implements OnInit {
 
   saveSessionForm(): void {
     this.sessionPlanService.updateSessionPlan(this.sessionPlan)
-      .subscribe(sessionPlan => {
-        console.log(sessionPlan);
-      });
+      .subscribe(sessionPlan => {});
   }
 
   onClose(): void {
@@ -33,6 +31,11 @@ export class SessionPlanEditSettingsComponent implements OnInit {
   }
 
   deletePlan() {
-    console.log('delete')
+    this.sessionPlanService.deleteSessionPlan(this.sessionPlan.id, this.sessionPlan.sessionType)
+      .subscribe(isSuccess => {
+        if (isSuccess) {
+          this.toastrService.success('Session Plan Removed');
+        }
+      });
   }
 }
