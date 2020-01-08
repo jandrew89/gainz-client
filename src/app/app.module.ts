@@ -25,6 +25,7 @@ import { SetDetailComponent } from './components/set/set-detail/set-detail.compo
 import { EquipmentDetailComponent } from './components/lifts/equipment-detail/equipment-detail.component';
 import { SessionPlanListComponent } from './components/session/session-plan-list/session-plan-list.component';
 import { EnvironmentVariablesComponent } from './components/settings/environment-variables/environment-variables.component';
+import { SessionPlanSettingsComponent } from './components/settings/session-plan-settings/session-plan-settings.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +44,8 @@ import { EnvironmentVariablesComponent } from './components/settings/environment
     SetDetailComponent,
     EquipmentDetailComponent,
     SessionPlanListComponent,
-    EnvironmentVariablesComponent
+    EnvironmentVariablesComponent,
+    SessionPlanSettingsComponent
   ],
   imports: [
     BrowserModule,
