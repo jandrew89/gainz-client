@@ -1,12 +1,20 @@
 <div id="plan-modal" class="modal">
-    <form [formGroup]="sessionPlanForm">
+    <form #planForm="ngForm" (ngSubmit)="saveSessionForm()">
         <div class="modal-content">
             <div class="row">
-                <div class="input-field col">
-                    <input id="plan-name" type="text" formControlName="sessionPlanName">
+                <div class="input-field col sm12">
+                    <input id="plan-name" 
+                        type="text"
+                        name="sessionPlanName"
+                        [(ngModel)]="sessionPlan.sessionPlanName"
+                        required>
                     <label for="plan-name" class="active">Session Plan Name</label>
                 </div>
             </div>
         </div>
-    </form>
+        <div class="modal-footer">
+            <button [disabled]="!planForm.valid" class="modal-close waves-effect waves-green btn-flat" type="submit">Save</button>
+            <button class="modal-close waves-effect waves-green btn-flat" (click)="deletePlan()">Delete</button>
+        </div>
+    </form>   
 </div>
