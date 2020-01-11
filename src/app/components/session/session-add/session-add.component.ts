@@ -53,16 +53,18 @@ export class SessionAddComponent implements OnInit {
 
     this.sub = this.route.paramMap.subscribe(
       params => {
+        const localStorageSessionId = localStorage.getItem('CreatedSessionId');
         const id = params.get('id');
         const sessionType = params.get('sessionType');
         const sessionPlanId = params.get('planId');
-
-        if (id == '0'){
+        
+        if (id == '0' && localStorageSessionId == undefined){
           this.buildNewSessionAsync(sessionPlanId, sessionType)
                 .then(newSession => this.displaySession(newSession));         
         } else {
           //Get Session from service
-          this.sessionService.getSession(id, sessionType).subscribe(
+          let idToPass = id == '0' ? localStorageSessionId : id;
+          this.sessionService.getSession(idToPass, sessionType).subscribe(
             (session: Session) => { 
               this.session = session;
               this.displaySession(session) }
@@ -226,9 +228,12 @@ export class SessionAddComponent implements OnInit {
 
     //save session to db
     //assign return id
-    this.sessionService.createSession(sessionToReturn).subscribe(session => sessionToReturn.id = session.id);
+    var updatedSession = await this.sessionService.createSession(sessionToReturn).toPromise()
 
-    //return updated session
+    sessionToReturn.id = updatedSession.id;
+    //save sessionid to local storage
+    localStorage.setItem('CreatedSessionId', sessionToReturn.id);
+
     return sessionToReturn;
   }
 }
