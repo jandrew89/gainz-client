@@ -25,6 +25,5 @@
       {{ plan.sessionPlanName }}
     </li>
   </ul>
-   <app-session-plan-edit-settings [displaySessionPlanModal]="displayEditEquipmentModal" 
-                                [sessionPlan]="planToEdit"
+   <app-session-plan-edit-settings [sessionPlan]="planToEdit"
                                 (closePlanEdit)="displayEditPlanModal=false"></app-session-plan-edit-settings>
