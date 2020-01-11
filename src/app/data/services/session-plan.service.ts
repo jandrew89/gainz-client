@@ -22,6 +22,14 @@ export class SessionPlanService {
       );
   }
 
+  updateSessionPlan(sessionPlan: SessionPlan): Observable<SessionPlan> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
+    return this.http.put<SessionPlan>(this.sessionPlanUrl + 'UpsertSessionPlan', sessionPlan, { headers: headers })  
+      .pipe( 
+        catchError(this.handleError)  
+      );
+  }
+
   getSessionPlans(): Observable<SessionPlan[]> {
     return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlans')
       .pipe(
@@ -38,6 +46,13 @@ export class SessionPlanService {
 
   GetSessionPlansBySessionType(sessionType: string): Observable<SessionPlan[]> {
     return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlansBySessionType/' + sessionType)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  deleteSessionPlan(planId: string, sessionType: string): Observable<boolean> {
+    return this.http.delete<boolean>(this.sessionPlanUrl + `DeleteSessionPlan/${planId}/${sessionType}`)
       .pipe(
         catchError(this.handleError)
       );

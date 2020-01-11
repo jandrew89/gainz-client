@@ -6,3 +6,8 @@ export interface SessionPlan {
     sessionType: string;
     equipment: EquipmentViewModel[];
 }
+
+export interface SessionPlanDto {
+    id: string;
+    sessionPlanName: string;
+}

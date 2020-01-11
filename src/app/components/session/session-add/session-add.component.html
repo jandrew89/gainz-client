@@ -39,10 +39,10 @@
                     </div>
                 </form>
             </div>
-            <div class="card-action" *ngIf="session">
+            <div class="card-action" *ngIf="session && !onSaveDisable">
                 <a style="cursor: pointer;" (click)="saveSession(true)">Add</a>
                 <a style="cursor: pointer;" (click)="removeSession()">Delete</a>
-                <a style="cursor: pointer;" (click)="saveSessionPlan()">Save As Session Plan</a>
+                <a style="cursor: pointer;" (click)="saveSessionPlan()">Save As Plan</a>
             </div>
         </div>
     </div>

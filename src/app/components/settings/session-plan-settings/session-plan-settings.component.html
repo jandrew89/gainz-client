@@ -1,0 +1,30 @@
+<div class="col s12 m8">
+    <h4>{{pageTitle}}</h4>
+    <div class="card-horizontal">
+      <div class="card-stacked">
+        <div class="card-content">
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="eqip-list-filter" [(ngModel)]="listFilter" type="text">
+              <label for="eqip-list-filter">Filter By</label>
+            </div>
+          </div>
+          <div class="row">
+            <h6>Filtered by: {{listFilter}}</h6> 
+          </div>
+        </div>
+      </div>
+      <!------TODO Add add new functionality --------->
+      <!-- <div class="card-action">
+        <button class="waves-effect waves-light btn-small modal-trigger" href="#plan-modal" (click)="addNewPlan()">Add New</button>
+      </div> -->
+    </div>
+  </div>
+  <ul class="collection" *ngIf="unfilteredList && unfilteredList.length">
+    <li class="collection-item modal-trigger" href="#plan-modal" style="cursor: pointer;" (click)="onPlanClick(plan)" *ngFor="let plan of filteredListOfItems">
+      {{ plan.sessionPlanName }}
+    </li>
+  </ul>
+   <app-session-plan-edit-settings [displaySessionPlanModal]="displayEditEquipmentModal" 
+                                [sessionPlan]="planToEdit"
+                                (closePlanEdit)="displayEditPlanModal=false"></app-session-plan-edit-settings>
