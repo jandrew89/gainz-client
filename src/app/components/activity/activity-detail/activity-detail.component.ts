@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Activity, Set, ActivityViewModel } from 'src/app/data/entities/activity';
+import { Set, ActivityViewModel } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import { SetDate } from 'src/app/data/entities/Dtos/SetDate';
@@ -41,13 +41,7 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     //adds new set
     //resets the order so they dont get out of sync
     //saves the set
-    this.activeSets = this.rebaseToZero(this.activeSets);
-    
-    this.activeSets.push({
-        order: 0,
-        reps: 0,
-        weight: 0
-    });
+    this.activeSets = this.rebaseSetToMax(this.activeSets);
 
     this.activity.sets = this.activeSets;
   }
@@ -126,6 +120,7 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
   }
 
   onNewSet(activeSet: Set) {
+
     //First we filter out sets not being updated
     let activeSets = this.activeSets.filter(f => f.order !== activeSet.order);
     
@@ -138,5 +133,19 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
 
   private async saveSetsAsync(): Promise<boolean> {
     return await this.sessionService.updateActivity(this.sessionId, this.sessionType, this.activity).toPromise();
+  }
+
+  private rebaseSetToMax(lists: Set[]): Set[] {
+    //get max order
+    let max = Math.max(...lists.map(m => m.order)) == -Infinity ? 0 : Math.max(...lists.map(m => m.order));
+
+    // set order to new max
+    lists.push({
+      order: max + 1,
+      reps: 0,
+      weight: 0
+    })
+    
+    return lists;
   }
 }
