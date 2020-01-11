@@ -1,9 +1,12 @@
 <form [formGroup]="setForm">
+    <div class="input-field col s1">
+        <label>{{set.order}}</label>
+    </div>
     <div class="input-field col s6">
         <input [id]="weightId" type="number" formControlName="weight" class="validate">
         <label [for]="weightId" class="active">Weight</label>
     </div>
-    <div class="input-field col s6">
+    <div class="input-field col s5">
         <input [id]="repId" type="number" formControlName="reps" class="validate">
         <label [for]="repId" class="active">Reps</label>
     </div>

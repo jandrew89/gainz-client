@@ -139,11 +139,13 @@ export class ActivityDetailComponent extends ListBase implements OnInit {
     //get max order
     let max = Math.max(...lists.map(m => m.order)) == -Infinity ? 0 : Math.max(...lists.map(m => m.order));
 
+    const lastSet = lists.find(f => f.order == max);
+
     // set order to new max
     lists.push({
       order: max + 1,
-      reps: 0,
-      weight: 0
+      reps: lastSet ? lastSet.reps : 0,
+      weight: lastSet ? lastSet.weight : 0
     })
     
     return lists;
