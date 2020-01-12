@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/data/services/auth.service';
 declare var $: any;
 
 @Component({
@@ -8,7 +9,7 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -18,5 +19,9 @@ export class HeaderComponent implements OnInit {
         $('.sidenav').sidenav('close');
       });
     });
+  }
+
+  login() {
+    this.authService.login();
   }
 }

@@ -18,7 +18,7 @@ export class AuthService {
     const stsSettings = {
       authority: environment.stsAuthRoot,
       client_id: environment.clientId,
-      redirect_url: `${environment.rootUrl}signin-callback`,
+      redirect_uri: `${environment.rootUrl}signin-callback`,
       scope: 'openid profile projects-api',
       response_type: 'code',
       post_logout_redirect_url: `${environment.rootUrl}signout-callback`
