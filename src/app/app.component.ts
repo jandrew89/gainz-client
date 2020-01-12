@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './data/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,20 @@ import { Component } from '@angular/core';
   `,
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  
   title = 'gainz-limited';
+  isLoggedIn = false;
+
+  constructor(private _authService: AuthService) { 
+    this._authService.loginChanged.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+    })
+  }
+
+  ngOnInit(): void {
+    this._authService.isLogginIn().then(loggin => {
+      this.isLoggedIn = loggin;
+    })
+  }
 }
