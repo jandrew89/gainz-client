@@ -43,4 +43,21 @@ export class AuthService {
       }
     )
   }
+
+  completeLogin() {
+    return this._userManager.signinRedirectCallback().then(user => {
+      this._user = user;
+      this._loginChangedSubject.next(!!user && !user.expired);
+      return user;
+    })
+  }
+
+  logout() {
+    this._userManager.signoutRedirect();
+  }
+
+  completeLogout() {
+    this._user = null;
+    return this._userManager.signoutRedirectCallback();
+  }
 }

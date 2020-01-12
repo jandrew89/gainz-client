@@ -9,7 +9,13 @@ declare var $: any;
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  isLoggedIn = false;
+
+  constructor(private authService: AuthService) { 
+    this.authService.loginChanged.subscribe(loggedIn => {
+      this.isLoggedIn = loggedIn;
+    })
+  }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -19,9 +25,17 @@ export class HeaderComponent implements OnInit {
         $('.sidenav').sidenav('close');
       });
     });
+    
+    this.authService.isLogginIn().then(loggin => {
+      this.isLoggedIn = loggin;
+    })
   }
 
   login() {
     this.authService.login();
+  }
+
+  logout() {
+    this.authService.logout();
   }
 }

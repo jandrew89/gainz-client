@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from 'src/app/data/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  constructor(private _authService: AuthService,
+              private _router: Router) { }
 
   ngOnInit() {
+    this._authService.completeLogin().then(user => {
+      this._router.navigate(['/sessions'],  {replaceUrl: true} )
+    })
   }
-
 }
