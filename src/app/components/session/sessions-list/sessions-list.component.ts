@@ -20,6 +20,8 @@ export class SessionsListComponent implements OnInit {
       $('.fixed-action-btn').floatingActionButton();
     });
 
+    localStorage.removeItem('CreatedSessionId');
+
     this.sessionService.getAllSessions().subscribe(
       sessions =>  this.sessions = sessions)
   }

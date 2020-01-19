@@ -11,7 +11,8 @@ import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 export class SessionPlanSettingsComponent extends ListFilterBaseClass<SessionPlan> implements OnInit {
   pageTitle = 'Session Plan List';
   planToEdit: SessionPlan;
- 
+  displayEditPlanModal: boolean
+  
   constructor(private sessionPlanService: SessionPlanService) { super() }
 
   ngOnInit() {

@@ -9,7 +9,6 @@ declare var $: any;
   styleUrls: ['./session-plan-edit-settings.component.css']
 })
 export class SessionPlanEditSettingsComponent implements OnInit {
-  @Input() displaySessionPlanModal: boolean
   @Input() sessionPlan: SessionPlan
   @Output() closePlanEdit = new EventEmitter();
 
