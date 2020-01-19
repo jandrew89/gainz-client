@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter, OnChanges } from '@angu
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { ToastrService } from 'ngx-toastr';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
+import { EquipmentService } from 'src/app/data/services/equipment.service';
 declare var $: any;
 @Component({
   selector: 'app-session-plan-edit-settings',
@@ -12,7 +13,9 @@ export class SessionPlanEditSettingsComponent implements OnInit {
   @Input() sessionPlan: SessionPlan
   @Output() closePlanEdit = new EventEmitter();
 
-  constructor(private toastrService: ToastrService, private sessionPlanService: SessionPlanService) { }
+  constructor(private toastrService: ToastrService, 
+    private sessionPlanService: SessionPlanService,
+    private equipmentService: EquipmentService) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -36,5 +39,11 @@ export class SessionPlanEditSettingsComponent implements OnInit {
           this.toastrService.success('Session Plan Removed');
         }
       });
+  }
+
+  addToSessionPlan() {
+    this.equipmentService.getEquipmentBySessionType(this.sessionPlan.sessionType).subscribe(
+      equipment => console.log(equipment)
+    )
   }
 }

@@ -31,8 +31,10 @@
             </div> -->
         </div>
         <div class="modal-footer">
+            <button [disabled]="!planForm.valid" class="modal-close waves-effect waves-green btn-flat" (click)="addToSessionPlan()">Add Equipment</button>
             <button [disabled]="!planForm.valid" class="modal-close waves-effect waves-green btn-flat" type="submit">Save</button>
             <button class="modal-close waves-effect waves-green btn-flat" (click)="deletePlan()">Delete</button>
         </div>
-    </form>   
+    </form>  
+     
 </div>
