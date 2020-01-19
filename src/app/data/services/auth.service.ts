@@ -19,9 +19,17 @@ export class AuthService {
       authority: environment.stsAuthRoot,
       client_id: environment.clientId,
       redirect_uri: `${environment.rootUrl}signin-callback`,
-      scope: 'openid profile projects-api',
+      scope: 'openid profile gainz-api',
       response_type: 'code',
-      post_logout_redirect_url: `${environment.rootUrl}signout-callback`
+      post_logout_redirect_url: `${environment.rootUrl}signout-callback`,
+      metadata: {
+        issuer: ``,
+        // issuer: ``,
+        // issuer: ``,
+        // issuer: ``,
+        // issuer: ``,
+        // issuer: ``,
+      }
     };
 
     this._userManager = new UserManager(stsSettings);

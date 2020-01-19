@@ -25,7 +25,7 @@ export class HeaderComponent implements OnInit {
         $('.sidenav').sidenav('close');
       });
     });
-    
+
     this.authService.isLogginIn().then(loggin => {
       this.isLoggedIn = loggin;
     })

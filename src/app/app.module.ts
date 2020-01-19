@@ -28,6 +28,7 @@ import { EnvironmentVariablesComponent } from './components/settings/environment
 import { SessionPlanSettingsComponent } from './components/settings/session-plan-settings/session-plan-settings.component';
 import { SessionPlanEditSettingsComponent } from './components/settings/session-plan-edit-settings/session-plan-edit-settings.component';
 import { SignoutRedirectCallbackComponent } from './components/ui/signout-redirect-callback.component';
+import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SignoutRedirectCallbackComponent } from './components/ui/signout-redire
     EnvironmentVariablesComponent,
     SessionPlanSettingsComponent,
     SessionPlanEditSettingsComponent,
-    SignoutRedirectCallbackComponent
+    SignoutRedirectCallbackComponent,
+    SignInRedirectCallbackComponent
   ],
   imports: [
     BrowserModule,
@@ -110,6 +112,10 @@ import { SignoutRedirectCallbackComponent } from './components/ui/signout-redire
       {
         path: 'signout-callback',
         component: SignoutRedirectCallbackComponent
+      },
+      {
+        path: 'signin-callback',
+        component: SignInRedirectCallbackComponent
       }
     ])
   ],
