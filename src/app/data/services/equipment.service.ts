@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Equipment } from '../entities/equipment';
 import { catchError } from 'rxjs/operators';
 import { SessionType } from '../entities/session';
@@ -11,6 +11,7 @@ import { ApiBase } from 'src/app/shared/api-base';
   providedIn: 'root'
 })
 export class EquipmentService extends ApiBase {
+
   private url = environment.liftUrl; 
   constructor(private http: HttpClient) { super() }
 
@@ -27,6 +28,14 @@ export class EquipmentService extends ApiBase {
   getSessionTypes(): Observable<SessionType[]>{
     return this.http.get<SessionType[]>(this.url + 'GetSessionTypes')
       .pipe(catchError(this.handleError));
+  }
+
+  insertSessionType(sessionType: SessionType): Observable<SessionType> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
+    return this.http.post<SessionType>(this.url + 'CreateOrUpdateSessionType', sessionType, { headers: headers })  
+      .pipe( 
+        catchError(this.handleError)  
+      );  
   }
 
   createEquipment(equipment: Equipment): Observable<boolean> {
