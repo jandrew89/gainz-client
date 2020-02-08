@@ -89,7 +89,7 @@ import { SessionPlanEditSettingsComponent } from './components/settings/session-
         component: LiftsListComponent
       },
       {
-        path: 'sessions/types',
+        path: 'sessions/equipment',
         component: LiftsListComponent
       },
       {
