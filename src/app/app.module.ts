@@ -27,6 +27,7 @@ import { SessionPlanListComponent } from './components/session/session-plan-list
 import { EnvironmentVariablesComponent } from './components/settings/environment-variables/environment-variables.component';
 import { SessionPlanSettingsComponent } from './components/settings/session-plan-settings/session-plan-settings.component';
 import { SessionPlanEditSettingsComponent } from './components/settings/session-plan-edit-settings/session-plan-edit-settings.component';
+import { SessionTypeSettingsComponent } from './components/settings/session-type-settings/session-type-settings.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { SessionPlanEditSettingsComponent } from './components/settings/session-
     SessionPlanListComponent,
     EnvironmentVariablesComponent,
     SessionPlanSettingsComponent,
-    SessionPlanEditSettingsComponent
+    SessionPlanEditSettingsComponent,
+    SessionTypeSettingsComponent
   ],
   imports: [
     BrowserModule,
@@ -99,6 +101,10 @@ import { SessionPlanEditSettingsComponent } from './components/settings/session-
       {
         path: 'settings/plans',
         component: SessionPlanSettingsComponent
+      },
+      {
+        path: 'settings/sessiontypes',
+        component: SessionTypeSettingsComponent
       },
       {  
         path: '**',  
