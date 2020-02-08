@@ -3,6 +3,7 @@ import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { ToastrService } from 'ngx-toastr';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
+import { Equipment } from 'src/app/data/entities/equipment';
 declare var $: any;
 @Component({
   selector: 'app-session-plan-edit-settings',
@@ -12,6 +13,8 @@ declare var $: any;
 export class SessionPlanEditSettingsComponent implements OnInit {
   @Input() sessionPlan: SessionPlan
   @Output() closePlanEdit = new EventEmitter();
+
+  equipmentToAdd: Equipment[] = [];
 
   constructor(private toastrService: ToastrService, 
     private sessionPlanService: SessionPlanService,
@@ -43,7 +46,23 @@ export class SessionPlanEditSettingsComponent implements OnInit {
 
   addToSessionPlan() {
     this.equipmentService.getEquipmentBySessionType(this.sessionPlan.sessionType).subscribe(
-      equipment => console.log(equipment)
+      equipment => this.equipmentToAdd = this.filterEquipment(equipment)
     )
+  }
+
+  addEquipmentToSessionPlan(equipment: Equipment) {
+    //add new equipment
+    this.sessionPlan.equipment.push(equipment);
+    
+    //refilter equipment
+    this.equipmentToAdd = this.filterEquipment(this.equipmentToAdd);
+  }
+
+  private filterEquipment(equipmentList: Equipment[]): Equipment[] {
+    //filter out equipment by whats already in session plan
+    var alreadyInPlan = this.sessionPlan.equipment.map(m => m.id);
+
+    //return filtered equipment
+    return equipmentList.filter(f => !alreadyInPlan.includes(f.id));
   }
 }
