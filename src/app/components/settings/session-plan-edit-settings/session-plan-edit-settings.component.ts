@@ -15,6 +15,8 @@ export class SessionPlanEditSettingsComponent implements OnInit {
   @Output() closePlanEdit = new EventEmitter();
 
   equipmentToAdd: Equipment[] = [];
+  editMode: boolean;
+  equipmentTitle: string;
 
   constructor(private toastrService: ToastrService, 
     private sessionPlanService: SessionPlanService,
@@ -24,6 +26,8 @@ export class SessionPlanEditSettingsComponent implements OnInit {
     $(document).ready(function(){
       $('.modal').modal();
     });
+    this.editMode = false;
+    this.equipmentTitle = "Session Activities"
   }
 
   saveSessionForm(): void {
@@ -50,7 +54,20 @@ export class SessionPlanEditSettingsComponent implements OnInit {
     )
   }
 
+  removeSessionFromSessionPlan(equipment: Equipment) {
+    // in edit mode
+    if (this.editMode) {
+      //remove equipment
+      this.sessionPlan.equipment = this.sessionPlan.equipment.filter(f => f.id !== equipment.id);
+    
+      //add back into the equipment
+      this.equipmentToAdd.push(equipment);
+    }
+  }
+
   addEquipmentToSessionPlan(equipment: Equipment) {
+
+    
     //add new equipment
     this.sessionPlan.equipment.push(equipment);
     
