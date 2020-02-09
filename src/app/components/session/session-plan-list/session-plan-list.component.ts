@@ -3,6 +3,8 @@ import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
+import { EquipmentService } from 'src/app/data/services/equipment.service';
+import { SessionType } from 'src/app/data/entities/session';
 declare var $: any;
 
 @Component({
@@ -15,11 +17,13 @@ export class SessionPlanListComponent implements OnInit {
   @Input() initialValue: string;
   
   sessionPlans: SessionPlan[];
+  sessionTypes: SessionType[];
   disableSessionType: boolean = false;
 
   constructor(private sessionPlanService: SessionPlanService,
     private toast: ToastrService,
-    private router: Router,) { }
+    private router: Router,
+    private equipmentService: EquipmentService) { }
 
   ngOnInit() {
     $(document).ready(function(){
@@ -27,6 +31,9 @@ export class SessionPlanListComponent implements OnInit {
       $('select').formSelect();
     });
 
+    this.equipmentService.getSessionTypes().subscribe(types => {
+      this.sessionTypes = types;
+    });
     this.sessionPlans = [];
   }
 
