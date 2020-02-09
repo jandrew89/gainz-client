@@ -47,13 +47,22 @@ export class SessionTypeSettingsComponent implements OnInit {
 
     this.equipmentService.insertSessionType({id: '', name: this.sessionTypeToAdd}).subscribe(
       type => {
+        this.toastr.info('Session Added');
         this.sessionTypes.push(type);
         this.sessionTypeToAdd = '';
         this.canAddSession = true;
       });
   }
 
-  removeSessionType(id: string) {
-    console.log(id);
+  removeSessionType(type: SessionType) {
+    this.sessionTypes = this.sessionTypes.filter(f => f.id !== type.id);
+
+    this.equipmentService.deleteSessionType(type).subscribe(
+      isSuccessful => {
+        if (isSuccessful) {
+          this.toastr.success('Removed session type!');
+        }
+      }
+    )
   }
 }

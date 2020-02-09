@@ -30,6 +30,11 @@ export class EquipmentService extends ApiBase {
       .pipe(catchError(this.handleError));
   }
 
+  deleteSessionType(type: SessionType): Observable<boolean> {
+    return this.http.delete<boolean>(`${this.url}DeleteSessionType/${type.id}/${type.name}`)
+      .pipe(catchError(this.handleError));
+  }
+
   insertSessionType(sessionType: SessionType): Observable<SessionType> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.post<SessionType>(this.url + 'CreateOrUpdateSessionType', sessionType, { headers: headers })  

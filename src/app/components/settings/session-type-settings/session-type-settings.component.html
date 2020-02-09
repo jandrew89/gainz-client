@@ -14,7 +14,7 @@
     </li>
     <li class="collection-item" *ngFor="let type of sessionTypes">
         <div>{{ type.name }}
-            <a style="cursor: pointer;" (click)="removeSessionType(type.id)" class="secondary-content">
+            <a style="cursor: pointer;" (click)="removeSessionType(type)" class="secondary-content">
                 <i class="material-icons">delete</i>
             </a>
         </div>
