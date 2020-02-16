@@ -1,0 +1,22 @@
+<div class="col s12 m8">
+    <h4>{{pageTitle}}</h4>
+    <div class="card-horizontal">
+        <div class="card-action">
+            <button class="waves-effect waves-light btn-small modal-trigger" (click)="addNewSessionType()">Add Session Type</button>
+        </div>
+    </div>
+</div>
+<ul class="collection">
+    <li *ngIf="addMode" class="collection-item">
+        <input [(ngModel)]="sessionTypeToAdd"
+            type="text"/>
+        <button [disabled]="!canAddSession" class="waves-effect waves-light btn-small modal-trigger" (click)="saveSessionType()">Save</button>
+    </li>
+    <li class="collection-item" *ngFor="let type of sessionTypes">
+        <div>{{ type.name }}
+            <a style="cursor: pointer;" (click)="removeSessionType(type)" class="secondary-content">
+                <i class="material-icons">delete</i>
+            </a>
+        </div>
+    </li>
+</ul>

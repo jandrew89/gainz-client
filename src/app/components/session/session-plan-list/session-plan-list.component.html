@@ -1,28 +1,16 @@
 <div id="session-plan-select" class="modal">
     <div class="modal-content">
       <h4>Session Plans</h4>
-        <div class="row">
-            <div class="input-field col s12">
-              <label for="sessiontype" class="active">Session Type</label>
-              <select id="sessiontype" [ngModel]="initialValue"
-                  [disabled]="disableSessionType"
-                  (ngModelChange)="onSessionTypeChange($event)" 
-                  class="session-type-dropdown">    
-                  <option value="" disabled selected>Select an Option</option>    
-                  <option value="Push">Push</option>    
-                  <option value="Pull">Pull</option>
-                  <option value="Legs">Legs</option>    
-              </select>
-            </div>
-        </div>
-        <div class="row" *ngIf="sessionPlans.length > 0">
-            <div class="input-field col s12">
-              <label for="sessiontype" class="active">Session Plans</label>
-              <div class="collection">
-                <a class="collection-item" style="cursor: pointer;" (click)="onSessionPlanChange(sessionPlan)" *ngFor="let sessionPlan of sessionPlans">{{sessionPlan.sessionPlanName}}</a>
-              </div>
-            </div>
-        </div>
+              <label for="sessiontype" class="active">Select a Session Type</label>
+              <ul class="collapsible popout">
+                <li *ngFor="let type of sessionTypes">
+                  <div class="collapsible-header" (click)="onSessionTypeChange(type)">{{ type.name }}</div>
+                  <div class="collapsible-body">
+                    <session-plan-list-detail *ngIf="selectedSessionType"
+                      [sessionType]="type"></session-plan-list-detail>
+                  </div>
+               </li>
+            </ul>
       </div>
     <div class="modal-footer">
       <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
