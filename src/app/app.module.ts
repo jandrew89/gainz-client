@@ -53,7 +53,7 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
     SessionPlanSettingsComponent,
     SessionPlanEditSettingsComponent,
     SignoutRedirectCallbackComponent,
-    SignInRedirectCallbackComponent
+    SignInRedirectCallbackComponent,
     SessionPlanEditSettingsComponent,
     SessionTypeSettingsComponent,
     SessionPlanListDetailComponent
