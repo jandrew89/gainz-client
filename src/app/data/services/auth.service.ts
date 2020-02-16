@@ -64,6 +64,10 @@ export class AuthService {
     this._userManager.signoutRedirect();
   }
 
+  getUserRoles(): string[] {
+    return this._user.profile["gainzlimited:3000/roles"];
+  }
+
   completeLogout() {
     this._user = null;
     return this._userManager.signoutRedirectCallback();
