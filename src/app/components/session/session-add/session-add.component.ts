@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { Session } from 'src/app/data/entities/session';
+import { Session, SessionType } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
@@ -11,6 +11,7 @@ import { formatDateToDatePicker, randonGuidGenerator } from 'src/app/shared/help
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
+import { EquipmentService } from 'src/app/data/services/equipment.service';
 declare var $: any;
 @Component({
   selector: 'app-session-add',
@@ -26,6 +27,10 @@ export class SessionAddComponent implements OnInit {
   sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
+  sessionTypes: SessionType[];
+  activeSessionType: SessionType;
+  isSessionActive: boolean = false;
+
   private sub: Subscription;    
 
   constructor(
@@ -34,21 +39,23 @@ export class SessionAddComponent implements OnInit {
     private router: Router,
     private sessionService: SessionService,
     private sessionPlanService: SessionPlanService,
-    private toastr: ToastrService    
+    private toastr: ToastrService,
+    private equipmentService: EquipmentService
     ) { }
 
   ngOnInit() {
     $(document).ready(function(){
       $('select').formSelect();
       $('.datepicker').datepicker();
-      var themeColor = '#ffd8a6'
-      $(".select-dropdown").css("color", themeColor);
     });
     
+    this.equipmentService.getSessionTypes().subscribe(types => {
+      this.sessionTypes = types;
+    });
+
     this.sessionForm = this.formBuilder.group({    
       weight: '',    
-      sessionDate: '',    
-      sessionType: ''  
+      sessionDate: ''  
     });
 
     this.sub = this.route.paramMap.subscribe(
@@ -57,7 +64,6 @@ export class SessionAddComponent implements OnInit {
         const id = params.get('id');
         const sessionType = params.get('sessionType');
         const sessionPlanId = params.get('planId');
-        
         if (id == '0' && localStorageSessionId == undefined){
           this.buildNewSessionAsync(sessionPlanId, sessionType)
                 .then(newSession => this.displaySession(newSession));         
@@ -65,7 +71,10 @@ export class SessionAddComponent implements OnInit {
           //Get Session from service
           let idToPass = id == '0' ? localStorageSessionId : id;
           this.sessionService.getSession(idToPass, sessionType).subscribe(
-            (session: Session) => { 
+            (session: Session) => {
+              // active session
+              this.isSessionActive = true;
+
               this.session = session;
               this.displaySession(session) }
           );
@@ -79,17 +88,23 @@ export class SessionAddComponent implements OnInit {
     this.onSaveDisable = true;
 
     //validate form
-    if (this.sessionForm.controls['sessionType'].value == '' || this.sessionForm.controls['sessionType'].value == undefined) {
+    if (!this.activeSessionType) {
       this.toastr.error("Must select a session type.", "Validation Error");
       this.onSaveDisable = false;
       return;
-	  }
+    }
+    
+    //sesison is now active
+    this.isSessionActive = true;
 
-	//TODO possibly move this inside the sessions based on performance
-	this.displayAddActivity = displayAddActivity;
+    //TODO possibly move this inside the sessions based on performance
+    this.displayAddActivity = displayAddActivity;
 
     //Create or update session based on session id
-    var session = { ...this.session, ...this.sessionForm.value};
+    var session: Session = { ...this.session, ...this.sessionForm.value};
+
+    session.sessionType = this.activeSessionType.name
+    
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
@@ -109,6 +124,22 @@ export class SessionAddComponent implements OnInit {
     this.saveSession();
   }
 
+  addTypeToSession(type: SessionType) {
+
+    if (!this.isSessionActive) {
+    // remove the old session
+      if (this.activeSessionType) {
+        $(`#${this.activeSessionType.name}`).removeClass('active');
+      }
+      
+      // set the active session
+      this.activeSessionType = type;
+
+      // add the class to the active session
+      $(`#${type.name}`).addClass('active');
+    }
+  }
+
   displaySession(session: Session): void {
     if (this.sessionForm){
       this.sessionForm.reset();
@@ -119,14 +150,14 @@ export class SessionAddComponent implements OnInit {
       this.sessionTitle = 'Add Session';
     } else {
       this.sessionTitle = `Edit Session: ${moment(this.session.sessionDate).format('dddd, MMMM Do YYYY')}`;
+      this.activeSessionType = this.sessionTypes.find(f => f.name == this.session.sessionType);
+      $(`#${this.session.sessionType}`).addClass('active');
     }
 
-    $('.select-dropdown').val(this.session.sessionType);
-    
+
     this.sessionForm.patchValue({
       weight: this.session.weight,
       sessionDate: formatDateToDatePicker(this.session.sessionDate),
-      sessionType: this.session.sessionType
     });
   }
 
@@ -215,6 +246,7 @@ export class SessionAddComponent implements OnInit {
   }
 
   private async buildNewSessionAsync(sessionPlanId?: string, sessionType?: string): Promise<Session> {
+
     // null plan id and type returns empty session
     if (sessionPlanId == null || sessionType == null) 
       return { id: "0", weight: 0, sessionDate: new Date(), sessionType: '', activities: [] }
@@ -233,6 +265,9 @@ export class SessionAddComponent implements OnInit {
     sessionToReturn.id = updatedSession.id;
     //save sessionid to local storage
     localStorage.setItem('CreatedSessionId', sessionToReturn.id);
+
+    // active session
+    this.isSessionActive = true;
 
     return sessionToReturn;
   }

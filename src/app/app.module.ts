@@ -27,6 +27,8 @@ import { SessionPlanListComponent } from './components/session/session-plan-list
 import { EnvironmentVariablesComponent } from './components/settings/environment-variables/environment-variables.component';
 import { SessionPlanSettingsComponent } from './components/settings/session-plan-settings/session-plan-settings.component';
 import { SessionPlanEditSettingsComponent } from './components/settings/session-plan-edit-settings/session-plan-edit-settings.component';
+import { SessionTypeSettingsComponent } from './components/settings/session-type-settings/session-type-settings.component';
+import { SessionPlanListDetailComponent } from './components/session/session-plan-list-detail/session-plan-list-detail.component';
 import { SignoutRedirectCallbackComponent } from './components/ui/signout-redirect-callback.component';
 import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
 
@@ -52,6 +54,9 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
     SessionPlanEditSettingsComponent,
     SignoutRedirectCallbackComponent,
     SignInRedirectCallbackComponent
+    SessionPlanEditSettingsComponent,
+    SessionTypeSettingsComponent,
+    SessionPlanListDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -93,7 +98,7 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
         component: LiftsListComponent
       },
       {
-        path: 'sessions/types',
+        path: 'sessions/equipment',
         component: LiftsListComponent
       },
       {
@@ -103,6 +108,10 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
       {
         path: 'settings/plans',
         component: SessionPlanSettingsComponent
+      },
+      {
+        path: 'settings/sessiontypes',
+        component: SessionTypeSettingsComponent
       },
       {  
         path: '**',  
