@@ -16,19 +16,9 @@
                     [formGroup]="sessionForm">
                     <span class="card-title">{{sessionTitle}}</span>
                     <div class="row">
-                        <div class="input-field col s6">
+                        <div class="input-field col s12">
                             <input id="weight" type="text" style="color: #ffd8a6;" class="validate" formControlName="weight">
                             <label for="weight" class="active">Weight</label>
-                        </div>
-                        <div class="input-field col s6">
-                            <label for="sessiontype" class="active">Session Type</label>
-                            <select id="sessiontype" class="session-type-dropdown" formControlName="sessionType">    
-                                <option value="" disabled selected>Select an Option</option>    
-                                <option value="Push">Push</option>    
-                                <option value="Pull">Pull</option>
-                                <option value="Legs">Legs</option>    
-                            </select>
-                            <!-- <label for="sessiontype" class="active">Session Type</label> -->
                         </div>
                     </div>
                     <div class="row">
@@ -36,6 +26,16 @@
                             <input id="sessiondate" type="text" formControlName="sessionDate" style="color: #ffd8a6;" class="datepicker">
                             <label for="sessiondate" class="active">Session Date</label>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col s12">
+                        <label for="sessiontype" style="color:white;">Select a Session Type</label>
+                        <ul class="collection collection-add">
+                            <li class="collection-item collection-item-add" [id]="type.name" (click)="addTypeToSession(type)" *ngFor="let type of sessionTypes">
+                                {{ type.name }}
+                            </li>
+                        </ul>
+                    </div>
                     </div>
                 </form>
             </div>

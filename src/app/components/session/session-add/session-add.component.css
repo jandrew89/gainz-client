@@ -25,3 +25,13 @@
   .input-field .prefix.active {
     color: white;
   }
+
+  .collection-add {
+    color: #ffd8a6;
+    border: 1px solid #ffd8a6;
+  }
+
+  .collection-item-add {
+    background-color:#546e7a;
+    border-bottom: 1px solid #ffd8a6;
+  }
