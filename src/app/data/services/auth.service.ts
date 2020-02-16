@@ -21,14 +21,14 @@ export class AuthService {
       redirect_uri: `${environment.rootUrl}signin-callback`,
       scope: 'openid profile gainz-api',
       response_type: 'code',
-      post_logout_redirect_url: `${environment.rootUrl}signout-callback`,
+      //post_logout_redirect_uri:`${environment.rootUrl}signout-callback`
       metadata: {
-        issuer: ``,
-        // issuer: ``,
-        // issuer: ``,
-        // issuer: ``,
-        // issuer: ``,
-        // issuer: ``,
+        issuer: `${environment.stsAuthRoot}`,
+        authorization_endpoint: `${environment.stsAuthRoot}authorize?audience=gainz-api`,
+        jwks_uri: `${environment.stsAuthRoot}.well-known/jwks.json`,
+        token_endpoint: `${environment.stsAuthRoot}oauth/token`,
+        userinfo_endpoint: `${environment.stsAuthRoot}userinfo`,
+        end_session_endpoint: `${environment.stsAuthRoot}v2/logout?client_id=${environment.clientId}&returnTo=${encodeURI(environment.rootUrl)}signout-callback`,
       }
     };
 

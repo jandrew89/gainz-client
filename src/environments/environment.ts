@@ -8,8 +8,11 @@ export const environment = {
   liftUrl: 'http://localhost:7080/api/',
   sessionUrl: 'http://localhost:7090/api/',
   authApiRoot: 'https://securingangularappscoursev2-api-unsecure.azurewebsites.net/api',
-  stsAuthRoot: 'https://reactjs-dev.auth0.com/',//'https://securingangularappscoursev2-sts.azurewebsites.net/',
-  clientId: 'pBVVwDeHIGiuabsnNLiQOqQ67RUhgLZD',//'spa-client',
+  stsAuthRoot: 'https://reactjs-dev.auth0.com/',
+  //stsAuthRoot: 'https://securingangularappscoursev2-sts.azurewebsites.net/',
+  
+  clientId: 'wS6YWvYh4Utwb8KC4MjY5ETKsRuRIWOB',
+  //clientId: 'spa-client',
   rootUrl: 'http://localhost:4200/'
 };
 

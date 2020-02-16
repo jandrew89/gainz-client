@@ -31,6 +31,7 @@ import { SessionTypeSettingsComponent } from './components/settings/session-type
 import { SessionPlanListDetailComponent } from './components/session/session-plan-list-detail/session-plan-list-detail.component';
 import { SignoutRedirectCallbackComponent } from './components/ui/signout-redirect-callback.component';
 import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
+import { AuthService } from './data/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -113,11 +114,6 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
         path: 'settings/sessiontypes',
         component: SessionTypeSettingsComponent
       },
-      {  
-        path: '**',  
-        redirectTo: 'home',  
-        pathMatch: 'full'  
-      }, 
       {
         path: 'signout-callback',
         component: SignoutRedirectCallbackComponent
@@ -125,12 +121,18 @@ import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect
       {
         path: 'signin-callback',
         component: SignInRedirectCallbackComponent
+      },
+      {  
+        path: '**',  
+        redirectTo: 'home',  
+        pathMatch: 'full'  
       }
     ])
   ],
   providers: [
     EquipmentService,
-    SessionService],
+    SessionService,
+    AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

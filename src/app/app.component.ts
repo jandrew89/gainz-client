@@ -13,17 +13,11 @@ import { AuthService } from './data/services/auth.service';
 export class AppComponent implements OnInit {
   
   title = 'gainz-limited';
-  isLoggedIn = false;
 
-  constructor(private _authService: AuthService) { 
-    this._authService.loginChanged.subscribe(loggedIn => {
-      this.isLoggedIn = loggedIn;
-    })
+  constructor() { 
+
   }
 
   ngOnInit(): void {
-    this._authService.isLogginIn().then(loggin => {
-      this.isLoggedIn = loggin;
-    })
   }
 }
