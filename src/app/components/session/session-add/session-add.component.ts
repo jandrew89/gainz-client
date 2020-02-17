@@ -27,7 +27,7 @@ export class SessionAddComponent implements OnInit {
   sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
-  sessionTypes: SessionType[];
+  sessionTypes: SessionType[] = [];
   activeSessionType: SessionType;
   isSessionActive: boolean = false;
 
@@ -149,6 +149,7 @@ export class SessionAddComponent implements OnInit {
     if (this.session.id == '0'){
       this.sessionTitle = 'Add Session';
     } else {
+      debugger
       this.sessionTitle = `Edit Session: ${moment(this.session.sessionDate).format('dddd, MMMM Do YYYY')}`;
       this.activeSessionType = this.sessionTypes.find(f => f.name == this.session.sessionType);
       $(`#${this.session.sessionType}`).addClass('active');
