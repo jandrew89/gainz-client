@@ -27,7 +27,7 @@ export class SessionAddComponent implements OnInit {
   sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
-  sessionTypes: SessionType[];
+  sessionTypes: SessionType[] = [];
   activeSessionType: SessionType;
   isSessionActive: boolean = false;
 

@@ -29,6 +29,9 @@ import { SessionPlanSettingsComponent } from './components/settings/session-plan
 import { SessionPlanEditSettingsComponent } from './components/settings/session-plan-edit-settings/session-plan-edit-settings.component';
 import { SessionTypeSettingsComponent } from './components/settings/session-type-settings/session-type-settings.component';
 import { SessionPlanListDetailComponent } from './components/session/session-plan-list-detail/session-plan-list-detail.component';
+import { SignoutRedirectCallbackComponent } from './components/ui/signout-redirect-callback.component';
+import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
+import { AuthService } from './data/services/auth.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,9 @@ import { SessionPlanListDetailComponent } from './components/session/session-pla
     SessionPlanListComponent,
     EnvironmentVariablesComponent,
     SessionPlanSettingsComponent,
+    SessionPlanEditSettingsComponent,
+    SignoutRedirectCallbackComponent,
+    SignInRedirectCallbackComponent,
     SessionPlanEditSettingsComponent,
     SessionTypeSettingsComponent,
     SessionPlanListDetailComponent
@@ -108,6 +114,14 @@ import { SessionPlanListDetailComponent } from './components/session/session-pla
         path: 'settings/sessiontypes',
         component: SessionTypeSettingsComponent
       },
+      {
+        path: 'signout-callback',
+        component: SignoutRedirectCallbackComponent
+      },
+      {
+        path: 'signin-callback',
+        component: SignInRedirectCallbackComponent
+      },
       {  
         path: '**',  
         redirectTo: 'home',  
@@ -117,7 +131,8 @@ import { SessionPlanListDetailComponent } from './components/session/session-pla
   ],
   providers: [
     EquipmentService,
-    SessionService],
+    SessionService,
+    AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from './data/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,14 @@ import { Component } from '@angular/core';
   `,
   styles: []
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  
   title = 'gainz-limited';
+
+  constructor() { 
+
+  }
+
+  ngOnInit(): void {
+  }
 }
