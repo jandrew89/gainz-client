@@ -149,7 +149,6 @@ export class SessionAddComponent implements OnInit {
     if (this.session.id == '0'){
       this.sessionTitle = 'Add Session';
     } else {
-      debugger
       this.sessionTitle = `Edit Session: ${moment(this.session.sessionDate).format('dddd, MMMM Do YYYY')}`;
       this.activeSessionType = this.sessionTypes.find(f => f.name == this.session.sessionType);
       $(`#${this.session.sessionType}`).addClass('active');
