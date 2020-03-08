@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, AfterViewInit, OnChanges, ViewChild } from '@angular/core';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { SessionType, Session } from 'src/app/data/entities/session';
+declare var $: any;
 
 @Component({
   selector: 'session-add-detail',
