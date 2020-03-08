@@ -10,6 +10,7 @@ declare var $: any;
 })
 export class SessionAddDetailComponent implements OnInit {
 
+
   @Input() session: Session;
   @Output() onSessionChange = new EventEmitter()
 
@@ -26,7 +27,7 @@ export class SessionAddDetailComponent implements OnInit {
       }
     )
   }
-  
+
   setSessionType() {
     // If session passed in.. set it
     if (this.session.sessionType) 
@@ -38,7 +39,7 @@ export class SessionAddDetailComponent implements OnInit {
   }
 
   setActiveSessionType(type: SessionType) {
-    if (this.isOpenSessionType) {
+    if (this.isOpenSessionType && this.session.id == '0') {
       // remove the old session
         if (this.session.sessionType) {
           $(`#${this.session.sessionType}`).removeClass('active');

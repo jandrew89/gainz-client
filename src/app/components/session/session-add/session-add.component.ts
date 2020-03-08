@@ -98,7 +98,6 @@ export class SessionAddComponent implements OnInit {
       this.sessionService.createSession(session).subscribe(
           session => {
             this.session.id = session.id;
-            this.session.sessionType = session.sessionType;
             this.onSaveDisable = false;
           });
     } else {
