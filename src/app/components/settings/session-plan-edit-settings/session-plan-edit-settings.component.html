@@ -1,4 +1,4 @@
-<div id="plan-modal" class="modal">
+<div id="plan-modal" class="modal" *ngIf="sessionPlan">
     <form #planForm="ngForm" (ngSubmit)="saveSessionForm()">
         <div class="modal-content">
             <div class="row">

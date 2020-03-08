@@ -6,16 +6,16 @@ import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { Equipment } from 'src/app/data/entities/equipment';
 declare var $: any;
 @Component({
-  selector: 'app-session-plan-edit-settings',
+  selector: 'session-plan-edit-settings',
   templateUrl: './session-plan-edit-settings.component.html',
   styleUrls: ['./session-plan-edit-settings.component.css']
 })
 export class SessionPlanEditSettingsComponent implements OnInit {
   @Input() sessionPlan: SessionPlan
-  @Output() closePlanEdit = new EventEmitter();
+  @Output() close = new EventEmitter();
 
   equipmentToAdd: Equipment[] = [];
-  editMode: boolean;
+  editMode: boolean = false;
   equipmentTitle: string;
 
   constructor(private toastrService: ToastrService, 
@@ -26,7 +26,6 @@ export class SessionPlanEditSettingsComponent implements OnInit {
     $(document).ready(function(){
       $('.modal').modal();
     });
-    this.editMode = false;
     this.equipmentTitle = "Session Activities"
   }
 
@@ -35,9 +34,7 @@ export class SessionPlanEditSettingsComponent implements OnInit {
       .subscribe(sessionPlan => {});
   }
 
-  onClose(): void {
-    this.closePlanEdit.emit(false);
-  }
+  onClose = () => this.close.emit(false);
 
   deletePlan() {
     this.sessionPlanService.deleteSessionPlan(this.sessionPlan.id, this.sessionPlan.sessionType)

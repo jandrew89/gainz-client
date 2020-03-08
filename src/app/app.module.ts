@@ -32,6 +32,7 @@ import { SessionPlanListDetailComponent } from './components/session/session-pla
 import { SignoutRedirectCallbackComponent } from './components/ui/signout-redirect-callback.component';
 import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
 import { AuthService } from './data/services/auth.service';
+import { SessionAddDetailComponent } from './components/session/session-add-detail/session-add-detail.component';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { AuthService } from './data/services/auth.service';
     SignInRedirectCallbackComponent,
     SessionPlanEditSettingsComponent,
     SessionTypeSettingsComponent,
-    SessionPlanListDetailComponent
+    SessionPlanListDetailComponent,
+    SessionAddDetailComponent
   ],
   imports: [
     BrowserModule,
