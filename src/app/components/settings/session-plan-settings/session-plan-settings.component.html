@@ -22,10 +22,9 @@
 </div>
   <ul class="collection" *ngIf="unfilteredList && unfilteredList.length">
     <li class="collection-item modal-trigger" href="#plan-modal" style="cursor: pointer;" (click)="onPlanClick(plan)" *ngFor="let plan of filteredListOfItems">
-      {{ plan.sessionPlanName }}
+      <span class="badge">{{ plan.sessionType }}</span>{{ plan.sessionPlanName }}
     </li>
   </ul>
-   <session-plan-edit-settings
-                            [sessionPlan]="planToEdit"
+   <session-plan-edit-settings [sessionPlan]="planToEdit"
                             (close)="displayEditPlanModal=false">
    </session-plan-edit-settings>

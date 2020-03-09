@@ -32,6 +32,7 @@ export class SessionPlanEditSettingsComponent implements OnInit {
   saveSessionForm(): void {
     this.sessionPlanService.updateSessionPlan(this.sessionPlan)
       .subscribe(sessionPlan => {});
+    this.editMode = false;
   }
 
   onClose = () => this.close.emit(false);
@@ -63,8 +64,6 @@ export class SessionPlanEditSettingsComponent implements OnInit {
   }
 
   addEquipmentToSessionPlan(equipment: Equipment) {
-
-    
     //add new equipment
     this.sessionPlan.equipment.push(equipment);
     
