@@ -19,11 +19,13 @@
         <button class="waves-effect waves-light btn-small modal-trigger" href="#plan-modal" (click)="addNewPlan()">Add New</button>
       </div> -->
     </div>
-  </div>
+</div>
   <ul class="collection" *ngIf="unfilteredList && unfilteredList.length">
     <li class="collection-item modal-trigger" href="#plan-modal" style="cursor: pointer;" (click)="onPlanClick(plan)" *ngFor="let plan of filteredListOfItems">
       {{ plan.sessionPlanName }}
     </li>
   </ul>
-   <app-session-plan-edit-settings [sessionPlan]="planToEdit"
-                                (closePlanEdit)="displayEditPlanModal=false"></app-session-plan-edit-settings>
+   <session-plan-edit-settings
+                            [sessionPlan]="planToEdit"
+                            (close)="displayEditPlanModal=false">
+   </session-plan-edit-settings>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ListFilterBaseClass } from 'src/app/shared/list-filter-base';
-import { SessionPlanDto, SessionPlan } from 'src/app/data/entities/session-plan';
+import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 
 @Component({
@@ -11,7 +11,7 @@ import { SessionPlanService } from 'src/app/data/services/session-plan.service';
 export class SessionPlanSettingsComponent extends ListFilterBaseClass<SessionPlan> implements OnInit {
   pageTitle = 'Session Plan List';
   planToEdit: SessionPlan;
-  displayEditPlanModal: boolean
+  displayEditPlanModal: boolean = false;
   
   constructor(private sessionPlanService: SessionPlanService) { super() }
 

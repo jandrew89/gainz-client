@@ -5,7 +5,10 @@
     <ul class="right hide-on-small-and-down">
       <li><a routerLink="home" routerLinkActive="active">Home</a></li>
       <li><a routerLink="sessions">Sessions</a></li>
+      <li><a routerLink="settings/plans">Session Plans</a></li>
       <li><a routerLink="settings">Settings</a></li>
+      <li><a *ngIf="!isLoggedIn" (click)="login()">Login</a></li>
+      <li><a *ngIf="isLoggedIn" (click)="logout()">Logout</a></li>
       <li><a href="https://github.com/jandrew89" target="_blank">  
           <i class="fa fa-github"></i>
         </a></li>
@@ -16,5 +19,8 @@
   <ul class="sidenav" id="mobile-demo">
     <li><a routerLink="home" routerLinkActive="active">Home</a></li>
     <li><a routerLink="sessions">Sessions</a></li>
+    <li><a routerLink="settings/plans">Session Plans</a></li>
     <li><a routerLink="settings">Settings</a></li>
+    <li><a *ngIf="!isLoggedIn" (click)="login()">Login</a></li>
+    <li><a *ngIf="isLoggedIn" (click)="logout()">Logout</a></li>
   </ul>

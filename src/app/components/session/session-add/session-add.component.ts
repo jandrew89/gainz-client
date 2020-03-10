@@ -1,18 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Session, SessionType } from 'src/app/data/entities/session';
+import { Session } from 'src/app/data/entities/session';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Activity } from 'src/app/data/entities/activity';
 import { SessionService } from 'src/app/data/services/session.service';
 import { ToastrService } from 'ngx-toastr';
 import * as moment from 'moment';
-import { formatDateToDatePicker, randonGuidGenerator } from 'src/app/shared/helper';
+import { randonGuidGenerator } from 'src/app/shared/helper';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
-import { EquipmentService } from 'src/app/data/services/equipment.service';
-declare var $: any;
+
 @Component({
   selector: 'app-session-add',
   templateUrl: './session-add.component.html',
@@ -21,43 +19,25 @@ declare var $: any;
 export class SessionAddComponent implements OnInit {
 
   sessionTitle = 'Session';
-  sessionForm: FormGroup;
   isCollapsed = false
   session: Session;
   sessionPlan: SessionPlan;
   displayAddActivity: Boolean = false;
   onSaveDisable: boolean = false;
-  sessionTypes: SessionType[];
-  activeSessionType: SessionType;
   isSessionActive: boolean = false;
+  displayEditPlanModal: boolean;
 
   private sub: Subscription;    
 
   constructor(
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private sessionService: SessionService,
     private sessionPlanService: SessionPlanService,
-    private toastr: ToastrService,
-    private equipmentService: EquipmentService
+    private toastr: ToastrService
     ) { }
 
-  ngOnInit() {
-    $(document).ready(function(){
-      $('select').formSelect();
-      $('.datepicker').datepicker();
-    });
-    
-    this.equipmentService.getSessionTypes().subscribe(types => {
-      this.sessionTypes = types;
-    });
-
-    this.sessionForm = this.formBuilder.group({    
-      weight: '',    
-      sessionDate: ''  
-    });
-
+  ngOnInit() {      
     this.sub = this.route.paramMap.subscribe(
       params => {
         const localStorageSessionId = localStorage.getItem('CreatedSessionId');
@@ -65,6 +45,9 @@ export class SessionAddComponent implements OnInit {
         const sessionType = params.get('sessionType');
         const sessionPlanId = params.get('planId');
         if (id == '0' && localStorageSessionId == undefined){
+
+          //building a new session, either with plan or no plan
+
           this.buildNewSessionAsync(sessionPlanId, sessionType)
                 .then(newSession => this.displaySession(newSession));         
         } else {
@@ -83,12 +66,19 @@ export class SessionAddComponent implements OnInit {
     )
   }
 
+
+  onSessionChange(newSession: Session) {
+    this.session.sessionDate = newSession.sessionDate;
+    this.session.sessionPlan = newSession.sessionPlan;
+    this.session.weight = newSession.weight;
+  }
+
   saveSession(displayAddActivity: boolean = false): void {
     //disable save btns
     this.onSaveDisable = true;
 
     //validate form
-    if (!this.activeSessionType) {
+    if (!this.session.sessionType) {
       this.toastr.error("Must select a session type.", "Validation Error");
       this.onSaveDisable = false;
       return;
@@ -101,15 +91,13 @@ export class SessionAddComponent implements OnInit {
     this.displayAddActivity = displayAddActivity;
 
     //Create or update session based on session id
-    var session: Session = { ...this.session, ...this.sessionForm.value};
+    var session: Session = { ...this.session};
 
-    session.sessionType = this.activeSessionType.name
     
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
             this.session.id = session.id;
-            this.session.sessionType = session.sessionType;
             this.onSaveDisable = false;
           });
     } else {
@@ -124,55 +112,19 @@ export class SessionAddComponent implements OnInit {
     this.saveSession();
   }
 
-  addTypeToSession(type: SessionType) {
-
-    if (!this.isSessionActive) {
-    // remove the old session
-      if (this.activeSessionType) {
-        $(`#${this.activeSessionType.name}`).removeClass('active');
-      }
-      
-      // set the active session
-      this.activeSessionType = type;
-
-      // add the class to the active session
-      $(`#${type.name}`).addClass('active');
-    }
-  }
-
   displaySession(session: Session): void {
-    if (this.sessionForm){
-      this.sessionForm.reset();
-    }
-
     this.session = session;
     if (this.session.id == '0'){
       this.sessionTitle = 'Add Session';
     } else {
       this.sessionTitle = `Edit Session: ${moment(this.session.sessionDate).format('dddd, MMMM Do YYYY')}`;
-      this.activeSessionType = this.sessionTypes.find(f => f.name == this.session.sessionType);
-      $(`#${this.session.sessionType}`).addClass('active');
     }
-
-
-    this.sessionForm.patchValue({
-      weight: this.session.weight,
-      sessionDate: formatDateToDatePicker(this.session.sessionDate),
-    });
   }
 
   saveSessionPlan() {
     //convert to session to session plan
     //TODO: Handle exsiting session plans
     this.sessionPlan = this.convertSessionToSessionPlan(this.session);
-
-    //save/update session plan
-    this.sessionPlanService.createSessionPlan(this.sessionPlan).subscribe(
-      sessionPlan => {
-        this.toastr.success('New session plan created!')
-        this.sessionPlan = sessionPlan;
-      }
-    )
   }
 
   removeSession() {
@@ -189,10 +141,6 @@ export class SessionAddComponent implements OnInit {
           }
       );
     }
-  }
-
-  onSaveComplete(): void {    
-    this.sessionForm.reset();    
   }
 
   sort(activities: Activity[]): Activity[] {

@@ -20,6 +20,12 @@ export class EquipmentService extends ApiBase {
       .pipe(catchError(this.handleError));
   }
 
+  getEquipmentBySessionType(sessionType: string): Observable<Equipment[]> {
+    const url = `${this.url}GetEquipmentBySessionType/${sessionType}`;
+    return this.http.get<Equipment[]>(url)
+      .pipe(catchError(this.handleError));
+  }
+
   getEqupimentByName(name: string): Observable<Equipment> {
     return this.http.get<Equipment>(`${this.url + 'Get'}/${name}`)
       .pipe(catchError(this.handleError));

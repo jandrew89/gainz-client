@@ -1,0 +1,45 @@
+<form>
+    <span class="card-title">Session</span>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="weight" 
+                    type="text" 
+                    style="color: #ffd8a6;"
+                    class="validate"
+                    name="weight"
+                    (ngModelChange)="session.weight=$event;onSessionUpdate()"
+                    [(ngModel)]="session.weight">
+                <label for="weight" class="active">Weight</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="sessionDate" 
+                    type="date" 
+                    style="color: #ffd8a6;" 
+                    name="sessionDate"
+                    (ngModelChange)="session.sessionDate=$event;onSessionUpdate()"
+                    [ngModel]="session.sessionDate | date:'yyyy-MM-dd'">
+                <label for="sessionDate" class="active">Session Date</label>
+            </div>
+        </div>
+        <div class="row" *ngIf="isOpenSessionType && sessionTypes && sessionTypes.length > 0">
+            <div class="col s12">
+            <label for="sessiontype" style="color:white;">Select a Session Type</label>
+            <ul class="collection collection-add">
+                <li class="collection-item collection-item-add" 
+                    [id]="type.name" 
+                    (click)="setActiveSessionType(type)" 
+                    *ngFor="let type of sessionTypes">
+                    {{ type.name }}
+                </li>
+            </ul>
+            </div>
+        </div>
+        <div class="row" *ngIf="!isOpenSessionType">
+            <div class="input-field col s12">
+                <label type="text" style="color: #ffd8a6;">{{session.sessionType}}</label>
+                <label class="active">Session Type</label>
+            </div>
+        </div>
+</form>
