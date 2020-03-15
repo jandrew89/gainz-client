@@ -72,7 +72,6 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
 			});
 		}
 
-	  console.log('end', this.activeSessionTypes)
     }
 
   saveEquipmentForm(): void {
@@ -102,7 +101,6 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
         }
       )
     } else {
-      console.log('Updated', this.activeSessionTypes);
 
       this.equipmentService.updateEquipment({
         id: this.equipment.id,
