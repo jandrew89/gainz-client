@@ -32,7 +32,10 @@ export class SessionService {
      );  
   }
 
-  updateSession(session: Session):Observable<Session> {
+  updateSession(session: Session, clearCache: boolean):Observable<Session> {
+    if (clearCache)
+        delete this.cache[Cache.Session];
+
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.put<Session>(this.sessionUrl + 'UpsertSession', session, { headers: headers })  
       .pipe(

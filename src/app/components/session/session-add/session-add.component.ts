@@ -10,7 +10,7 @@ import { randonGuidGenerator } from 'src/app/shared/helper';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { EquipmentViewModel } from 'src/app/data/entities/ViewModel/equipmentviewmodel';
 import { SessionPlanService } from 'src/app/data/services/session-plan.service';
-
+import { isEqual } from 'lodash';
 @Component({
   selector: 'app-session-add',
   templateUrl: './session-add.component.html',
@@ -26,6 +26,7 @@ export class SessionAddComponent implements OnInit {
   onSaveDisable: boolean = false;
   isSessionActive: boolean = false;
   displayEditPlanModal: boolean;
+  isSessionCached: boolean;
 
   private sub: Subscription;    
 
@@ -45,9 +46,7 @@ export class SessionAddComponent implements OnInit {
         const sessionType = params.get('sessionType');
         const sessionPlanId = params.get('planId');
         if (id == '0' && localStorageSessionId == undefined){
-
           //building a new session, either with plan or no plan
-
           this.buildNewSessionAsync(sessionPlanId, sessionType)
                 .then(newSession => this.displaySession(newSession));         
         } else {
@@ -64,13 +63,6 @@ export class SessionAddComponent implements OnInit {
         }
       }
     )
-  }
-
-
-  onSessionChange(newSession: Session) {
-    this.session.sessionDate = newSession.sessionDate;
-    this.session.sessionPlan = newSession.sessionPlan;
-    this.session.weight = newSession.weight;
   }
 
   saveSession(displayAddActivity: boolean = false): void {
@@ -101,7 +93,7 @@ export class SessionAddComponent implements OnInit {
             this.onSaveDisable = false;
           });
     } else {
-      this.sessionService.updateSession(session).subscribe(
+      this.sessionService.updateSession(session, true).subscribe(
         () => this.onSaveDisable = false
       );
     }
