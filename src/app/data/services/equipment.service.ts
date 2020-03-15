@@ -3,7 +3,7 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Equipment } from '../entities/equipment';
-import { catchError, publishReplay, refCount, shareReplay } from 'rxjs/operators';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { SessionType } from '../entities/session';
 import { ApiBase } from 'src/app/shared/api-base';
 import { Cache } from '../entities/cache-constants';
@@ -19,18 +19,13 @@ export class EquipmentService extends ApiBase {
 
   getEquipment(): Observable<Equipment[]> {
     return this.http.get<Equipment[]>(this.url + 'Get')
-      .pipe(catchError(this.handleError),
-            publishReplay(1),
-            refCount());
+      .pipe(catchError(this.handleError));
   }
 
   getEquipmentBySessionType(sessionType: string): Observable<Equipment[]> {
     const url = `${this.url}GetEquipmentBySessionType/${sessionType}`;
     return this.http.get<Equipment[]>(url)
-      .pipe(catchError(this.handleError),
-            publishReplay(1),
-            refCount()
-        );
+      .pipe(catchError(this.handleError));
   }
 
   getEqupimentByName(name: string): Observable<Equipment> {
