@@ -18,8 +18,15 @@ export class EquipmentService extends ApiBase {
   constructor(private http: HttpClient) { super() }
 
   getEquipment(): Observable<Equipment[]> {
-    return this.http.get<Equipment[]>(this.url + 'Get')
-      .pipe(catchError(this.handleError));
+    if (this.cache[Cache.Equipment]) {
+      console.log('Return cache equipment');
+      return this.cache[Cache.Equipment];
+    }
+    this.cache[Cache.Equipment] = this.http.get<Equipment[]>(this.url + 'Get')
+      .pipe(shareReplay(1),
+        catchError(this.handleError));
+
+    return this.cache[Cache.Equipment]
   }
 
   getEquipmentBySessionType(sessionType: string): Observable<Equipment[]> {
@@ -48,7 +55,6 @@ export class EquipmentService extends ApiBase {
   }
 
   deleteSessionType(type: SessionType): Observable<boolean> {
-    //delete cache
     delete this.cache[Cache.SessionTypes];
     return this.http.delete<boolean>(`${this.url}DeleteSessionType/${type.id}/${type.name}`)
       .pipe(catchError(this.handleError));
@@ -64,6 +70,7 @@ export class EquipmentService extends ApiBase {
   }
 
   createEquipment(equipment: Equipment): Observable<boolean> {
+    delete this.cache[Cache.Equipment];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.post<boolean>(this.url + 'CreateOrUpdate', equipment, { headers: headers })  
       .pipe( 
@@ -72,6 +79,7 @@ export class EquipmentService extends ApiBase {
   }
 
   updateEquipment(equipment: Equipment): Observable<boolean> {
+    delete this.cache[Cache.Equipment];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.put<boolean>(this.url + 'CreateOrUpdate', equipment, { headers: headers })  
       .pipe( 

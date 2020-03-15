@@ -82,6 +82,7 @@ export class SessionService {
   }
 
   deleteSession(sessionId: string, sessionType: string): Observable<boolean> {
+    delete this.cache[Cache.Session];
     const url = `${this.sessionUrl + 'DeleteSession'}/${sessionId}/${sessionType}`;  
 
     return this.http.delete<boolean>(url)
