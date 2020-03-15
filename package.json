@@ -1,6 +1,6 @@
 {
   "name": "gainz-limited",
-  "version": "1.1.2",
+  "version": "1.1.3",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -24,6 +24,7 @@
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
     "jquery": "^3.4.1",
+    "lodash": "^4.17.15",
     "materialize-css": "^1.0.0",
     "moment": "^2.24.0",
     "ngx-toastr": "^11.2.1",
@@ -37,6 +38,7 @@
     "@angular/cli": "^8.3.24",
     "@angular/compiler-cli": "~8.2.14",
     "@angular/language-service": "~8.2.14",
+    "@types/lodash": "^4.14.149",
     "@types/node": "~8.9.4",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",

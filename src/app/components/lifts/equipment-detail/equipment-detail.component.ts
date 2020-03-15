@@ -4,6 +4,7 @@ import { SessionType } from 'src/app/data/entities/session';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { remove, some, includes } from 'lodash';
 
 declare var $: any;
 
@@ -29,23 +30,21 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
   constructor(private equipmentService: EquipmentService, private toastrService: ToastrService) { }
 
 
-  ngOnInit() {
+  async ngOnInit() {
     $(document).ready(function(){
       $('.modal').modal();
     });
 
-    this.activeSessionTypes = [];
-    this.equipmentService.getSessionTypes().subscribe(
-      sessionTypes =>  { 
-        this.sessionTypes = sessionTypes;
-      }
-    )
+	this.activeSessionTypes = [];
+	this.sessionTypes = await this.equipmentService.getSessionTypes().toPromise();
+	console.log('loaded Session Types', this.sessionTypes);
   }
 
   ngOnChanges(changes: any): void {
       this.equipmentForm.patchValue({
         name: this.equipment.name
       });
+	  this.addSessionTypesToActiveSession();
 
       if (this.equipment && this.equipment.id && this.equipment.id !== '0') 
         this.equipmentForm.disable()
@@ -59,16 +58,22 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
   }
 
   onSessionTypeClick(e, sessionType: SessionType) {
-    const addToType: boolean = e.target.checked;
 
+	const addToType: boolean = e.target.checked;
+	
     //If checked, add to active sessions
     if (addToType) 
       this.activeSessionTypes.push(sessionType);
 
     //else remove from active sesssions
-    if (!addToType)
-      this.activeSessionTypes = this.activeSessionTypes.filter(f => f.id !== sessionType.id);
-  }
+    if (!addToType) {
+			remove(this.activeSessionTypes, (type) => {
+				return type.id == sessionType.id
+			});
+		}
+
+	  console.log('end', this.activeSessionTypes)
+    }
 
   saveEquipmentForm(): void {
 
@@ -81,7 +86,7 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     }
 
     this.lockForm = true;
-  
+
     if (this.equipment.id == '0') {
       this.equipmentService.createEquipment({
         id: this.equipment.id,
@@ -97,6 +102,8 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
         }
       )
     } else {
+      console.log('Updated', this.activeSessionTypes);
+
       this.equipmentService.updateEquipment({
         id: this.equipment.id,
         name: name,
@@ -119,15 +126,19 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     if (!this.equipment.sessionTypes) {
       return false;
     }
-
     // add previous loaded session types to active session types
-    var activeSession = this.equipment.sessionTypes.find(f => f.id === id);
+	var activeSession = this.equipment.sessionTypes.find(f => f.id === id);
+	
     if (activeSession) {
-      if (!this.activeSessionTypes.includes(activeSession))
-        this.activeSessionTypes.push(activeSession)
-      return true;
+       return true;
     }
 
     return false;
   }
+
+	private addSessionTypesToActiveSession() {
+		if (this.sessionTypes) {
+			const sessionTypes = this.sessionTypes.map(m => m.id);
+		}
+	}
 }

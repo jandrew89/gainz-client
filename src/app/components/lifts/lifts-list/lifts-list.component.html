@@ -24,7 +24,9 @@
     {{ equipment.name }}
   </li>
 </ul>
-  <app-equipment-detail [displayEquipmentModal]="displayEditEquipmentModal" 
-                              [equipment]="equipmentToEdit"
-                              (closeEquipmentEdit)="displayEditEquipmentModal=false"></app-equipment-detail>
+  <app-equipment-detail *ngIf="displayEditEquipmentModal"
+                     [displayEquipmentModal]="displayEditEquipmentModal" 
+                     [equipment]="equipmentToEdit"
+                     (closeEquipmentEdit)="displayEditEquipmentModal=false">
+    </app-equipment-detail>
 

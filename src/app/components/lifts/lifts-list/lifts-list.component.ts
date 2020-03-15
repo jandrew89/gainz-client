@@ -11,7 +11,7 @@ import { ListFilterBaseClass } from 'src/app/shared/list-filter-base';
 export class LiftsListComponent extends ListFilterBaseClass<Equipment> implements OnInit {
   pageTitle = 'Equipment List';    
   errorMessage = '';
-
+  display = true;
   displayEditEquipmentModal: boolean = false;
   equipmentToEdit: Equipment;
     
@@ -39,5 +39,6 @@ export class LiftsListComponent extends ListFilterBaseClass<Equipment> implement
 
   onEquipmentClick(equipment: Equipment) {
     this.equipmentToEdit = equipment;
+    this.displayEditEquipmentModal = true;
   }
 }

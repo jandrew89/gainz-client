@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
 import { FooterComponent } from './components/ui/footer/footer.component';
 import { LayoutComponent } from './components/ui/layout/layout.component';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { LiftsListComponent } from './components/lifts/lifts-list/lifts-list.component';
@@ -33,6 +33,9 @@ import { SignoutRedirectCallbackComponent } from './components/ui/signout-redire
 import { SignInRedirectCallbackComponent } from './components/ui/signin-redirect-callback.component';
 import { AuthService } from './data/services/auth.service';
 import { SessionAddDetailComponent } from './components/session/session-add-detail/session-add-detail.component';
+import { SpinnerComponent } from './components/ui/spinner/spinner.component';
+import { LoaderInterceptor } from './data/interceptor/loader.interceptor';
+import { LoaderService } from './data/services/loader.service';
 
 @NgModule({
   declarations: [
@@ -59,7 +62,8 @@ import { SessionAddDetailComponent } from './components/session/session-add-deta
     SessionPlanEditSettingsComponent,
     SessionTypeSettingsComponent,
     SessionPlanListDetailComponent,
-    SessionAddDetailComponent
+    SessionAddDetailComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
@@ -134,7 +138,9 @@ import { SessionAddDetailComponent } from './components/session/session-add-deta
   providers: [
     EquipmentService,
     SessionService,
-    AuthService],
+    AuthService,
+    LoaderService,
+    { provide: HTTP_INTERCEPTORS, useClass: LoaderInterceptor, multi:true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
