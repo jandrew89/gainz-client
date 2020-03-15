@@ -13,7 +13,7 @@ import { Cache } from '../entities/cache-constants';
 })
 export class EquipmentService extends ApiBase {
 
-  cache = {};
+  private cache = {};
   private url = environment.liftUrl; 
   constructor(private http: HttpClient) { super() }
 

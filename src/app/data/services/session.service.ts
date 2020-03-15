@@ -2,15 +2,17 @@ import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, shareReplay } from 'rxjs/operators';
 import { Session } from '../entities/session';
 import { Activity } from '../entities/activity';
 import { SetDate } from '../entities/Dtos/SetDate';
+import { Cache } from '../entities/cache-constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
+  private cache = {};
   private sessionUrl = environment.sessionUrl; 
   constructor(private http: HttpClient) { }
 
@@ -23,11 +25,6 @@ export class SessionService {
   }
 
   getPreviousSetsByEquipment(equpimentId: string, sessionType: string): Observable<SetDate[]> {
-    if (equpimentId === '' || sessionType === '') { 
-      //TODO: return empty reps
-      
-   }  
-
    const url = `${this.sessionUrl + 'GetPreviousSetByEquipment'}/${equpimentId}/${sessionType}`;  
    return this.http.get<SetDate[]>(url)
      .pipe(  
@@ -61,10 +58,18 @@ export class SessionService {
   }
 
   getAllSessions(): Observable<Session[]> {
-    return this.http.get<Session[]>(this.sessionUrl + 'GetAllSessions')  
-      .pipe(  
+    if (this.cache[Cache.Session]) {
+      console.log('Return cache session');
+      return this.cache[Cache.Session];
+    }
+    console.log('Making the request');
+    this.cache[Cache.Session] = this.http.get<Session[]>(this.sessionUrl + 'GetAllSessions')  
+      .pipe(
+        shareReplay(1),
         catchError(this.handleError)  
-      ); 
+      );
+
+    return this.cache[Cache.Session];
   }
 
   deleteActivity(sessionId: string, activityId: string, sessionType: string): Observable<boolean> {
