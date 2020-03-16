@@ -23,8 +23,7 @@ export class EquipmentService extends ApiBase {
       return this.cache[Cache.Equipment];
     }
     this.cache[Cache.Equipment] = this.http.get<Equipment[]>(this.url + 'Get')
-      .pipe(shareReplay(1),
-        catchError(this.handleError));
+      .pipe(shareReplay(1), catchError(this.handleError));
 
     return this.cache[Cache.Equipment]
   }
@@ -45,11 +44,9 @@ export class EquipmentService extends ApiBase {
       console.log('Returning cache session types');
       return this.cache[Cache.SessionTypes];
     }
-    console.log('Do the request again');
 
     this.cache[Cache.SessionTypes] = this.http.get<SessionType[]>(this.url + 'GetSessionTypes')
-      .pipe(shareReplay(1),
-            catchError(this.handleError));
+      .pipe(shareReplay(1), catchError(this.handleError));
 
     return this.cache[Cache.SessionTypes];
   }

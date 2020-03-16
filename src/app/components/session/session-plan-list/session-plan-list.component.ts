@@ -18,7 +18,7 @@ export class SessionPlanListComponent implements OnInit {
   sessionTypes: SessionType[] = [];
   selectedSessionType: SessionType;
   sessionPlansToDisplay: SessionPlan[] = [];
-  test = false;
+  displaySessionType = false;
   constructor(private equipmentService: EquipmentService, 
     private sessionPlanService: SessionPlanService,
     private toastr: ToastrService) { }
@@ -44,7 +44,7 @@ export class SessionPlanListComponent implements OnInit {
           }
 
           this.sessionPlansToDisplay = sessionPlans;
-          this.test = true;
+          this.displaySessionType = true;
       });
   }
 }

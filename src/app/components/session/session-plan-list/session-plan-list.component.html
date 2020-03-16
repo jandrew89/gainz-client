@@ -25,7 +25,7 @@
                   <div class="collapsible-header" (click)="onSessionTypeChange(type)">
                     <i class="material-icons">add_circle_outline</i>{{ type.name }}</div>
                   <div class="collapsible-body">
-                    <session-plan-list-detail *ngIf="test" [sessionPlans]="sessionPlansToDisplay">
+                    <session-plan-list-detail *ngIf="displaySessionType" [sessionPlans]="sessionPlansToDisplay">
                     </session-plan-list-detail>
                   </div>
                </li>
