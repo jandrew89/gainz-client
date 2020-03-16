@@ -1,4 +1,4 @@
-<div id="session-plan-select" class="modal">
+<!-- <div id="session-plan-select" class="modal">
     <div class="modal-content">
       <h4>Session Plans</h4>
               <label for="sessiontype" class="active">Select a Session Type</label>
@@ -15,4 +15,24 @@
     <div class="modal-footer">
       <a class="modal-close waves-effect waves-green btn-flat">Cancel</a>
     </div>
+  </div> -->
+  <div id="session-plan-select" class="modal bottom-sheet">
+    <div class="modal-content">
+      <h4>Session Plans</h4>
+      <label for="sessiontype" class="active">Select a Session Type</label>
+              <ul class="collapsible">
+                <li *ngFor="let type of sessionTypes">
+                  <div class="collapsible-header" (click)="onSessionTypeChange(type)">
+                    <i class="material-icons">add_circle_outline</i>{{ type.name }}</div>
+                  <div class="collapsible-body">
+                    <session-plan-list-detail *ngIf="test" [sessionPlans]="sessionPlansToDisplay">
+                    </session-plan-list-detail>
+                  </div>
+               </li>
+            </ul>
+    </div>
+    <div class="modal-footer">
+      
+    </div>
   </div>
+

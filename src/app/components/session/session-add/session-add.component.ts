@@ -27,7 +27,7 @@ export class SessionAddComponent implements OnInit {
   isSessionActive: boolean = false;
   displayEditPlanModal: boolean;
   isSessionCached: boolean;
-
+  
   private sub: Subscription;    
 
   constructor(
@@ -56,9 +56,9 @@ export class SessionAddComponent implements OnInit {
             (session: Session) => {
               // active session
               this.isSessionActive = true;
-
               this.session = session;
-              this.displaySession(session) }
+              this.displaySession(session) 
+            }
           );
         }
       }
@@ -83,9 +83,8 @@ export class SessionAddComponent implements OnInit {
     this.displayAddActivity = displayAddActivity;
 
     //Create or update session based on session id
-    var session: Session = { ...this.session};
+    var session: Session = { ...this.session };
 
-    
     if (session.id == '0') {
       this.sessionService.createSession(session).subscribe(
           session => {
@@ -93,7 +92,7 @@ export class SessionAddComponent implements OnInit {
             this.onSaveDisable = false;
           });
     } else {
-      this.sessionService.updateSession(session, true).subscribe(
+      this.sessionService.updateSession(session).subscribe(
         () => this.onSaveDisable = false
       );
     }

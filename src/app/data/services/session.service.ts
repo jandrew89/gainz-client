@@ -7,7 +7,7 @@ import { Session } from '../entities/session';
 import { Activity } from '../entities/activity';
 import { SetDate } from '../entities/Dtos/SetDate';
 import { Cache } from '../entities/cache-constants';
-
+import { cloneDeep } from 'lodash';
 @Injectable({
   providedIn: 'root'
 })
@@ -32,15 +32,22 @@ export class SessionService {
      );  
   }
 
-  updateSession(session: Session, clearCache: boolean):Observable<Session> {
-    if (clearCache)
-        delete this.cache[Cache.Session];
+  updateSession(session: Session):Observable<Session> {
+    var cachedId = `${Cache.ActiveSession}_${session.id}`;
 
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
+    // no active session found clear cache
+    if (!this.cache[cachedId] || !this.isEqual(session, this.cache[cachedId])) {
+      delete this.cache[Cache.Session];
+    }
+
+    //set cache of active session
+    this.cache[cachedId] = session;
+    
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Session>(this.sessionUrl + 'UpsertSession', session, { headers: headers })  
       .pipe(
-        catchError(this.handleError)  
-      );  
+        catchError(this.handleError)
+      );
   }
 
   updateActivity(sessionId: string, sessionType: string, activity: Activity): Observable<boolean> {
@@ -103,5 +110,21 @@ export class SessionService {
     }  
     console.error(err);  
     return throwError(errorMessage);  
-  }  
+  }
+
+  private isEqual(session: Session, sessionToValidate: Session): boolean {
+      // deep clone so reference session activities
+      // dont get deleted
+      let clonedSession = cloneDeep(session);
+      let clonedSessionToValidate = cloneDeep(sessionToValidate);
+
+      // delete activities because those dont
+      // warrent a clearing of cache
+      delete clonedSession.activities;
+      delete clonedSessionToValidate.activities;
+
+      return clonedSession.weight == clonedSessionToValidate.weight &&
+      clonedSession.sessionDate === clonedSessionToValidate.sessionDate &&
+      clonedSession.sessionType === clonedSessionToValidate.sessionType;
+    }
 }
