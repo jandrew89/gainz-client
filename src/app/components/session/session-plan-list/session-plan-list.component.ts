@@ -40,11 +40,11 @@ export class SessionPlanListComponent implements OnInit {
     this.sessionPlanService.GetSessionPlansBySessionType(sessionType.name)
       .subscribe(sessionPlans => {
           if (sessionPlans.length == 0) {
-            this.toastr.info(`No session plans found for ${sessionType.name} session type.`)
+            this.toastr.info(`No session plans found for ${sessionType.name} session type.`);
           }
-          //
+
           this.sessionPlansToDisplay = sessionPlans;
-          this.test = true
-  });
+          this.test = true;
+      });
   }
 }

@@ -3,4 +3,6 @@ export class Cache {
     static readonly Equipment = "EQUIPMENT";
     static readonly Session = "SESSION";
     static readonly ActiveSession = "ACTIVESESSION";
+    static readonly SessionPlans = "SESSIONPLANS";
+    static readonly UserSettings = "USERSETTINGS";
 }

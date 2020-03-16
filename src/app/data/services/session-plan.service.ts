@@ -3,18 +3,21 @@ import { environment } from 'src/environments/environment';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SessionPlan } from '../entities/session-plan';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, shareReplay, share } from 'rxjs/operators';
+import { Cache } from '../entities/cache-constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SessionPlanService {
-
+  
+  private cache = {};
   private sessionPlanUrl = environment.sessionPlanUrl;
 
   constructor(private http: HttpClient) { }
 
   createSessionPlan(sessionPlan: SessionPlan): Observable<SessionPlan> {
+    delete this.cache[`${Cache.SessionPlans}_${sessionPlan.sessionType}`]
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.post<SessionPlan>(this.sessionPlanUrl + 'UpsertSessionPlan', sessionPlan, { headers: headers })  
       .pipe( 
@@ -23,6 +26,7 @@ export class SessionPlanService {
   }
 
   updateSessionPlan(sessionPlan: SessionPlan): Observable<SessionPlan> {
+    delete this.cache[`${Cache.SessionPlans}_${sessionPlan.sessionType}`]
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.put<SessionPlan>(this.sessionPlanUrl + 'UpsertSessionPlan', sessionPlan, { headers: headers })  
       .pipe( 
@@ -45,13 +49,22 @@ export class SessionPlanService {
   }
 
   GetSessionPlansBySessionType(sessionType: string): Observable<SessionPlan[]> {
-    return this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlansBySessionType/' + sessionType)
+    if (this.cache[`${Cache.SessionPlans}_${sessionType}`]) {
+      console.log(`Return cache session plans for ${sessionType}`);
+      return this.cache[`${Cache.SessionPlans}_${sessionType}`];
+    }
+
+    this.cache[`${Cache.SessionPlans}_${sessionType}`] = this.http.get<SessionPlan[]>(this.sessionPlanUrl + 'GetSessionPlansBySessionType/' + sessionType)
       .pipe(
+        shareReplay(1),
         catchError(this.handleError)
       );
+
+    return this.cache[`${Cache.SessionPlans}_${sessionType}`];
   }
 
   deleteSessionPlan(planId: string, sessionType: string): Observable<boolean> {
+    delete this.cache[`${Cache.SessionPlans}_${sessionType}`]
     return this.http.delete<boolean>(this.sessionPlanUrl + `DeleteSessionPlan/${planId}/${sessionType}`)
       .pipe(
         catchError(this.handleError)

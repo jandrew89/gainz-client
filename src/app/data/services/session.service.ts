@@ -8,15 +8,18 @@ import { Activity } from '../entities/activity';
 import { SetDate } from '../entities/Dtos/SetDate';
 import { Cache } from '../entities/cache-constants';
 import { cloneDeep } from 'lodash';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SessionService {
   private cache = {};
-  private sessionUrl = environment.sessionUrl; 
+  private sessionUrl = environment.sessionUrl;
+
   constructor(private http: HttpClient) { }
 
   createSession(session: Session): Observable<Session> {
+    delete this.cache[Cache.Session];
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });  
     return this.http.post<Session>(this.sessionUrl + 'UpsertSession', session, { headers: headers })  
       .pipe( 
