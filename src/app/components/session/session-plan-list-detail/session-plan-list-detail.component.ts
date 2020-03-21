@@ -1,6 +1,4 @@
-import { Component, OnInit, Input, OnChanges } from '@angular/core';
-import { SessionType } from 'src/app/data/entities/session';
-import { SessionPlanService } from 'src/app/data/services/session-plan.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { SessionPlan } from 'src/app/data/entities/session-plan';
 import { Router } from '@angular/router';
 

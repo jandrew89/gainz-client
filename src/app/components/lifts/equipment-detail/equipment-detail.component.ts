@@ -15,8 +15,9 @@ declare var $: any;
 })
 export class EquipmentDetailComponent implements OnInit, OnChanges {
 
-  @Input() displayEquipmentModal: boolean
+  @Input() displayEquipmentModal: boolean;
   @Input() equipment: Equipment;
+  @Input() sessionTypes: SessionType[];
   @Output() closeEquipmentEdit = new EventEmitter();
 
   equipmentForm = new FormGroup({
@@ -24,20 +25,16 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
   });
 
   lockForm: boolean = false;
-  sessionTypes: SessionType[];
-  activeSessionTypes: SessionType[];
+  activeSessionTypes: SessionType[] = [];
 
-  constructor(private equipmentService: EquipmentService, private toastrService: ToastrService) { }
+  constructor(private equipmentService: EquipmentService, 
+    private toastrService: ToastrService) { }
 
 
-  async ngOnInit() {
+  ngOnInit() {
     $(document).ready(function(){
       $('.modal').modal();
     });
-
-	this.activeSessionTypes = [];
-	this.sessionTypes = await this.equipmentService.getSessionTypes().toPromise();
-	console.log('loaded Session Types', this.sessionTypes);
   }
 
   ngOnChanges(changes: any): void {
@@ -67,11 +64,10 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
 
     //else remove from active sesssions
     if (!addToType) {
-			remove(this.activeSessionTypes, (type) => {
-				return type.id == sessionType.id
-			});
-		}
-
+        remove(this.activeSessionTypes, (type) => {
+          return type.id == sessionType.id
+        });
+		  }
     }
 
   saveEquipmentForm(): void {

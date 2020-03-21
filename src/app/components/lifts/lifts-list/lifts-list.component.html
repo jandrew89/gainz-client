@@ -25,7 +25,8 @@
   </li>
 </ul>
   <app-equipment-detail *ngIf="displayEditEquipmentModal"
-                     [displayEquipmentModal]="displayEditEquipmentModal" 
+                     [displayEquipmentModal]="displayEditEquipmentModal"
+                     [sessionTypes]="sessionTypes"
                      [equipment]="equipmentToEdit"
                      (closeEquipmentEdit)="displayEditEquipmentModal=false">
     </app-equipment-detail>
