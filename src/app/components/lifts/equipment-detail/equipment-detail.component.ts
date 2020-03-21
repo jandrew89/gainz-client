@@ -15,7 +15,6 @@ declare var $: any;
 })
 export class EquipmentDetailComponent implements OnInit, OnChanges {
 
-  @Input() displayEquipmentModal: boolean;
   @Input() equipment: Equipment;
   @Input() sessionTypes: SessionType[];
   @Output() closeEquipmentEdit = new EventEmitter();

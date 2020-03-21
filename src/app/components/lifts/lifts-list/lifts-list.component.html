@@ -24,8 +24,7 @@
     {{ equipment.name }}
   </li>
 </ul>
-  <app-equipment-detail *ngIf="displayEditEquipmentModal"
-                     [displayEquipmentModal]="displayEditEquipmentModal"
+  <app-equipment-detail *ngIf="sessionTypes && sessionTypes.length > 0"
                      [sessionTypes]="sessionTypes"
                      [equipment]="equipmentToEdit"
                      (closeEquipmentEdit)="displayEditEquipmentModal=false">
