@@ -4,7 +4,7 @@ import { SessionType } from 'src/app/data/entities/session';
 import { EquipmentService } from 'src/app/data/services/equipment.service';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
-import { remove, some, includes } from 'lodash';
+import { remove, some } from 'lodash';
 
 declare var $: any;
 
@@ -40,8 +40,8 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
       this.equipmentForm.patchValue({
         name: this.equipment.name
       });
-	  this.addSessionTypesToActiveSession();
 
+	  this.addSessionTypesToActiveSession();
       if (this.equipment && this.equipment.id && this.equipment.id !== '0') 
         this.equipmentForm.disable()
       else
@@ -54,8 +54,7 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
   }
 
   onSessionTypeClick(e, sessionType: SessionType) {
-
-	const addToType: boolean = e.target.checked;
+	  const addToType: boolean = e.target.checked;
 	
     //If checked, add to active sessions
     if (addToType) 
@@ -66,17 +65,16 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
         remove(this.activeSessionTypes, (type) => {
           return type.id == sessionType.id
         });
-		  }
     }
+  }
 
   saveEquipmentForm(): void {
 
     var name = this.equipmentForm.controls['name'].value
     
     if (name === null || name === '') {
-      //TODO: Validation error
       this.toastrService.error('Must have name.')
-      return
+      return;
     }
 
     this.lockForm = true;
@@ -96,7 +94,6 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
         }
       )
     } else {
-
       this.equipmentService.updateEquipment({
         id: this.equipment.id,
         name: name,
@@ -115,23 +112,16 @@ export class EquipmentDetailComponent implements OnInit, OnChanges {
     this.closeEquipmentEdit.emit(false);
   }
 
-  isSessionSelected(id: string) {
-    if (!this.equipment.sessionTypes) {
+  isSessionSelected(equipment: Equipment): boolean {
+    if (!this.equipment.sessionTypes || this.equipment.sessionTypes.length == 0) {
       return false;
     }
-    // add previous loaded session types to active session types
-	var activeSession = this.equipment.sessionTypes.find(f => f.id === id);
-	
-    if (activeSession) {
-       return true;
-    }
 
-    return false;
+    // add previous loaded session types to active session types
+	  return some(this.equipment.sessionTypes, st => st.id === equipment.id);
   }
 
-	private addSessionTypesToActiveSession() {
-		if (this.sessionTypes) {
-			const sessionTypes = this.sessionTypes.map(m => m.id);
-		}
+	private addSessionTypesToActiveSession(): void {
+    this.activeSessionTypes = [...this.equipment.sessionTypes];
 	}
 }
